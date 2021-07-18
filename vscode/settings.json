@@ -1,0 +1,59 @@
+{
+    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
+    "editor.minimap.enabled": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "liveServer.settings.CustomBrowser": "firefox",
+    "editor.formatOnSave": true,
+    "diffEditor.codeLens": true,
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.colorTheme": "GitHub Dark Dimmed",
+    "files.autoSave": "onFocusChange",
+    "files.autoSaveDelay": 5000,
+    "window.menuBarVisibility": "compact",
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.smoothScrolling": false,
+    "workbench.welcomePage.hiddenCategories": [
+        "Setup",
+        "Beginner"
+    ],
+    "editor.lineNumbers": "relative",
+    // VIM
+    "vim.useCtrlKeys": false,
+    "vim.hlsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "U"
+            ],
+            "after": [
+                "<C-r>"
+            ]
+        },
+    ],
+    "vim.normalModeKeyBindingsNonRecursive" : [
+        {
+            "before": [ "d" ],
+            "after": [ "\"", "_", "d" ]
+        },
+        {
+            "before": [ "D" ],
+            "after": [ "\"", "_", "D" ]
+        },
+        {
+            "before": [ "d", "d" ],
+            "after": [ "\"", "_", "d", "d" ]
+        },
+    ],
+    "vim.handleKeys": {
+        "<C-j>": false,
+        "<C-d>": false,
+        "<C-u>": true,
+    },
+}
