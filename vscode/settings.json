@@ -7,7 +7,6 @@
     "editor.formatOnSave": true,
     "diffEditor.codeLens": true,
     "workbench.iconTheme": "vscode-icons",
-    "workbench.colorTheme": "GitHub Dark Dimmed",
     "files.autoSave": "onFocusChange",
     "files.autoSaveDelay": 5000,
     "window.menuBarVisibility": "compact",
@@ -23,8 +22,9 @@
         "Beginner"
     ],
     "editor.lineNumbers": "relative",
+    "workbench.colorTheme": "Gruvbox Dark (Medium)",
     // VIM
-    "vim.useCtrlKeys": false,
+    "vim.useCtrlKeys": true,
     "vim.hlsearch": true,
     "vim.useSystemClipboard": true,
     "vim.normalModeKeyBindings": [
@@ -51,9 +51,27 @@
             "after": [ "\"", "_", "d", "d" ]
         },
     ],
+    "vim.visualModeKeyBindingsNonRecursive" : [
+        {
+            "before": [ "d" ],
+            "after": [ "\"", "_", "d" ]
+        },
+    ],
     "vim.handleKeys": {
         "<C-j>": false,
         "<C-d>": false,
+        "<C-`>": false,
+        "<C-~>": false,
+        "<C-s>": false,
+        "<C-E>": false,
+        "<C-/>": false,
+        "<C-b>": false,
+        "<C-w>": false,
+        "<C-p>": false,
+        "<C-P>": false,
+        "<C-\\>": false,
+        "<C-|>": false,
+        "<C-a>": false,
         "<C-u>": true,
     },
 }
