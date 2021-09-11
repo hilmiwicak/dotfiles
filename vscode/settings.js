@@ -1,3 +1,8 @@
+/*
+* THIS IS ACTUALLY A JSON FILE.
+* BUT BECAUSE GITHUB HIGHLIGHT COMMENTS AS ERROR, 
+* I CHANGED IT INTO .js FILE.
+*/
 {
     /**
     * Better Defaults
