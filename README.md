@@ -5,7 +5,7 @@ List of tools I use:
 
 1. WSL Ubuntu 20.04 LTS
   * .inputrc
-  * .profile
+  * .bashrc
   * .vimrc
 
 2. windows terminal
