@@ -1,5 +1,5 @@
 # dotfiles
-My personal dotfiles for various tools I use.
+My personal dotfiles / settings for various tools I use.
 
 ## List of tools I use:
 
