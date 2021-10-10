@@ -19,7 +19,3 @@ vnoremap d "_d
 " scroll up and down gt (go-top) and gb (go-bottom)
 nmap gt 20kzz
 nmap gb 20jzz
-
-" mapping shift space into esc
-map <S-Space> <Esc>
-imap <S-Space> <Esc>
