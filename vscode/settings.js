@@ -11,17 +11,15 @@
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.emptySelectionClipboard": false,
     "workbench.editor.enablePreview": false,
-    "window.newWindowDimensions": "inherit",
+    "window.newWindowDimensions": "offset",
     "editor.multiCursorModifier": "ctrlCmd",
-    "files.trimTrailingWhitespace": true,
-    // "diffEditor.renderSideBySide": false,
+    "diffEditor.renderSideBySide": false,
     "editor.snippetSuggestions": "top",
     "editor.detectIndentation": false,
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "editor.lineNumbers": "relative",
     "window.menuBarVisibility": "compact",
-    // "editor.formatOnSave": true,
     "editor.suggestSelection": "first",
     "editor.smoothScrolling": false,
     "files.autoSave": "onFocusChange",
@@ -35,11 +33,6 @@
     "workbench.editor.showTabs": false,
     "editor.renderIndentGuides": false,
     "editor.minimap.enabled": false,
-
-    /**
-    * Silence The Noise
-    */
-    "breadcrumbs.enabled": false,
     "editor.hover.enabled": false,
     "editor.matchBrackets": "never",
     "workbench.tips.enabled": false,
@@ -64,7 +57,7 @@
     "workbench.colorTheme": "Gruvbox Dark (Medium)",
     "workbench.iconTheme": "vscode-icons",
     "editor.fontSize": 15,
-    "editor.lineHeight": 0,
+    "editor.lineHeight": 26,
     "editor.suggestFontSize": 15,
     "editor.suggestLineHeight": 28,
     "terminal.integrated.fontSize": 15,
@@ -76,7 +69,6 @@
     "vim.useCtrlKeys": true,
     "vim.hlsearch": true,
     "vim.useSystemClipboard": true,
-    // "vim.leader": "<C>",
     "vim.normalModeKeyBindings": [
         {
             "before": [ "U" ],
@@ -86,11 +78,11 @@
     "vim.normalModeKeyBindingsNonRecursive" : [
         {
             "before": [ "g", "b" ],
-            "after": [ "1", "5", "j" ]
+            "after": [ "1", "5", "j", "z", "z" ]
         },
         {
             "before": [ "g", "t" ],
-            "after": [ "1", "5", "k" ]
+            "after": [ "1", "5", "k", "z", "z" ]
         },
         {
             "before": [ "P" ],
@@ -107,6 +99,10 @@
         {
             "before": [ "d", "d" ],
             "after": [ "\"", "_", "d", "d" ]
+        },
+        {
+            "before": [ "X" ],
+            "after": [ "y", "y", "d", "d" ]
         },
     ],
     "vim.visualModeKeyBindingsNonRecursive" : [
@@ -156,4 +152,10 @@
     "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
     "python.defaultInterpreterPath": "C:\\ProgramData\\Anaconda3\\python.exe",
     "diffEditor.codeLens": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 }
