@@ -1,4 +1,8 @@
-// Place your key bindings in this file to override the defaults
+/*
+* THIS IS ACTUALLY A JSON FILE.
+* BUT BECAUSE GITHUB HIGHLIGHT COMMENTS AS ERROR, 
+* I CHANGED IT INTO .js FILE.
+*/
 [
     /**
     * Better Activity Bar
@@ -16,6 +20,28 @@
         "command": "-workbench.view.debug",
         "when": "viewContainer.workbench.view.debug.enabled"
     },
+    {
+        "key": "ctrl+shift+d",
+        "command": "dockerContainers.focus",
+    },
+
+    /*
+     * Better Git Shortcuts
+     */
+    {
+        "key": "ctrl+shift+g",
+        "command": "pr:github.focus"
+    },
+    {
+        "key": "ctrl+shift+g",
+        "command": "-workbench.view.scm",
+        "when": "workbench.scm.active"
+    },
+    {
+        "key": "ctrl+g",
+        "command": "workbench.view.scm",
+        "when": "workbench.scm.active"
+    },
 
     /**
     * Toggle Activity Bar
@@ -32,28 +58,6 @@
                 },
                 {
                     "workbench.activityBar.visible" : false
-                }
-            ]
-        }
-    },
-
-    /**
-    * Toggle Font Size
-    **/
-    {
-        "key": "shift+alt+f",
-        "command": "toggle",
-        "when": "editorTextFocus",
-        "args": {
-            "id": "fontSize",
-            "value": [
-                {
-                    "editor.fontSize": 15,
-                    "editor.lineHeight": 30,
-                },
-                {
-                    "editor.fontSize": 15,
-                    "editor.lineHeight": 0,
                 }
             ]
         }
@@ -91,6 +95,16 @@
         "command": "explorer.newFolder",
         "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
     },
+    {
+        "key": "ctrl+m ctrl+c",
+        "command": "copyRelativeFilePath",
+        "when": "!editorFocus"
+    },
+    {
+        "key": "ctrl+k ctrl+shift+c",
+        "command": "-copyRelativeFilePath",
+        "when": "!editorFocus"
+    },
 
     /**
     * Multi-Cursor
@@ -118,6 +132,26 @@
         "key": "ctrl+j",
         "command": "workbench.action.toggleMaximizedPanel",
         "when": "terminalFocus"
+    },
+    {
+        "key": "shift+down",
+        "command": "workbench.action.terminal.scrollDownPage",
+        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+    },
+    {
+        "key": "shift+pagedown",
+        "command": "-workbench.action.terminal.scrollDownPage",
+        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+    },
+    {
+        "key": "shift+up",
+        "command": "workbench.action.terminal.scrollUpPage",
+        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+    },
+    {
+        "key": "shift+pageup",
+        "command": "-workbench.action.terminal.scrollUpPage",
+        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
     },
 
     /*
@@ -188,6 +222,20 @@
     },
 
     /*
+     * Markdown
+     */
+    {
+        "key": "ctrl+m ctrl+v",
+        "command": "markdown.showPreview",
+        "when": "!notebookEditorFocused && editorLangId == 'markdown'"
+    },
+    {
+        "key": "ctrl+shift+v",
+        "command": "-markdown.showPreview",
+        "when": "!notebookEditorFocused && editorLangId == 'markdown'"
+    },
+
+    /*
     * Etc.
     */
     {
@@ -196,33 +244,26 @@
         "when": "editorTextFocus && !editorReadonly"
     },
     {
-        "key": "ctrl+shift+u",
-        "command": "-workbench.action.output.toggleOutput",
-        "when": "workbench.panel.output.active"
-    },
-    {
         "key": "ctrl+shift+i",
         "command": "-workbench.action.toggleDevTools",
         "when": "isDevelopment"
     },
     {
-        "key": "shift+down",
-        "command": "workbench.action.terminal.scrollDownPage",
-        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+        "key": "ctrl+m ctrl+f",
+        "command": "editor.action.formatDocument",
+        "when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly && !inCompositeEditor"
     },
     {
-        "key": "shift+pagedown",
-        "command": "-workbench.action.terminal.scrollDownPage",
-        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+        "key": "shift+alt+f",
+        "command": "-editor.action.formatDocument",
+        "when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly && !inCompositeEditor"
     },
     {
-        "key": "shift+up",
-        "command": "workbench.action.terminal.scrollUpPage",
-        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+        "key": "ctrl+g",
+        "command": "-workbench.action.gotoLine"
     },
     {
-        "key": "shift+pageup",
-        "command": "-workbench.action.terminal.scrollUpPage",
-        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+        "key": "ctrl+e",
+        "command": "-workbench.action.quickOpen"
     },
 ]
