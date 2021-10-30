@@ -3,81 +3,98 @@
 // ~/.inputrc
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    // Add custom actions and keybindings to this array.
-    // To unbind a key combination from your defaults.json, set the command to "unbound".
-    // To learn more about actions and keybindings, visit https://aka.ms/terminal-keybindings
-    "actions": [
-        // Copy and paste are bound to Ctrl+Shift+C and Ctrl+Shift+V in your defaults.json.
-        // These two lines additionally bind them to Ctrl+C and Ctrl+V.
-        // To learn more about selection, visit https://aka.ms/terminal-selection
+    "actions":
+    [
         {
-            "command": {
+            "command":
+            {
                 "action": "copy",
                 "singleLine": false
             },
             "keys": "ctrl+c"
         },
         {
-            "command": "paste",
-            "keys": "ctrl+v"
-        },
-        // Press Ctrl+Shift+F to open the search box
-        {
             "command": "find",
             "keys": "ctrl+shift+f"
         },
-        // Press Alt+Shift+D to open a new pane.
-        // - "split": "auto" makes this pane open in the direction that provides the most surface area.
-        // - "splitMode": "duplicate" makes the new pane use the focused pane's profile.
-        // To learn more about panes, visit https://aka.ms/terminal-panes
         {
-            "command": {
-                "action": "splitPane",
-                "split": "auto",
-                "splitMode": "duplicate"
-            },
-            "keys": "alt+shift+d"
-        },
-        {
-            "command": {
+            "command":
+            {
                 "action": "splitPane",
                 "split": "vertical"
             },
             "keys": "ctrl+\\"
         },
         {
-            "command": {
+            "command": "paste",
+            "keys": "ctrl+shift+v"
+        },
+        {
+            "command": "scrollUp",
+            "keys": "shift+up"
+        },
+        {
+            "command": "scrollDown",
+            "keys": "shift+down"
+        },
+        {
+            "command":
+            {
                 "action": "splitPane",
                 "split": "horizontal"
             },
             "keys": "ctrl+shift+\\"
+        },
+        {
+            "command":
+            {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "keys": "alt+shift+d"
         }
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{68977c03-3495-5837-90fe-335df5b0e063}",
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
     "disableAnimations": true,
-    "keybindings": null,
-    "profiles": {
-        "defaults": {
+    "profiles":
+    {
+        "defaults":
+        {
             "acrylicOpacity": 0.5,
             "useAcrylic": true
         },
-        "list": [
+        "list":
+        [
             {
+                "acrylicOpacity": 0.80000000000000004,
                 "cursorShape": "filledBox",
-                "guid": "{68977c03-3495-5837-90fe-335df5b0e063}",
+                "guid": "{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}",
                 "hidden": false,
-                "name": "openSUSE-Leap-15.3",
-                "source": "Windows.Terminal.Wsl"
+                "name": "Ubuntu-20.04",
+                "source": "Windows.Terminal.Wsl",
+                "startingDirectory": "//wsl$/Ubuntu-20.04/home/wicak"
             },
             {
+                "acrylicOpacity": 0.80000000000000004,
+                "cursorShape": "filledBox",
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell 7",
+                "source": "Windows.Terminal.PowershellCore"
+            },
+            {
+                "acrylicOpacity": 0.80000000000000004,
                 "commandline": "powershell.exe",
+                "cursorShape": "filledBox",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
             },
             {
+                "acrylicOpacity": 0.80000000000000004,
                 "commandline": "cmd.exe",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
@@ -91,7 +108,8 @@
             }
         ]
     },
-    "schemes": [
+    "schemes":
+    [
         {
             "background": "#0C0C0C",
             "black": "#0C0C0C",
