@@ -16,8 +16,6 @@
     "diffEditor.renderSideBySide": false,
     "editor.snippetSuggestions": "top",
     "editor.detectIndentation": false,
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
     "editor.lineNumbers": "relative",
     "window.menuBarVisibility": "compact",
     "editor.suggestSelection": "first",
@@ -54,7 +52,7 @@
     /**
     * Typography & Looks
     **/
-    "workbench.colorTheme": "Gruvbox Dark (Medium)",
+    "workbench.colorTheme": "Night Owl (No Italics)",
     "workbench.iconTheme": "vscode-icons",
     "editor.fontSize": 15,
     "editor.lineHeight": 26,
@@ -114,6 +112,14 @@
             "before": [ "d" ],
             "after": [ "\"", "_", "d" ]
         },
+        {
+            "before": [ "g", "b" ],
+            "after": [ "1", "5", "j", "z", "z" ]
+        },
+        {
+            "before": [ "g", "t" ],
+            "after": [ "1", "5", "k", "z", "z" ]
+        },
     ],
     "vim.handleKeys": {
         "<C-j>": false,
@@ -141,6 +147,7 @@
         "<C-h>": false,
         "<C-m>": false,
         "<C-c>": false,
+        "<C-r>": false,
 
         "<C-u>": true,
         "<C-L>": true,
@@ -158,4 +165,5 @@
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
+    "terminal.integrated.gpuAcceleration": "off",
 }
