@@ -48,6 +48,7 @@
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "editor.gotoLocation.multipleImplementations": "goto",
     "editor.gotoLocation.multipleTypeDefinitions": "goto",
+    "breadcrumbs.enabled": false,
 
     /**
     * Typography & Looks
@@ -75,11 +76,11 @@
     ],
     "vim.normalModeKeyBindingsNonRecursive" : [
         {
-            "before": [ "g", "b" ],
+            "before": [ "J" ],
             "after": [ "1", "5", "j", "z", "z" ]
         },
         {
-            "before": [ "g", "t" ],
+            "before": [ "K" ],
             "after": [ "1", "5", "k", "z", "z" ]
         },
         {
@@ -113,11 +114,11 @@
             "after": [ "\"", "_", "d" ]
         },
         {
-            "before": [ "g", "b" ],
+            "before": [ "J" ],
             "after": [ "1", "5", "j", "z", "z" ]
         },
         {
-            "before": [ "g", "t" ],
+            "before": [ "K" ],
             "after": [ "1", "5", "k", "z", "z" ]
         },
     ],
