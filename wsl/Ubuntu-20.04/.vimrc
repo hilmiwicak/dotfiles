@@ -3,6 +3,9 @@ set relativenumber
 syntax enable
 set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
 set nowrap
+set belloff=all
+" set autoindent
+set smartindent
 
 " redo -> shift+u
 nnoremap U <C-r>
@@ -20,10 +23,10 @@ vnoremap d "_d
 nnoremap X yydd
 
 " scroll up and down gt (go-top) and gb (go-bottom)
-nmap gt 15kzz
-vmap gt 15kzz
-nmap gb 15jzz
-vmap gb 15jzz
+nmap K 15kzz
+vmap K 15kzz
+nmap J 15jzz
+vmap J 15jzz
 
 " mapping shift space into esc
 map <S-Space> <Esc>
