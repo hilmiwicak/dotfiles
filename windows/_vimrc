@@ -23,10 +23,10 @@ vnoremap d "_d
 nnoremap X yydd
 
 " scroll up and down gt (go-top) and gb (go-bottom)
-nmap K 15kzz
-vmap K 15kzz
-nmap J 15jzz
-vmap J 15jzz
+nmap K 15k
+vmap K 15k
+nmap J 15j
+vmap J 15j
 
 " mapping shift space into esc
 map <S-Space> <Esc>
