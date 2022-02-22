@@ -77,11 +77,11 @@
     "vim.normalModeKeyBindingsNonRecursive" : [
         {
             "before": [ "J" ],
-            "after": [ "1", "5", "j", "z", "z" ]
+            "after": [ "1", "5", "j" ]
         },
         {
             "before": [ "K" ],
-            "after": [ "1", "5", "k", "z", "z" ]
+            "after": [ "1", "5", "k" ]
         },
         {
             "before": [ "P" ],
@@ -115,11 +115,11 @@
         },
         {
             "before": [ "J" ],
-            "after": [ "1", "5", "j", "z", "z" ]
+            "after": [ "1", "5", "j" ]
         },
         {
             "before": [ "K" ],
-            "after": [ "1", "5", "k", "z", "z" ]
+            "after": [ "1", "5", "k" ]
         },
     ],
     "vim.handleKeys": {
