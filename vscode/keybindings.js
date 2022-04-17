@@ -29,7 +29,7 @@
      * Better Git Shortcuts
      */
     {
-        "key": "ctrl+shift+g",
+        "key": "ctrl+m ctrl+g",
         "command": "pr:github.focus"
     },
     {
@@ -41,6 +41,29 @@
         "key": "ctrl+g",
         "command": "workbench.view.scm",
         "when": "workbench.scm.active"
+    },
+    {
+        "key": "ctrl+m ctrl+shift+[",
+        "command": "pr.collapseAllComments",
+        "when": "editorFocus"
+    },
+    {
+        "key": "ctrl+m ctrl+shift+]",
+        "command": "pr.expandAllComments",
+        "when": "editorFocus"
+    },
+    {
+        "key": "ctrl+m ctrl+shift+g",
+        "command": "github:activePullRequest.focus"
+    },
+    {
+        "key": "ctrl+shift+space",
+        "command": "-issue.suggestRefresh",
+        "when": "suggestWidgetVisible"
+    },
+    {
+        "key": "ctrl+shift+space",
+        "command": "git.refresh",
     },
 
     /**
@@ -58,6 +81,26 @@
                 },
                 {
                     "workbench.activityBar.visible" : false
+                }
+            ]
+        }
+    },
+
+    /**
+    * Toggle Status Bar
+    **/
+    {
+        "key": "shift+alt+s",
+        "command": "toggle",
+        "when": "",
+        "args": {
+            "id": "statusbar",
+            "value": [
+                {
+                    "workbench.statusBar.visible": true,
+                },
+                {
+                    "workbench.statusBar.visible": false,
                 }
             ]
         }
@@ -98,12 +141,26 @@
     {
         "key": "ctrl+m ctrl+c",
         "command": "copyRelativeFilePath",
-        "when": "!editorFocus"
+        "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
     },
     {
         "key": "ctrl+k ctrl+shift+c",
         "command": "-copyRelativeFilePath",
         "when": "!editorFocus"
+    },
+    {
+        "key": "shift+ctrl+[",
+        "command": "list.collapseAll",
+        "when": "listFocus && !inputFocus"
+    },
+    {
+        "key": "ctrl+left",
+        "command": "-list.collapseAll",
+        "when": "listFocus && !inputFocus"
+    },
+    {
+        "key": "ctrl+shift+space",
+        "command": "workbench.files.action.refreshFilesExplorer",
     },
 
     /**
@@ -121,7 +178,7 @@
     },
 
     /*
-    * Terminal
+    * Better Terminal
     */
     {
         "key": "ctrl+w",
@@ -134,24 +191,44 @@
         "when": "terminalFocus"
     },
     {
-        "key": "shift+down",
-        "command": "workbench.action.terminal.scrollDownPage",
-        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
-    },
-    {
         "key": "shift+pagedown",
         "command": "-workbench.action.terminal.scrollDownPage",
-        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
-    },
-    {
-        "key": "shift+up",
-        "command": "workbench.action.terminal.scrollUpPage",
-        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalAltBufferActive || terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
     },
     {
         "key": "shift+pageup",
         "command": "-workbench.action.terminal.scrollUpPage",
-        "when": "terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalAltBufferActive || terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+    },
+    {
+        "key": "shift+down",
+        "command": "workbench.action.terminal.scrollDown",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalAltBufferActive || terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+    },
+    {
+        "key": "shift+up",
+        "command": "workbench.action.terminal.scrollUp",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalAltBufferActive || terminalFocus && terminalProcessSupported && !terminalAltBufferActive"
+    },
+    {
+        "key": "ctrl+tab",
+        "command": "workbench.action.terminal.focusNext",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+    },
+    {
+        "key": "ctrl+shift+tab",
+        "command": "workbench.action.terminal.focusPrevious",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+    },
+    {
+        "key": "ctrl+pagedown",
+        "command": "-workbench.action.terminal.focusNext",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
+    },
+    {
+        "key": "ctrl+pageup",
+        "command": "-workbench.action.terminal.focusPrevious",
+        "when": "terminalFocus && terminalHasBeenCreated && !terminalEditorFocus || terminalFocus && terminalProcessSupported && !terminalEditorFocus"
     },
 
     /*
@@ -265,18 +342,6 @@
     {
         "key": "ctrl+e",
         "command": "-workbench.action.quickOpen"
-    },
-    {
-        "key": "ctrl+alt+c",
-        "command": "-glassit.decrease"
-    },
-    {
-        "key": "ctrl+alt+z",
-        "command": "-glassit.increase"
-    },
-    {
-        "key": "ctrl+alt+x",
-        "command": "-glassit.minimize"
     },
     {
         "key": "ctrl+shift+w",
