@@ -32,7 +32,7 @@ vmap J 15jzz
 map <S-Space> <Esc>
 imap <S-Space> <Esc>
 
-" wsl yank & unyank
+" wsl yank to clip.exe & to default vim
 function! YankClipExe()
     let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
     if executable(s:clip)
@@ -43,13 +43,5 @@ function! YankClipExe()
     endif
 endfunction
 
-function! UnyankClipExe()
-    let s:unclip = '/dev/null'  " change this path according to your mount point
-    augroup WSLYank
-        autocmd!
-        autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:unclip, @0) | endif
-    augroup END
-endfunction
-
 map <leader>c :call YankClipExe()<CR>
-map <leader>C :call UnyankClipExe()<CR>
+map <leader>C :set clipboard=autoselect,exclude:cons\<CR>
