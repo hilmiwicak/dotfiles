@@ -21,13 +21,15 @@
     "editor.suggestSelection": "first",
     "editor.smoothScrolling": false,
     "files.autoSave": "onFocusChange",
-    "workbench.activityBar.visible": false,
+    "workbench.list.keyboardNavigation": "filter",
+    "editor.cursorBlinking": "phase",
 
     /**
     * Hide Everything
     */
-    "workbench.sideBar.location": "right",
+    "workbench.activityBar.visible": false,
     "workbench.statusBar.visible": false,
+    "workbench.sideBar.location": "right",
     "workbench.editor.showTabs": false,
     "editor.renderIndentGuides": false,
     "editor.minimap.enabled": false,
@@ -53,10 +55,10 @@
     /**
     * Typography & Looks
     **/
-    "workbench.colorTheme": "Night Owl (No Italics)",
+    "workbench.colorTheme": "Dark+ Black",
     "workbench.iconTheme": "vscode-icons",
     "editor.fontSize": 15,
-    "editor.lineHeight": 26,
+    "editor.lineHeight": 25,
     "editor.suggestFontSize": 15,
     "editor.suggestLineHeight": 28,
     "terminal.integrated.fontSize": 15,
@@ -77,15 +79,11 @@
     "vim.normalModeKeyBindingsNonRecursive" : [
         {
             "before": [ "J" ],
-            "after": [ "1", "5", "j" ]
+            "after": [ "1", "5", "j", "z", "z" ]
         },
         {
             "before": [ "K" ],
-            "after": [ "1", "5", "k" ]
-        },
-        {
-            "before": [ "P" ],
-            "after": [ "y", "y", "p" ]
+            "after": [ "1", "5", "k", "z", "z" ]
         },
         {
             "before": [ "d" ],
@@ -99,27 +97,19 @@
             "before": [ "d", "d" ],
             "after": [ "\"", "_", "d", "d" ]
         },
-        {
-            "before": [ "X" ],
-            "after": [ "y", "y", "d", "d" ]
-        },
     ],
     "vim.visualModeKeyBindingsNonRecursive" : [
-        {
-            "before": [ "P" ],
-            "after": [ "y", "k", "p" ]
-        },
         {
             "before": [ "d" ],
             "after": [ "\"", "_", "d" ]
         },
         {
             "before": [ "J" ],
-            "after": [ "1", "5", "j" ]
+            "after": [ "1", "5", "j", "z", "z" ]
         },
         {
             "before": [ "K" ],
-            "after": [ "1", "5", "k" ]
+            "after": [ "1", "5", "k", "z", "z" ]
         },
     ],
     "vim.handleKeys": {
@@ -150,7 +140,6 @@
         "<C-c>": false,
         "<C-r>": false,
 
-        "<C-u>": true,
         "<C-L>": true,
     },
 
@@ -167,4 +156,14 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "terminal.integrated.gpuAcceleration": "off",
+    "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
+    "php-cs-fixer.lastDownload": 1648200934159,
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "vsicons.dontShowNewVersionMessage": true,
+    "githubPullRequests.fileListLayout": "flat",
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    }
 }
