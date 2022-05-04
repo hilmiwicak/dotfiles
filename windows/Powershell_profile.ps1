@@ -1,15 +1,17 @@
-### Permanent directories
+### custom prompt
+
+Function prompt {
+    "`n$env:USERNAME@$env:COMPUTERNAME | $($executionContext.SessionState.Path.CurrentLocation)`n> "
+}
+
+### Directory Aliases
+
 Function d1 {
-    Set-Location -Path C:\Users\Hilmi\dev-projects
+    cd C:\Users\Hilmi\dev-projects
 }
 
 Function d2 {
-    Set-Location -Path C:\Users\Hilmi\Documents\Skripsi
-}
-
-### custom prompt
-Function prompt {
-    "`n$env:USERNAME@$env:COMPUTERNAME | $($executionContext.SessionState.Path.CurrentLocation)`n> "
+    cd C:\Users\Hilmi\Documents\Skripsi
 }
 
 ### imitate cd - on bash into powershell
