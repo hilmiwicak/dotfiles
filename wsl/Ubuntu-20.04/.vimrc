@@ -1,10 +1,9 @@
 set number
 set relativenumber
-syntax enable
-set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+set tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab
 set nowrap
-set smartcase
 set visualbell
+set ignorecase
 set belloff=all
 set nocompatible
 
@@ -13,6 +12,9 @@ hi Search ctermbg=DarkYellow ctermfg=cyan
 
 " change color in visual mode
 hi Visual cterm=none ctermbg=DarkGrey ctermfg=cyan
+
+" change leader
+let mapleader = " "
 
 " redo -> shift+u
 nnoremap U <C-r>
@@ -29,19 +31,29 @@ vmap K 15kzz
 nmap J 15jzz
 vmap J 15jzz
 
-map <S-Space> <Esc>
-imap <S-Space> <Esc>
-
 " wsl yank to clip.exe & to default vim
 function! YankClipExe()
+    let s:clipCheck = 1
     let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
     if executable(s:clip)
         augroup WSLYank
             autocmd!
-            autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+            autocmd TextYankPost * if v:event.operator ==# 'y' && s:clipCheck == 1 | call system(s:clip, @0) | endif
         augroup END
     endif
 endfunction
 
-map <leader>c :call YankClipExe()<CR>
-map <leader>C :set clipboard=autoselect,exclude:cons\<CR>
+" set into the default vim copy
+function! UnYankClipExe()
+    let s:clipCheck = 0
+endfunction
+
+nmap <leader>c :call YankClipExe()<CR>
+vmap <leader>c <Esc>:call YankClipExe()<CR>gvy
+map <leader>C :call UnYankClipExe()<CR>
+
+" remap " to macro
+nnoremap " @q
+
+" netrw setnumber
+let g:netrw_bufsettings = 'number relativenumber'
