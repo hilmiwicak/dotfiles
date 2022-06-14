@@ -12,7 +12,9 @@ My personal dotfiles / settings for various tools I use.
 2. windows  
 ├── windows-terminal  
 |   └── settings.json  
+├── init.vim  
 └── _vimrc  
+
 
 3. vscode
 ├── keybindings.json
