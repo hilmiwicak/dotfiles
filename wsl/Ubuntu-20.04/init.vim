@@ -14,9 +14,14 @@ Plug 'sbdchd/neoformat'
 Plug 'junegunn/vim-plug'
 Plug 'tpope/vim-surround'
 
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'L3MON4D3/LuaSnip'
+
 Plug 'sindrets/diffview.nvim'
 Plug 'ThePrimeagen/harpoon'
-Plug 'neovim/nvim-lspconfig'
 Plug 'preservim/nerdtree'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kyazdani42/nvim-web-devicons'
@@ -54,6 +59,7 @@ map <silent> <C-p>1 :lua require('harpoon.ui').nav_file(1)<CR>
 map <silent> <C-p>2 :lua require('harpoon.ui').nav_file(2)<CR>
 map <silent> <C-p>3 :lua require('harpoon.ui').nav_file(3)<CR>
 map <silent> <C-p>4 :lua require('harpoon.ui').nav_file(4)<CR>
+map <silent> <C-p>5 :lua require('harpoon.ui').nav_file(5)<CR>
 
 " neoformat
 let g:neoformat_try_node_exe = 1
@@ -67,11 +73,12 @@ let NERDTreeShowHidden=1
 map <leader>f :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
 
 " surround
-map <leader>S< S<>f>dl;hvhd
-map <leader>S( S(ldlh%dh
-map <leader>S{ S{ldlh%dh
-map <leader>S" cs'"
-map <leader>S' cs"'
+vmap <leader>S< S<>f>dl;hvhd
+vmap <leader>S( S(ldlh%dh
+vmap <leader>S{ S{ldlh%dh
+vmap <leader>S[ S[ldlh%dh
+nmap <leader>S" cs'"
+nmap <leader>S' cs"'
 
 " # # # # # # # # # # # # # # # # # # # "
 "                                       "
@@ -101,6 +108,40 @@ let g:is_bash = 1
 "    custom mapping & commands     "
 "                                  "
 " # # # # # # # # # # # # # # # #  "
+
+" delete all registers
+function! DelRegisters()
+  let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
+  for r in regs
+    call setreg(r, [])
+  endfor
+endfunction
+
+command DR call DelRegisters()
+autocmd VimEnter * DR
+
+" custom command edit nvimrc (init.vim)
+command Nle exe 'tabedit '.stdpath('config').'/lua/init.lua'
+command Nls exe 'source '.stdpath('config').'/lua/init.lua'
+command Nve exe 'tabedit '.stdpath('config').'/init.vim'
+command Nvs exe 'source '.stdpath('config').'/init.vim'
+
+" toggle max current window
+let g:isCurrWindowMax = 0
+function! MaxWindow()
+    let g:isCurrWindowMax = 1
+    let g:currentFile = expand('%:p')
+    normal :tabe %:set showtabline=0
+endfunction
+
+function! MinWindow()
+    if expand('%:p') == g:currentFile
+        let g:isCurrWindowMax = 0
+        normal g	:tabc #:set showtabline=1
+    endif
+endfunction
+
+map <silent> <expr> <leader>w g:isCurrWindowMax == 0 ? ':call MaxWindow()<CR>' : ':call MinWindow()<CR>'
 
 " redo -> shift+u
 nnoremap U <C-r>
@@ -134,42 +175,5 @@ map <leader>so :source
 " subtitute selection
 map <leader>ss :s/\%V
 
-" toggle max current window
-let g:isCurrWindowMax = 0
-function! MaxWindow()
-    let g:isCurrWindowMax = 1
-    let g:currentFile = expand('%:p')
-    normal :tabe %:set showtabline=0
-endfunction
-
-function! MinWindow()
-    if expand('%:p') == g:currentFile
-        let g:isCurrWindowMax = 0
-        normal g	:tabc #:set showtabline=1
-    endif
-endfunction
-
-map <silent> <expr> <leader>w g:isCurrWindowMax == 0 ? ':call MaxWindow()<CR>' : ':call MinWindow()<CR>'
-
 " toggle word wrap
 map <silent> <expr> <leader>z &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
-
-" print time
-map <F2> :echo 'Current time is ' . strftime('%c')<CR>
-
-" custom command edit nvimrc (init.vim)
-command Nle exe 'tabedit '.stdpath('config').'/lua/init.lua'
-command Nls exe 'source '.stdpath('config').'/lua/init.lua'
-command Nve exe 'tabedit '.stdpath('config').'/init.vim'
-command Nvs exe 'source '.stdpath('config').'/init.vim'
-
-" delete all registers
-function! DelRegisters()
-  let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
-  for r in regs
-    call setreg(r, [])
-  endfor
-endfunction
-
-command DR call DelRegisters()
-autocmd VimEnter * DR
