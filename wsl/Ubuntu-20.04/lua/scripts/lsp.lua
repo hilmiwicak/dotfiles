@@ -1,39 +1,15 @@
 local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
 
-require("diffview").setup{}
-
-require("octo").setup{}
-
-require "plenary"
-
-require("telescope").setup{}
-require("telescope").load_extension("harpoon")
-require("telescope").load_extension("live_grep_args")
-
-require("nvim-web-devicons").setup {
-  default = true;
-}
-
-require"nvim-treesitter.configs".setup {
-  parser_install_dir = "~/.config/nvim/parsers",
-  ensure_installed = { "c", "php", "javascript", "typescript" },
-  sync_install = false,
-  auto_install = false,
-  highlight = {
-    enable = true,
-  },
-}
-
 -- lsp diagnostic messages
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
- vim.lsp.diagnostic.on_publish_diagnostics, {
-   underline = true,
-   virtual_text = {
-     spacing = 1,
-   },
- }
-)
+-- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+--  vim.lsp.diagnostic.on_publish_diagnostics, {
+--    underline = true,
+--    virtual_text = {
+--      spacing = 1,
+--    },
+--  }
+-- )
 
 -- NEOVIM LSP AUTOCOMPLETION
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -53,7 +29,7 @@ cmp.setup {
     ['<M-k>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
+      behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     },
     ['<Tab>'] = cmp.mapping(function(fallback)
@@ -78,6 +54,7 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'path' }
   },
 }
 
@@ -188,6 +165,13 @@ lspconfig.intelephense.setup{
   filetypes = { "php" },
   root_dir = util.root_pattern("composer.json", ".git"),
   capabilities = capabilities
+}
+
+-- Downloaded from github releases
+lspconfig.marksman.setup{
+  cmd =  { "marksman", "server" },
+  filetypes = { "markdown" },
+  root_dir = util.root_pattern(".git", ".marksman.toml")
 }
 
 -- Downloaded from npm

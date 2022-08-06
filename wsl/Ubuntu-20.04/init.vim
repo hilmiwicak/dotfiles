@@ -7,22 +7,25 @@
 
 let mapleader = " "
 
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('/home/wicak/.config/nvim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'sbdchd/neoformat'
+Plug 'preservim/nerdtree'
 Plug 'junegunn/vim-plug'
 Plug 'tpope/vim-surround'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-path'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+
 Plug 'sindrets/diffview.nvim'
 Plug 'ThePrimeagen/harpoon'
-Plug 'preservim/nerdtree'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'pwntester/octo.nvim'
@@ -31,9 +34,16 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 call plug#end()
 
-set rtp+=~/.config/nvim/plugged
-set rtp+=~/.config/nvim/parsers
+set rtp+=/home/wicak/.config/nvim/plugged
+set rtp+=/home/wicak/.config/nvim/parsers
 lua require('init')
+
+" colorschemes
+" tokyonight
+let g:tokyonight_style = "dark"
+let g:tokyonight_italic_comments = 0
+let g:tokyonight_italic_keywords = 0
+colorscheme tokyonight
 
 " diffview
 map <leader>do :DiffviewOpen 
@@ -42,48 +52,55 @@ map <leader>de :DiffviewToggleFiles<CR>
 
 " fzf
 let $FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{.git/*}"'
-map <C-p>p :Files<CR>
-map <C-p>h :History<CR>
+map <M-p> :Files<CR>
 let g:fzf_action = {
     \ 'ctrl-t': 'tab split',
-    \ 'ctrl-s': 'split',
-    \ 'ctrl-i': 'vsplit'
+    \ 'ctrl-x': 'split',
+    \ 'ctrl-v': 'vsplit'
     \ }
 
 " harpoon
-map <silent> <C-p>m :lua require('harpoon.ui').toggle_quick_menu()<CR>
-map <silent> <C-p>n :lua require('harpoon.mark').add_file()<CR>
-map <silent> <C-p>0 :lua require('harpoon.ui').nav_next()<CR>
-map <silent> <C-p>9 :lua require('harpoon.ui').nav_prev()<CR>
-map <silent> <C-p>1 :lua require('harpoon.ui').nav_file(1)<CR>
-map <silent> <C-p>2 :lua require('harpoon.ui').nav_file(2)<CR>
-map <silent> <C-p>3 :lua require('harpoon.ui').nav_file(3)<CR>
-map <silent> <C-p>4 :lua require('harpoon.ui').nav_file(4)<CR>
-map <silent> <C-p>5 :lua require('harpoon.ui').nav_file(5)<CR>
+map <silent> <M-m> :lua require('harpoon.ui').toggle_quick_menu()<CR>
+map <silent> <M-n> :lua require('harpoon.mark').add_file()<CR>
+map <silent> <M-0> :lua require('harpoon.ui').nav_next()<CR>
+map <silent> <M-9> :lua require('harpoon.ui').nav_prev()<CR>
+map <silent> <M-1> :lua require('harpoon.ui').nav_file(1)<CR>
+map <silent> <M-2> :lua require('harpoon.ui').nav_file(2)<CR>
+map <silent> <M-3> :lua require('harpoon.ui').nav_file(3)<CR>
+map <silent> <M-4> :lua require('harpoon.ui').nav_file(4)<CR>
+map <silent> <M-5> :lua require('harpoon.ui').nav_file(5)<CR>
 
-" neoformat
-let g:neoformat_try_node_exe = 1
+" lsp
+map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
+map <silent> <leader>le :lua vim.diagnostic.open_float()<CR>
 
 " nerdtree 
-map <silent> <C-E> :NERDTreeToggle<CR>:NERDTreeRefreshRoot<CR>
+map <silent> <M-e> :NERDTreeToggle<CR>:NERDTreeRefreshRoot<CR>
+map <silent> <M-E> :NERDTree<CR>
 let NERDTreeShowLineNumbers=1
 let NERDTreeShowHidden=1
 
-" telescope-live-grep-args
-map <leader>f :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
+" neoformat
+" Formaters I've downloaded for neoformat
+" - prettier
+" - stylua
+
+" telescope
+map <leader>tf :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
+map <leader>tb :lua require('telescope.builtin').buffers()<CR>
 
 " surround
-vmap <leader>S< S<>f>dl;hvhd
-vmap <leader>S( S(ldlh%dh
-vmap <leader>S{ S{ldlh%dh
-vmap <leader>S[ S[ldlh%dh
-nmap <leader>S" cs'"
-nmap <leader>S' cs"'
+vmap <leader>s<> S<>f>dl;hvhd
+vmap <leader>s( S(ldlh%dh
+vmap <leader>s{ S{ldlh%dh
+vmap <leader>s[ S[ldlh%dh
+nmap <leader>s" cs'"
+nmap <leader>s' cs"'
 
 " # # # # # # # # # # # # # # # # # # # "
 "                                       "
 "    terminal, number, colors, tabs,    "
-"    mouse,                             "
+"    mouse, cursor                      "
 "                                       "
 " # # # # # # # # # # # # # # # # # # # "
 
@@ -117,10 +134,10 @@ function! DelRegisters()
   endfor
 endfunction
 
-command DR call DelRegisters()
-autocmd VimEnter * DR
+command DelReg call DelRegisters()
+autocmd VimEnter * DelReg
 
-" custom command edit nvimrc (init.vim)
+" custom commands to edit/source nvimrc (init.vim & init.lua)
 command Nle exe 'tabedit '.stdpath('config').'/lua/init.lua'
 command Nls exe 'source '.stdpath('config').'/lua/init.lua'
 command Nve exe 'tabedit '.stdpath('config').'/init.vim'
@@ -142,6 +159,17 @@ function! MinWindow()
 endfunction
 
 map <silent> <expr> <leader>w g:isCurrWindowMax == 0 ? ':call MaxWindow()<CR>' : ':call MinWindow()<CR>'
+
+command Ccd exe 'cd '.expand("%:h")
+
+" esc
+map <M-;> <Esc>
+
+" go to definition
+map <M-]> 
+
+" alternate file
+map <M--> 
 
 " redo -> shift+u
 nnoremap U <C-r>
@@ -177,3 +205,4 @@ map <leader>ss :s/\%V
 
 " toggle word wrap
 map <silent> <expr> <leader>z &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
+
