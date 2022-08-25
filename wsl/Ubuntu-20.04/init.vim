@@ -1,9 +1,9 @@
-" # # # # # # # # # # # # # # # # "
-"                                 "
-"    vim-plug & plugin settings,  "
-"    leader, rtp, lua             "
-"                                 "
-" # # # # # # # # # # # # # # # # "
+" # # # # # # # # # # # # # # # # # # # "
+"                                       "
+"    vim-plug & plugin settings, leader "
+"    leader, rtp, lua, colorscheme      "
+"                                       "
+" # # # # # # # # # # # # # # # # # # # "
 
 let mapleader = " "
 
@@ -39,8 +39,8 @@ set rtp+=/home/wicak/.config/nvim/parsers
 lua require('init')
 
 " colorschemes
-" tokyonight
-let g:tokyonight_style = "dark"
+" tokyonight style options : day, night, storm
+let g:tokyonight_style = "storm"
 let g:tokyonight_italic_comments = 0
 let g:tokyonight_italic_keywords = 0
 colorscheme tokyonight
@@ -54,10 +54,10 @@ map <leader>de :DiffviewToggleFiles<CR>
 let $FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{.git/*}"'
 map <M-p> :Files<CR>
 let g:fzf_action = {
-    \ 'ctrl-t': 'tab split',
-    \ 'ctrl-x': 'split',
-    \ 'ctrl-v': 'vsplit'
-    \ }
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit'
+\ }
 
 " harpoon
 map <silent> <M-m> :lua require('harpoon.ui').toggle_quick_menu()<CR>
@@ -69,6 +69,9 @@ map <silent> <M-2> :lua require('harpoon.ui').nav_file(2)<CR>
 map <silent> <M-3> :lua require('harpoon.ui').nav_file(3)<CR>
 map <silent> <M-4> :lua require('harpoon.ui').nav_file(4)<CR>
 map <silent> <M-5> :lua require('harpoon.ui').nav_file(5)<CR>
+map <silent> <M-6> :lua require('harpoon.ui').nav_file(6)<CR>
+map <silent> <M-7> :lua require('harpoon.ui').nav_file(7)<CR>
+map <silent> <M-8> :lua require('harpoon.ui').nav_file(8)<CR>
 
 " lsp
 map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
@@ -79,6 +82,9 @@ map <silent> <M-e> :NERDTreeToggle<CR>:NERDTreeRefreshRoot<CR>
 map <silent> <M-E> :NERDTree<CR>
 let NERDTreeShowLineNumbers=1
 let NERDTreeShowHidden=1
+let NERDTreeIgnore=['^\.git[[dir]]']
+let NERDTreeMapOpenSplit='<C-x>'
+let NERDTreeMapOpenVSplit='<C-v>'
 
 " neoformat
 " Formaters I've downloaded for neoformat
@@ -120,11 +126,12 @@ hi Visual cterm=none ctermbg=DarkGrey ctermfg=cyan
 " telling terminal to use bash
 let g:is_bash = 1
 
-" # # # # # # # # # # # # # # # #  "
-"                                  "
-"    custom mapping & commands     "
-"                                  "
-" # # # # # # # # # # # # # # # #  "
+" # # # # # # # # # # # # # # # # # # # "
+"                                       "
+"    custom mapping & commands,         "
+"    autocmd, snippets, folds           "
+"                                       "
+" # # # # # # # # # # # # # # # # # # # "
 
 " delete all registers
 function! DelRegisters()
@@ -135,7 +142,17 @@ function! DelRegisters()
 endfunction
 
 command DelReg call DelRegisters()
-autocmd VimEnter * DelReg
+augroup Del_Reg
+  autocmd!  
+  autocmd VimEnter * DelReg
+augroup END
+
+" fold autocmd for txt files
+" this doesn't work
+" augroup Fold_Method
+"   autocmd!
+"   autocmd FileType *.txt setlocal foldmethod=marker
+" augroup END
 
 " custom commands to edit/source nvimrc (init.vim & init.lua)
 command Nle exe 'tabedit '.stdpath('config').'/lua/init.lua'
@@ -160,25 +177,37 @@ endfunction
 
 map <silent> <expr> <leader>w g:isCurrWindowMax == 0 ? ':call MaxWindow()<CR>' : ':call MinWindow()<CR>'
 
+" change directory to the current opened file
 command Ccd exe 'cd '.expand("%:h")
-
-" esc
-map <M-;> <Esc>
+command Tcd exe 'tcd '.expand("%:h")
 
 " go to definition
 map <M-]> 
 
 " alternate file
-map <M--> 
+map <M-[> 
+
+" buffer previous & next
+map <silent> <M-{> :bp<CR>
+map <silent> <M-}> :bn<CR>
 
 " redo -> shift+u
 nnoremap U <C-r>
 
-" delete into black hole register
+" c, d, s into blackhole register
+nnoremap c "_c
+nnoremap C "_C
+nnoremap cc "_cc
 nnoremap d "_d
 nnoremap D "_D
+nnoremap s "_s
+nnoremap S "_S
+vnoremap c "_c
+vnoremap C "_C
 vnoremap d "_d
 vnoremap D "_D
+vnoremap s "_s
+vnoremap S "_S
 
 " scroll up and down 
 nmap K <C-u>
@@ -192,13 +221,10 @@ nmap <leader>p "+p
 nmap <leader>P "+P
 
 " remap for easier macro
-nmap <leader><leader> @q
+map <leader><leader> @q
 
 " clear last used search
 map <silent> <leader>/ :let@/ = ""<CR>
-
-" put cmd-line source
-map <leader>so :source 
 
 " subtitute selection
 map <leader>ss :s/\%V
@@ -206,3 +232,9 @@ map <leader>ss :s/\%V
 " toggle word wrap
 map <silent> <expr> <leader>z &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
 
+" snippets
+" markdown
+nmap <leader>smh a[ph](https://ph.com)
+nmap <leader>smc a[ph]: #bb
+nmap <leader>smb a[ ] 
+"vmap <leader>Sm

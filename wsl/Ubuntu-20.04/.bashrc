@@ -1,3 +1,7 @@
+#######################################################
+#             DEFAULT COMMANDS FROM UBUNTU            #
+#######################################################
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -116,13 +120,61 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# custom prompt
-PS1="\n\u:\w\n> "
+#######################################################
+#               PROGRAMMING SHENANIGANS               #
+#######################################################
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# CARGO / RUST
+. "$HOME/.cargo/env"
 
 # laravel sail alias
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
+#######################################################
+#                  CUSTOM COMMANDS                    #
+#######################################################
+
+# custom prompt
+PS1="\n\u | \w\n> "
+
+# nvm shenanigans
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# load additional github ssh when loading bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa_github
+
+# open selected file / directory in default windows file explorer
+alias see='/mnt/c/Windows/explorer.exe'
+
+# cd to next
+alias ncd='pushd +1 > /dev/null ;'
+
+# cd to previous
+alias pcd='pushd -0 > /dev/null ;'
+
+# `cd -` equivalent when there is stack
+alias bcd='{ pushd ${DIRSTACK[1]} ; popd -n +2 ; } > /dev/null ;'
+
+# directory aliases
+d~ () {
+  cd /mnt/c/Users/Hilmi/$@
+}
+
+d1 () {
+  cd /mnt/c/Users/Hilmi/dev-projects/$@
+}
+
+d2 () {
+  cd /mnt/c/Users/Hilmi/Documents/Skripsi/$@
+}
+
+d3() {
+  cd /mnt/c/Users/Hilmi/code/$@
+}
+
+dx() {
+  cd /mnt/c/xampp/htdocs/$@
+}
