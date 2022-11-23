@@ -12,6 +12,18 @@ require("telescope").setup({
 require("telescope").load_extension("harpoon")
 require("telescope").load_extension("live_grep_args")
 
+require("nvim-tundra").setup({
+    plugins = {
+      lsp = true,
+      treesitter = true,
+      cmp = true,
+      context = true,
+      dbui = true,
+      gitsigns = true,
+      telescope = true,
+    },
+})
+
 require("nvim-web-devicons").setup({
 	default = true,
 })

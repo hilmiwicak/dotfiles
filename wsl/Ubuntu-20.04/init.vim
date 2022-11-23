@@ -8,10 +8,11 @@
 let mapleader = " "
 
 call plug#begin('/home/wicak/.config/nvim/plugged')
+Plug 'mattn/emmet-vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'sbdchd/neoformat'
 Plug 'preservim/nerdtree'
+Plug 'jwalton512/vim-blade'
 Plug 'junegunn/vim-plug'
 Plug 'tpope/vim-surround'
 
@@ -23,9 +24,13 @@ Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'sam4llis/nvim-tundra'
+"Plug 'rktjmp/lush.nvim'
 
 Plug 'sindrets/diffview.nvim'
 Plug 'ThePrimeagen/harpoon'
+Plug 'sbdchd/neoformat'
+"Plug 'Dkendal/nvim-treeclimber'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'pwntester/octo.nvim'
@@ -45,10 +50,27 @@ let g:tokyonight_italic_comments = 0
 let g:tokyonight_italic_keywords = 0
 colorscheme tokyonight
 
+" tundra
+" idk why but you need to invoke tundra with other colorschemes
+" so if you want to use tundra, colorscheme tokyonight has to be uncommented
+"colorscheme tundra
+
 " diffview
 map <leader>do :DiffviewOpen 
 map <leader>dc :DiffviewClose<CR>
 map <leader>de :DiffviewToggleFiles<CR>
+
+" emmet
+let g:user_emmet_leader_key='<M-i>'
+let g:user_emmet_settings = {
+\  'php' : {
+\    'extends' : 'html',
+\    'filters' : 'c',
+\  },
+\  'xml' : {
+\    'extends' : 'html',
+\  },
+\}
 
 " fzf
 let $FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{.git/*}"'
@@ -147,18 +169,11 @@ augroup Del_Reg
   autocmd VimEnter * DelReg
 augroup END
 
-" fold autocmd for txt files
-" this doesn't work
-" augroup Fold_Method
-"   autocmd!
-"   autocmd FileType *.txt setlocal foldmethod=marker
-" augroup END
-
 " custom commands to edit/source nvimrc (init.vim & init.lua)
-command Nle exe 'tabedit '.stdpath('config').'/lua/init.lua'
-command Nls exe 'source '.stdpath('config').'/lua/init.lua'
 command Nve exe 'tabedit '.stdpath('config').'/init.vim'
 command Nvs exe 'source '.stdpath('config').'/init.vim'
+command Nle exe 'tabedit '.stdpath('config').'/lua/init.lua'
+command Nls exe 'source '.stdpath('config').'/lua/init.lua'
 
 " toggle max current window
 let g:isCurrWindowMax = 0
@@ -187,9 +202,18 @@ map <M-]> 
 " alternate file
 map <M-[> 
 
+" set foldmethod
+map <expr> <leader>zf &foldmethod == 'manual' ? ':set foldmethod=marker<CR>' : ':set foldmethod=manual<CR>'
+
 " buffer previous & next
 map <silent> <M-{> :bp<CR>
 map <silent> <M-}> :bn<CR>
+
+" move tab to left / right
+map <silent> <M-h> :tabm -<CR>
+map <silent> <M-l> :tabm +<CR>
+map <silent> <M-H> :tabm -<CR>
+map <silent> <M-L> :tabm +<CR>
 
 " redo -> shift+u
 nnoremap U <C-r>
@@ -206,8 +230,8 @@ vnoremap c "_c
 vnoremap C "_C
 vnoremap d "_d
 vnoremap D "_D
-vnoremap s "_s
-vnoremap S "_S
+"vnoremap s "_s
+xnoremap S "_S
 
 " scroll up and down 
 nmap K <C-u>
@@ -230,11 +254,11 @@ map <silent> <leader>/ :let@/ = ""<CR>
 map <leader>ss :s/\%V
 
 " toggle word wrap
-map <silent> <expr> <leader>z &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
+map <silent> <expr> <leader>zz &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
 
 " snippets
 " markdown
-nmap <leader>smh a[ph](https://ph.com)
-nmap <leader>smc a[ph]: #bb
+nmap <leader>smh a[]()
+nmap <leader>smc a[]: #^
 nmap <leader>smb a[ ] 
 "vmap <leader>Sm

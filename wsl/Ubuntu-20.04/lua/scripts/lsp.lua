@@ -150,6 +150,15 @@ lspconfig.eslint.setup({
 })
 
 -- Downloaded from npm
+lspconfig.emmet_ls.setup({
+	cmd = { "emmet-ls", "--stdio" },
+	filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+	root_dir = util.root_pattern(".git"),
+  single_file_support = true,
+	capabilities = capabilities,
+})
+
+-- Downloaded from npm
 lspconfig.intelephense.setup({
 	cmd = { "intelephense", "--stdio" },
 	filetypes = { "php" },
