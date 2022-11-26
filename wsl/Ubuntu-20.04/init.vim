@@ -2,6 +2,7 @@
 "                                       "
 "    vim-plug & plugin settings, leader "
 "    leader, rtp, lua, colorscheme      "
+"    netrw                              "
 "                                       "
 " # # # # # # # # # # # # # # # # # # # "
 
@@ -11,7 +12,6 @@ call plug#begin('/home/wicak/.config/nvim/plugged')
 Plug 'mattn/emmet-vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'preservim/nerdtree'
 Plug 'jwalton512/vim-blade'
 Plug 'junegunn/vim-plug'
 Plug 'tpope/vim-surround'
@@ -25,12 +25,11 @@ Plug 'L3MON4D3/LuaSnip'
 
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'sam4llis/nvim-tundra'
-"Plug 'rktjmp/lush.nvim'
 
 Plug 'sindrets/diffview.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'sbdchd/neoformat'
-"Plug 'Dkendal/nvim-treeclimber'
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'pwntester/octo.nvim'
@@ -38,6 +37,10 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 call plug#end()
+
+" netrw
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
 
 set rtp+=/home/wicak/.config/nvim/plugged
 set rtp+=/home/wicak/.config/nvim/parsers
@@ -53,7 +56,7 @@ colorscheme tokyonight
 " tundra
 " idk why but you need to invoke tundra with other colorschemes
 " so if you want to use tundra, colorscheme tokyonight has to be uncommented
-"colorscheme tundra
+colorscheme tundra
 
 " diffview
 map <leader>do :DiffviewOpen 
@@ -98,15 +101,13 @@ map <silent> <M-8> :lua require('harpoon.ui').nav_file(8)<CR>
 " lsp
 map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
 map <silent> <leader>le :lua vim.diagnostic.open_float()<CR>
+map <silent> <leader>la :lua require('telescope.builtin').diagnostics({root_dir = true, no_unlisted=false})<CR>
 
-" nerdtree 
-map <silent> <M-e> :NERDTreeToggle<CR>:NERDTreeRefreshRoot<CR>
-map <silent> <M-E> :NERDTree<CR>
-let NERDTreeShowLineNumbers=1
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['^\.git[[dir]]']
-let NERDTreeMapOpenSplit='<C-x>'
-let NERDTreeMapOpenVSplit='<C-v>'
+" nvim-tree
+map <silent> <M-E> :NvimTreeOpen %:p:h<CR>
+map <silent> <M-e>e :NvimTreeToggle<CR>
+map <silent> <M-e>f :NvimTreeFindFile<CR>
+map <silent> <M-e>r :NvimTreeRefresh<CR>
 
 " neoformat
 " Formaters I've downloaded for neoformat

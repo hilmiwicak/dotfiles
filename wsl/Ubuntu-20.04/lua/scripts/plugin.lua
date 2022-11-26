@@ -12,6 +12,16 @@ require("telescope").setup({
 require("telescope").load_extension("harpoon")
 require("telescope").load_extension("live_grep_args")
 
+require("nvim-tree").setup({
+	view = {
+		number = true,
+		relativenumber = true,
+	},
+  filters = {
+    custom = { "^\\.git" }
+  }
+})
+
 require("nvim-tundra").setup({
     plugins = {
       lsp = true,
