@@ -1,8 +1,7 @@
 " # # # # # # # # # # # # # # # # # # # "
 "                                       "
 "    vim-plug & plugin settings, leader "
-"    leader, rtp, lua, colorscheme      "
-"    netrw                              "
+"    rtp, lua, netrw                    "
 "                                       "
 " # # # # # # # # # # # # # # # # # # # "
 
@@ -23,8 +22,7 @@ Plug 'hrsh7th/cmp-path'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-Plug 'sam4llis/nvim-tundra'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 Plug 'sindrets/diffview.nvim'
 Plug 'ThePrimeagen/harpoon'
@@ -36,6 +34,7 @@ Plug 'pwntester/octo.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
+Plug 'mbbill/undotree'
 call plug#end()
 
 " netrw
@@ -46,18 +45,6 @@ set rtp+=/home/wicak/.config/nvim/plugged
 set rtp+=/home/wicak/.config/nvim/parsers
 lua require('init')
 
-" colorschemes
-" tokyonight style options : day, night, storm
-let g:tokyonight_style = "storm"
-let g:tokyonight_italic_comments = 0
-let g:tokyonight_italic_keywords = 0
-colorscheme tokyonight
-
-" tundra
-" idk why but you need to invoke tundra with other colorschemes
-" so if you want to use tundra, colorscheme tokyonight has to be uncommented
-colorscheme tundra
-
 " diffview
 map <leader>do :DiffviewOpen 
 map <leader>dc :DiffviewClose<CR>
@@ -66,13 +53,13 @@ map <leader>de :DiffviewToggleFiles<CR>
 " emmet
 let g:user_emmet_leader_key='<M-i>'
 let g:user_emmet_settings = {
-\  'php' : {
-\    'extends' : 'html',
-\    'filters' : 'c',
-\  },
-\  'xml' : {
-\    'extends' : 'html',
-\  },
+  \ 'php' : {
+  \   'extends' : 'html',
+  \   'filters' : 'c',
+  \ },
+  \ 'xml' : {
+  \   'extends' : 'html',
+  \ },
 \}
 
 " fzf
@@ -87,8 +74,6 @@ let g:fzf_action = {
 " harpoon
 map <silent> <M-m> :lua require('harpoon.ui').toggle_quick_menu()<CR>
 map <silent> <M-n> :lua require('harpoon.mark').add_file()<CR>
-map <silent> <M-0> :lua require('harpoon.ui').nav_next()<CR>
-map <silent> <M-9> :lua require('harpoon.ui').nav_prev()<CR>
 map <silent> <M-1> :lua require('harpoon.ui').nav_file(1)<CR>
 map <silent> <M-2> :lua require('harpoon.ui').nav_file(2)<CR>
 map <silent> <M-3> :lua require('harpoon.ui').nav_file(3)<CR>
@@ -98,9 +83,10 @@ map <silent> <M-6> :lua require('harpoon.ui').nav_file(6)<CR>
 map <silent> <M-7> :lua require('harpoon.ui').nav_file(7)<CR>
 map <silent> <M-8> :lua require('harpoon.ui').nav_file(8)<CR>
 
-" lsp
+" diagnostics
 map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
 map <silent> <leader>le :lua vim.diagnostic.open_float()<CR>
+map <silent> <leader>lh :lua require('telescope.builtin').diagnostics({bufnr = 0})<CR>
 map <silent> <leader>la :lua require('telescope.builtin').diagnostics({root_dir = true, no_unlisted=false})<CR>
 
 " nvim-tree
@@ -113,10 +99,16 @@ map <silent> <M-e>r :NvimTreeRefresh<CR>
 " Formaters I've downloaded for neoformat
 " - prettier
 " - stylua
+" - denofmt
 
 " telescope
-map <leader>tf :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
-map <leader>tb :lua require('telescope.builtin').buffers()<CR>
+map <silent> <leader>tf :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
+map <silent> <leader>tb :lua require('telescope.builtin').buffers()<CR>
+map <silent> <leader>tt :lua require('telescope.builtin').lsp_document_symbols()<CR>
+
+" undotree
+map <silent> <leader>u :UndotreeToggle<CR>:UndotreeFocus<CR>
+map <silent> <leader>U :UndotreeFocus<CR>
 
 " surround
 vmap <leader>s<> S<>f>dl;hvhd
@@ -173,8 +165,11 @@ augroup END
 " custom commands to edit/source nvimrc (init.vim & init.lua)
 command Nve exe 'tabedit '.stdpath('config').'/init.vim'
 command Nvs exe 'source '.stdpath('config').'/init.vim'
-command Nle exe 'tabedit '.stdpath('config').'/lua/init.lua'
-command Nls exe 'source '.stdpath('config').'/lua/init.lua'
+command Nli exe 'tabedit '.stdpath('config').'/lua/init.lua'
+command Nlp exe 'tabedit '.stdpath('config').'/lua/scripts/plugin.lua'
+command Nlth exe 'tabedit '.stdpath('config').'/lua/scripts/theme.lua'
+command Nlts exe 'tabedit '.stdpath('config').'/lua/scripts/treesitter.lua'
+command Nll exe 'tabedit '.stdpath('config').'/lua/scripts/lsp.lua'
 
 " toggle max current window
 let g:isCurrWindowMax = 0
@@ -213,8 +208,8 @@ map <silent> <M-}> :bn<CR>
 " move tab to left / right
 map <silent> <M-h> :tabm -<CR>
 map <silent> <M-l> :tabm +<CR>
-map <silent> <M-H> :tabm -<CR>
-map <silent> <M-L> :tabm +<CR>
+map <silent> <M-H> :tabm 0<CR>
+map <silent> <M-L> :tabm $<CR>
 
 " redo -> shift+u
 nnoremap U <C-r>
@@ -249,17 +244,25 @@ nmap <leader>P "+P
 map <leader><leader> @q
 
 " clear last used search
-map <silent> <leader>/ :let@/ = ""<CR>
+map <silent> <leader>// :let@/ = ""<CR>
+
+" search selection
+vmap <silent> <leader>/s /\%V
 
 " subtitute selection
 map <leader>ss :s/\%V
+
+" join
+command -range J '<,'>join
 
 " toggle word wrap
 map <silent> <expr> <leader>zz &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
 
 " snippets
 " markdown
+nmap <leader>smH i[]()
 nmap <leader>smh a[]()
-nmap <leader>smc a[]: #^
-nmap <leader>smb a[ ] 
-"vmap <leader>Sm
+nmap <leader>smC O[]: #^
+nmap <leader>smc o[]: #^
+nmap <leader>smt a[ ] 
+
