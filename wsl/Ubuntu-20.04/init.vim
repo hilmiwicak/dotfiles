@@ -9,8 +9,6 @@ let mapleader = " "
 
 call plug#begin('/home/wicak/.config/nvim/plugged')
 Plug 'mattn/emmet-vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'jwalton512/vim-blade'
 Plug 'junegunn/vim-plug'
 Plug 'tpope/vim-surround'
@@ -24,6 +22,8 @@ Plug 'L3MON4D3/LuaSnip'
 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
+Plug 'windwp/nvim-autopairs'
+Plug 'numToStr/Comment.nvim'
 Plug 'sindrets/diffview.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'sbdchd/neoformat'
@@ -33,6 +33,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'pwntester/octo.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'mbbill/undotree'
 call plug#end()
@@ -61,15 +62,6 @@ let g:user_emmet_settings = {
   \   'extends' : 'html',
   \ },
 \}
-
-" fzf
-let $FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{.git/*}"'
-map <M-p> :Files<CR>
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit'
-\ }
 
 " harpoon
 map <silent> <M-m> :lua require('harpoon.ui').toggle_quick_menu()<CR>
@@ -102,6 +94,7 @@ map <silent> <M-e>r :NvimTreeRefresh<CR>
 " - denofmt
 
 " telescope
+map <silent> <M-p> :lua require('telescope.builtin').find_files()<CR>
 map <silent> <leader>tf :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
 map <silent> <leader>tb :lua require('telescope.builtin').buffers()<CR>
 map <silent> <leader>tt :lua require('telescope.builtin').lsp_document_symbols()<CR>
@@ -265,4 +258,3 @@ nmap <leader>smh a[]()
 nmap <leader>smC O[]: #^
 nmap <leader>smc o[]: #^
 nmap <leader>smt a[ ] 
-
