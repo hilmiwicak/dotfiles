@@ -61,7 +61,7 @@ ShowToolbar = true
 ShowFavorites = false
 ShowToc = true
 TocDy = 0
-SidebarDx = 800
+SidebarDx = 798
 ToolbarSize = 18
 TabWidth = 300
 TreeFontSize = 0
@@ -69,16 +69,12 @@ SmoothScroll = false
 ShowStartPage = true
 CheckForUpdates = true
 WindowState = 2
-WindowPos = 1008 -30 1390 1800
+WindowPos = 1588 0 1624 1744
 UseTabs = true
 UseSysColors = false
 CustomScreenDPI = 0
 
-FileStates [
-]
-SessionData [
-]
 TimeOfLastUpdateCheck = 0 0
-OpenCountWeek = 620
+OpenCountWeek = 623
 
 # Settings below are not recognized by the current version
