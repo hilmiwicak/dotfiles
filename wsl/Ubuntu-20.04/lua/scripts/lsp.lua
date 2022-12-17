@@ -1,8 +1,9 @@
 local lspconfig = require("lspconfig")
-local util = require("lspconfig/util")
+--local util = require("lspconfig/util")
 
 -- NEOVIM LSP AUTOCOMPLETION
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 local luasnip = require("luasnip")
@@ -18,7 +19,7 @@ cmp.setup({
 		["<M-j>"] = cmp.mapping.scroll_docs(4),
 		["<M-k>"] = cmp.mapping.scroll_docs(-4),
 		["<C-Space>"] = cmp.mapping.complete(),
-    ["<CR>"] = cmp.mapping.confirm({
+		["<CR>"] = cmp.mapping.confirm({
 			behavior = cmp.ConfirmBehavior.Insert,
 			select = true,
 		}),
@@ -48,37 +49,11 @@ cmp.setup({
 	},
 })
 
--- Downloaded from lua-language-server releases
--- and put the sh on /usr/local/bin
-lspconfig.sumneko_lua.setup({
-	cmd = { "lua-language-server.sh" },
-	filetypes = { "lua" },
-	log_level = 2,
-	root_dir = util.root_pattern(".luarc.json", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", ".git"),
-	single_file_support = true,
-	settings = {
-		Lua = {
-			runtime = {
-				version = "LuaJIT",
-			},
-			diagnostics = {
-				globals = { "vim" },
-			},
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
-			},
-			telemetry = {
-				enable = false,
-			},
-		},
-	},
-	capabilities = capabilities,
-})
+cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
 
 -- Downloaded the vscode-language-server from npm
 lspconfig.eslint.setup({
-	cmd = { "vscode-eslint-language-server", "--stdio" },
-	filetypes = { "javascript", "javascriptreact", "javascript.jsx" },
+	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "vue", "svelte", "astro" },
 	handlers = {
 		["eslint/openDoc"] = function(_, result)
 			if not result then
@@ -109,16 +84,6 @@ lspconfig.eslint.setup({
 			return {}
 		end,
 	},
-	-- on_new_config
-	root_dir = util.root_pattern(
-		".eslintrc",
-		".eslintrc.js",
-		".eslintrc.cjs",
-		".eslintrc.yaml",
-		".eslintrc.yml",
-		".eslintrc.json",
-		"package.json"
-	),
 	settings = {
 		codeAction = {
 			disableRuleComment = {
@@ -146,38 +111,44 @@ lspconfig.eslint.setup({
 			mode = "location",
 		},
 	},
-	capabilities = capabilities,
 })
 
 -- Downloaded from npm
-lspconfig.emmet_ls.setup({
-	cmd = { "emmet-ls", "--stdio" },
-	filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
-	root_dir = util.root_pattern(".git"),
-  single_file_support = true,
-	capabilities = capabilities,
-})
+lspconfig.emmet_ls.setup{}
 
 -- Downloaded from npm
-lspconfig.intelephense.setup({
-	cmd = { "intelephense", "--stdio" },
-	filetypes = { "php" },
-	root_dir = util.root_pattern("composer.json", ".git"),
-	capabilities = capabilities,
-})
+lspconfig.intelephense.setup{}
+
+-- Downloaded the vscode-language-server from npm
+lspconfig.jsonls.setup{}
 
 -- Downloaded from github releases
-lspconfig.marksman.setup({
-	cmd = { "marksman", "server" },
-	filetypes = { "markdown" },
-	root_dir = util.root_pattern(".git", ".marksman.toml"),
+lspconfig.marksman.setup{}
+
+-- Downloaded from lua-language-server releases
+-- and put the sh on /usr/local/bin
+lspconfig.sumneko_lua.setup({
+	cmd = { "lua-language-server.sh" },
+	single_file_support = true,
+	settings = {
+		Lua = {
+			runtime = {
+				version = "LuaJIT",
+			},
+			diagnostics = {
+				globals = { "vim" },
+			},
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
 })
 
 -- Downloaded from npm
 lspconfig.tsserver.setup({
-	cmd = { "typescript-language-server", "--stdio" },
-	filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-	init_options = { hostInfo = "neovim" },
-	root_dir = util.root_pattern("package.json", "tsconfig.json", ".git"),
-	capabilities = capabilities,
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
 })

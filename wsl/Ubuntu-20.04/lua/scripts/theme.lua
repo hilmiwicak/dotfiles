@@ -1,5 +1,5 @@
 require("catppuccin").setup({
-	flavour = "macchiato", -- macchiato, frappe, latte, mocha
+	flavour = "frappe", -- macchiato (lighter), frappe (lightest), latte (whitest), mocha (light)
   -- setup for full black catppuccin
 	--flavour = "mocha",
 	--color_overrides = {
@@ -19,4 +19,7 @@ require("catppuccin").setup({
 	--},
 })
 
+vim.g.material_style = "oceanic"
+
+--vim.cmd[[ colorscheme material ]]
 vim.cmd[[ colorscheme catppuccin ]]

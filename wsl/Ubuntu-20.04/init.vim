@@ -20,21 +20,26 @@ Plug 'hrsh7th/cmp-path'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
 
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'windwp/nvim-autopairs'
+Plug 'windwp/nvim-ts-autotag'
 Plug 'numToStr/Comment.nvim'
+
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'marko-cerovac/material.nvim'
+
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'
+Plug 'nvim-telescope/telescope-ui-select.nvim'
+
 Plug 'sindrets/diffview.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'sbdchd/neoformat'
 Plug 'nvim-tree/nvim-tree.lua'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'pwntester/octo.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'mbbill/undotree'
 call plug#end()
 
@@ -75,12 +80,6 @@ map <silent> <M-6> :lua require('harpoon.ui').nav_file(6)<CR>
 map <silent> <M-7> :lua require('harpoon.ui').nav_file(7)<CR>
 map <silent> <M-8> :lua require('harpoon.ui').nav_file(8)<CR>
 
-" diagnostics
-map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
-map <silent> <leader>le :lua vim.diagnostic.open_float()<CR>
-map <silent> <leader>lh :lua require('telescope.builtin').diagnostics({bufnr = 0})<CR>
-map <silent> <leader>la :lua require('telescope.builtin').diagnostics({root_dir = true, no_unlisted=false})<CR>
-
 " nvim-tree
 map <silent> <M-E> :NvimTreeOpen %:p:h<CR>
 map <silent> <M-e>e :NvimTreeToggle<CR>
@@ -93,11 +92,22 @@ map <silent> <M-e>r :NvimTreeRefresh<CR>
 " - stylua
 " - denofmt
 
+" diagnostics
+map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
+map <silent> <leader>lc :lua vim.lsp.buf.code_action()<CR>
+map <silent> <leader>le :lua vim.diagnostic.open_float()<CR>
+map <silent> <leader>lh :lua require('telescope.builtin').diagnostics({bufnr = 0})<CR>
+map <silent> <leader>la :lua require('telescope.builtin').diagnostics({root_dir = true, no_unlisted=true})<CR>
+map <silent> <leader>lt :lua require('telescope.builtin').lsp_document_symbols()<CR>
+
 " telescope
-map <silent> <M-p> :lua require('telescope.builtin').find_files()<CR>
-map <silent> <leader>tf :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
+map <silent> <M-p>p :lua require('telescope.builtin').find_files()<CR>
+map <silent> <M-p>h :lua require('telescope.builtin').find_files({hidden = true, no_ignore = true})<CR>
+map <silent> <M-P> :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
 map <silent> <leader>tb :lua require('telescope.builtin').buffers()<CR>
-map <silent> <leader>tt :lua require('telescope.builtin').lsp_document_symbols()<CR>
+
+" trouble
+
 
 " undotree
 map <silent> <leader>u :UndotreeToggle<CR>:UndotreeFocus<CR>
@@ -198,11 +208,13 @@ map <expr> <leader>zf &foldmethod == 'manual' ? ':set foldmethod=marker<CR>' : '
 map <silent> <M-{> :bp<CR>
 map <silent> <M-}> :bn<CR>
 
+" open tab
+nmap <silent> <M-,> gT
+nmap <silent> <M-.> gt
+
 " move tab to left / right
-map <silent> <M-h> :tabm -<CR>
-map <silent> <M-l> :tabm +<CR>
-map <silent> <M-H> :tabm 0<CR>
-map <silent> <M-L> :tabm $<CR>
+nmap <silent> <M-<> :tabm -<CR>
+nmap <silent> <M->> :tabm +<CR>
 
 " redo -> shift+u
 nnoremap U <C-r>
@@ -246,7 +258,7 @@ vmap <silent> <leader>/s /\%V
 map <leader>ss :s/\%V
 
 " join
-command -range J '<,'>join
+"command -range J '<,'>join
 
 " toggle word wrap
 map <silent> <expr> <leader>zz &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
