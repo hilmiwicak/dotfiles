@@ -2,7 +2,7 @@
 FixedPageUI [
 	TextColor = #4c4f69
 	BackgroundColor = #eff1f5
-	SelectionColor = #acb0be
+	SelectionColor = #756841
 	WindowMargin = 2 4 2 4
 	PageSpacing = 4 4
     HideScrollbars = false
