@@ -60,6 +60,14 @@ EnableTeXEnhancements = false
 DefaultDisplayMode = automatic
 DefaultZoom = fit page
 Shortcuts [
+	[
+		Cmd = CmdScrollUpHalfPage
+		Key = K
+	]
+	[
+		Cmd = CmdScrollDownHalfPage
+		Key = J
+	]
 ]
 
 FullPathInTitle = false
