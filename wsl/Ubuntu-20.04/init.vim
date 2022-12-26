@@ -1,9 +1,22 @@
 " # # # # # # # # # # # # # # # # # # # "
 "                                       "
 "    vim-plug & plugin settings, leader "
-"    rtp, lua, netrw                    "
+"    rtp, lua, netrw, clipboard         "
 "                                       "
 " # # # # # # # # # # # # # # # # # # # "
+
+if has('wsl')
+  let g:clipboard = {
+    \   'name': 'wslclipboard',
+    \   'copy': {
+    \      '+': '/usr/bin/win32yank.exe -i --crlf',
+    \    },
+    \   'paste': {
+    \      '+': '/usr/bin/win32yank.exe -o --lf',
+    \   },
+    \   'cache_enabled': 1,
+    \ }
+endif
 
 let mapleader = " "
 
@@ -57,7 +70,7 @@ map <leader>dc :DiffviewClose<CR>
 map <leader>de :DiffviewToggleFiles<CR>
 
 " emmet
-let g:user_emmet_leader_key='<M-i>'
+let g:user_emmet_leader_key='<M-m>'
 let g:user_emmet_settings = {
   \ 'php' : {
   \   'extends' : 'html',
@@ -69,8 +82,8 @@ let g:user_emmet_settings = {
 \}
 
 " harpoon
-map <silent> <M-m> :lua require('harpoon.ui').toggle_quick_menu()<CR>
-map <silent> <M-n> :lua require('harpoon.mark').add_file()<CR>
+map <silent> <M-h>m :lua require('harpoon.ui').toggle_quick_menu()<CR>
+map <silent> <M-h>n :lua require('harpoon.mark').add_file()<CR>
 map <silent> <M-1> :lua require('harpoon.ui').nav_file(1)<CR>
 map <silent> <M-2> :lua require('harpoon.ui').nav_file(2)<CR>
 map <silent> <M-3> :lua require('harpoon.ui').nav_file(3)<CR>
@@ -93,6 +106,7 @@ map <silent> <M-e>r :NvimTreeRefresh<CR>
 " - denofmt
 
 " diagnostics
+map <silent> <leader>lr :lua vim.lsp.buf.rename()<CR>
 map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
 map <silent> <leader>lc :lua vim.lsp.buf.code_action()<CR>
 map <silent> <leader>le :lua vim.diagnostic.open_float()<CR>
@@ -101,13 +115,15 @@ map <silent> <leader>la :lua require('telescope.builtin').diagnostics({root_dir 
 map <silent> <leader>lt :lua require('telescope.builtin').lsp_document_symbols()<CR>
 
 " telescope
-map <silent> <M-p>p :lua require('telescope.builtin').find_files()<CR>
-map <silent> <M-p>h :lua require('telescope.builtin').find_files({hidden = true, no_ignore = true})<CR>
-map <silent> <M-P> :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
-map <silent> <leader>tb :lua require('telescope.builtin').buffers()<CR>
-
-" trouble
-
+map <silent> <M-p> :lua require('scripts.after.telescope').find({})<CR>
+map <silent> <M-P> :lua require('scripts.after.telescope').find({hidden = true, no_ignore = true})<CR>
+" map <silent> <M-P> :lua require('after.telescope').find({hidden = true, no_ignore = true})<CR>
+" map <silent> <M-p> :lua require('telescope.builtin').find_files()<CR>
+" map <silent> <M-P> :lua require('telescope.builtin').find_files({hidden = true, no_ignore = true})<CR>
+map <silent> <C-f> :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
+map <silent> <leader>tb :lua require('scripts.after.telescope').buffers()<CR>
+map <silent> <leader>to :lua require('telescope.builtin').oldfiles()<CR>
+map <silent> <leader>th :lua require('telescope.builtin').help_tags()<CR>
 
 " undotree
 map <silent> <leader>u :UndotreeToggle<CR>:UndotreeFocus<CR>
@@ -115,6 +131,7 @@ map <silent> <leader>U :UndotreeFocus<CR>
 
 " surround
 vmap <leader>s<> S<>f>dl;hvhd
+nmap <leader>s<> F<ldl,2dl
 vmap <leader>s( S(ldlh%dh
 vmap <leader>s{ S{ldlh%dh
 vmap <leader>s[ S[ldlh%dh
@@ -124,15 +141,15 @@ nmap <leader>s' cs"'
 " # # # # # # # # # # # # # # # # # # # "
 "                                       "
 "    terminal, number, colors, tabs,    "
-"    mouse, cursor                      "
+"    mouse, cursor, persistent-undo,    "
 "                                       "
 " # # # # # # # # # # # # # # # # # # # "
 
 set number relativenumber nowrap linebreak ignorecase belloff=all noruler
-syntax enable
+"syntax enable
 set tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
+"filetype plugin on
+set undofile
 set mouse=
 
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
@@ -143,6 +160,7 @@ hi Visual cterm=none ctermbg=DarkGrey ctermfg=cyan
 
 " telling terminal to use bash
 let g:is_bash = 1
+set shell=bash\ -l
 
 " # # # # # # # # # # # # # # # # # # # "
 "                                       "
@@ -168,11 +186,6 @@ augroup END
 " custom commands to edit/source nvimrc (init.vim & init.lua)
 command Nve exe 'tabedit '.stdpath('config').'/init.vim'
 command Nvs exe 'source '.stdpath('config').'/init.vim'
-command Nli exe 'tabedit '.stdpath('config').'/lua/init.lua'
-command Nlp exe 'tabedit '.stdpath('config').'/lua/scripts/plugin.lua'
-command Nlth exe 'tabedit '.stdpath('config').'/lua/scripts/theme.lua'
-command Nlts exe 'tabedit '.stdpath('config').'/lua/scripts/treesitter.lua'
-command Nll exe 'tabedit '.stdpath('config').'/lua/scripts/lsp.lua'
 
 " toggle max current window
 let g:isCurrWindowMax = 0
@@ -183,13 +196,19 @@ function! MaxWindow()
 endfunction
 
 function! MinWindow()
-    if expand('%:p') == g:currentFile
+    if xpand('%:p') == g:currentFile
         let g:isCurrWindowMax = 0
         normal g	:tabc #:set showtabline=1
     endif
 endfunction
 
 map <silent> <expr> <leader>w g:isCurrWindowMax == 0 ? ':call MaxWindow()<CR>' : ':call MinWindow()<CR>'
+
+" toggle word wrap
+map <silent> <expr> <leader>zz &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
+
+" set foldmethod
+map <expr> <leader>zf &foldmethod == 'manual' ? ':set foldmethod=marker<CR>' : ':set foldmethod=manual<CR>'
 
 " change directory to the current opened file
 command Ccd exe 'cd '.expand("%:h")
@@ -201,8 +220,13 @@ map <M-]> 
 " alternate file
 map <M-[> 
 
-" set foldmethod
-map <expr> <leader>zf &foldmethod == 'manual' ? ':set foldmethod=marker<CR>' : ':set foldmethod=manual<CR>'
+" move selection up and down
+xmap <M-j> :m '>+1<CR>gv=gv
+xmap <M-k> :m '<-2<CR>gv=gv
+
+" copy and paste below or above text
+xmap <M-J> :t '><CR>
+xmap <M-K> :t '<-1<CR>
 
 " buffer previous & next
 map <silent> <M-{> :bp<CR>
@@ -227,23 +251,24 @@ nnoremap d "_d
 nnoremap D "_D
 nnoremap s "_s
 nnoremap S "_S
-vnoremap c "_c
-vnoremap C "_C
-vnoremap d "_d
-vnoremap D "_D
-"vnoremap s "_s
+xnoremap c "_c
+xnoremap C "_C
+xnoremap d "_d
+xnoremap D "_D
+xnoremap s "_s
 xnoremap S "_S
 
 " scroll up and down 
 nmap K <C-u>
-vmap K <C-u>
+xmap K <C-u>
 nmap J <C-d>
 vmap J <C-d>
 
 " yank & paste from/into windows clipboard
-vmap Y "+y
+xmap Y "+y
 nmap <leader>p "+p
 nmap <leader>P "+P
+xmap X "+ygvd
 
 " remap for easier macro
 map <leader><leader> @q
@@ -252,21 +277,14 @@ map <leader><leader> @q
 map <silent> <leader>// :let@/ = ""<CR>
 
 " search selection
-vmap <silent> <leader>/s /\%V
+xmap <leader>/s :g/\%V
 
 " subtitute selection
 map <leader>ss :s/\%V
-
-" join
-"command -range J '<,'>join
-
-" toggle word wrap
-map <silent> <expr> <leader>zz &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
 
 " snippets
 " markdown
 nmap <leader>smH i[]()
 nmap <leader>smh a[]()
-nmap <leader>smC O[]: #^
-nmap <leader>smc o[]: #^
-nmap <leader>smt a[ ] 
+nmap <leader>smC i[ ] 
+nmap <leader>smc a[ ] 

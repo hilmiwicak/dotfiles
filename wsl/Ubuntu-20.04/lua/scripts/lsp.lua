@@ -2,9 +2,9 @@ local lspconfig = require("lspconfig")
 --local util = require("lspconfig/util")
 
 -- NEOVIM LSP AUTOCOMPLETION
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+--local snippetCompletionCapabilities = vim.lsp.protocol.make_client_capabilities()
+--snippetCompletionCapabilities.textDocument.completion.completionItem.snippetSupport = true
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local luasnip = require("luasnip")
 
@@ -111,19 +111,33 @@ lspconfig.eslint.setup({
 			mode = "location",
 		},
 	},
+  capabilities = capabilities
+})
+
+-- Downloaded from bashls
+lspconfig.bashls.setup({
+  capabilities = capabilities
 })
 
 -- Downloaded from npm
-lspconfig.emmet_ls.setup{}
+lspconfig.emmet_ls.setup({
+  capabilities = capabilities
+})
 
 -- Downloaded from npm
-lspconfig.intelephense.setup{}
+lspconfig.intelephense.setup({
+  capabilities = capabilities
+})
 
 -- Downloaded the vscode-language-server from npm
-lspconfig.jsonls.setup{}
+lspconfig.jsonls.setup({
+  capabilities = capabilities
+})
 
 -- Downloaded from github releases
-lspconfig.marksman.setup{}
+lspconfig.marksman.setup({
+  capabilities = capabilities
+})
 
 -- Downloaded from lua-language-server releases
 -- and put the sh on /usr/local/bin
@@ -146,9 +160,11 @@ lspconfig.sumneko_lua.setup({
 			},
 		},
 	},
+  capabilities = capabilities
 })
 
 -- Downloaded from npm
 lspconfig.tsserver.setup({
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+  capabilities = capabilities
 })
