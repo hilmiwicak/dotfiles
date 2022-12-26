@@ -7,6 +7,39 @@ FixedPageUI [
 	PageSpacing = 4 4
     HideScrollbars = false
 ]
+ComicBookUI [
+  WindowMargin = 0 0 0 0
+  PageSpacing = 4 4
+  CbxMangaMode = false
+]
+ChmUI [
+  UseFixedPageUI = false
+]
+
+SelectionHandlers [
+]
+ExternalViewers [
+]
+
+ZoomLevels = 8.33 12.5 18 25 33.33 50 66.67 75 100 125 150 200 300 400 600 800 1000 1200 1600 2000 2400 3200 4800 6400
+ZoomIncrement = 0
+
+PrinterDefaults [
+  PrintScale = shrink
+]
+ForwardSearch [
+  HighlightOffset = 0
+  HighlightWidth = 15
+  HighlightColor = #5b607875
+  HighlightPermanent = false
+]
+Annotations [
+  HighlightColor = #ffff00
+  UnderlineColor = #00ff00
+  TextIconColor = #ffff00
+  TextIconType = 
+  DefaultAuthor = 
+]
 EbookUI [
 	FontName = Georgia
 	FontSize = 12.5
@@ -14,47 +47,10 @@ EbookUI [
 	BackgroundColor = #24273a
 	UseFixedPageUI = false
 ]
-ComicBookUI [
-	WindowMargin = 0 0 0 0
-	PageSpacing = 4 4
-	CbxMangaMode = false
-]
-ChmUI [
-	UseFixedPageUI = false
-]
-ExternalViewers [
-]
-PrinterDefaults [
-	PrintScale = shrink
-]
-ForwardSearch [
-	HighlightOffset = 0
-	HighlightWidth = 15
-	HighlightColor = #5b607875
-	HighlightPermanent = false
-]
-
-MainWindowBackground = #181926
-EscToExit = false
-ReuseInstance = false
-UseSysColors = false
-RestoreSession = true
-TabWidth = 300
-ShowMenubar = true
-ReloadModifiedDocuments = true
-ZoomLevels = 8.33 12.5 18 25 33.33 50 66.67 75 100 125 150 200 300 400 600 800 1000 1200 1600 2000 2400 3200 4800 6400
-ZoomIncrement = 0
-
-Annotations [
-	HighlightColor = #ffff00
-	UnderlineColor = #00ff00
-	TextIconColor = #ffff00
-	TextIconType = 
-	DefaultAuthor = 
-]
 
 RememberOpenedFiles = true
 RememberStatePerDocument = true
+RestoreSession = true
 UiLanguage = en
 EnableTeXEnhancements = false
 DefaultDisplayMode = automatic
@@ -69,14 +65,20 @@ Shortcuts [
 		Key = J
 	]
 ]
+EscToExit = false
+ReuseInstance = false
+ReloadModifiedDocuments = true
 
+MainWindowBackground = #181926
 FullPathInTitle = false
+ShowMenubar = true
 ShowToolbar = true
 ShowFavorites = false
 ShowToc = true
 TocDy = 0
 SidebarDx = 1207
 ToolbarSize = 18
+TabWidth = 300
 TreeFontSize = 0
 SmoothScroll = false
 ShowStartPage = true
@@ -84,6 +86,7 @@ CheckForUpdates = true
 WindowState = 2
 WindowPos = 1588 0 1624 1744
 UseTabs = true
+UseSysColors = false
 CustomScreenDPI = 0
 
 TimeOfLastUpdateCheck = 0 0
