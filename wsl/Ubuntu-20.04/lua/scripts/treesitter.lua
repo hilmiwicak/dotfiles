@@ -1,5 +1,5 @@
 require("nvim-treesitter.configs").setup({
-	parser_install_dir = "~/.config/nvim/parsers",
+  parser_install_dir = "/home/wicak/.local/share/nvim/data/parsers",
 	ensure_installed = { "bash", "c", "css", "dockerfile", "go", "html", "javascript", "lua", "markdown", "php", "typescript", "yaml", },
 	sync_install = false,
 	auto_install = false,

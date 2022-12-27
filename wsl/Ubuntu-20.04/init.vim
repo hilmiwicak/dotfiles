@@ -20,7 +20,7 @@ endif
 
 let mapleader = " "
 
-call plug#begin('/home/wicak/.config/nvim/plugged')
+call plug#begin('/home/wicak/.local/share/nvim/data/plugged')
 Plug 'mattn/emmet-vim'
 Plug 'jwalton512/vim-blade'
 Plug 'junegunn/vim-plug'
@@ -32,6 +32,7 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
+Plug 'rafamadriz/friendly-snippets'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'windwp/nvim-autopairs'
@@ -60,8 +61,8 @@ call plug#end()
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
 
-set rtp+=/home/wicak/.config/nvim/plugged
-set rtp+=/home/wicak/.config/nvim/parsers
+set rtp+=/home/wicak/.local/share/nvim/data/plugged
+set rtp+=/home/wicak/.local/share/nvim/data/parsers
 lua require('init')
 
 " diffview
@@ -221,12 +222,16 @@ map <M-]> 
 map <M-[> 
 
 " move selection up and down
+nmap <M-j> V:m '>+1<CR>gv=gv
 xmap <M-j> :m '>+1<CR>gv=gv
+nmap <M-k> V:m '<-2<CR>gv=gv
 xmap <M-k> :m '<-2<CR>gv=gv
 
 " copy and paste below or above text
-xmap <M-J> :t '><CR>
-xmap <M-K> :t '<-1<CR>
+nmap <M-K> V:t '><CR>gv=gv
+xmap <M-K> :t '><CR>gv=gv
+nmap <M-J> V:t '<-1<CR>gv=gv
+xmap <M-J> :t '<-1<CR>gv=gv
 
 " buffer previous & next
 map <silent> <M-{> :bp<CR>
