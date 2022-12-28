@@ -64,6 +64,10 @@ Shortcuts [
 		Cmd = CmdScrollDownHalfPage
 		Key = J
 	]
+  [
+    Cmd = CmdToggleBookmarks
+    Key = Alt + e
+  ]
 ]
 EscToExit = false
 ReuseInstance = false
