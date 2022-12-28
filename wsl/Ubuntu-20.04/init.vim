@@ -2,6 +2,7 @@
 "                                       "
 "    vim-plug & plugin settings, leader "
 "    rtp, lua, netrw, clipboard         "
+"    diagnostic                         "
 "                                       "
 " # # # # # # # # # # # # # # # # # # # "
 
@@ -46,15 +47,18 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'nvim-telescope/telescope-ui-select.nvim'
+Plug 'ThePrimeagen/harpoon'
 
 Plug 'sindrets/diffview.nvim'
-Plug 'ThePrimeagen/harpoon'
+Plug 'phaazon/hop.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'sbdchd/neoformat'
-Plug 'nvim-tree/nvim-tree.lua'
-Plug 'kyazdani42/nvim-web-devicons'
+Plug 'shortcuts/no-neck-pain.nvim'
 Plug 'pwntester/octo.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'mbbill/undotree'
+Plug 'kyazdani42/nvim-web-devicons'
 call plug#end()
 
 " netrw
@@ -70,17 +74,23 @@ map <leader>do :DiffviewOpen
 map <leader>dc :DiffviewClose<CR>
 map <leader>de :DiffviewToggleFiles<CR>
 
-" emmet
-let g:user_emmet_leader_key='<M-m>'
-let g:user_emmet_settings = {
-  \ 'php' : {
-  \   'extends' : 'html',
-  \   'filters' : 'c',
-  \ },
-  \ 'xml' : {
-  \   'extends' : 'html',
-  \ },
-\}
+" diagnostics and telescope
+" diagnostics
+map <silent> <leader>lr :lua vim.lsp.buf.rename()<CR>
+map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
+map <silent> <leader>lc :lua vim.lsp.buf.code_action()<CR>
+map <silent> <leader>le :lua vim.diagnostic.open_float()<CR>
+map <silent> <leader>lh :lua require('telescope.builtin').diagnostics({bufnr = 0})<CR>
+map <silent> <leader>la :lua require('telescope.builtin').diagnostics({root_dir = true, no_unlisted=true})<CR>
+map <silent> <leader>lt :lua require('telescope.builtin').lsp_document_symbols()<CR>
+
+" telescope
+map <silent> <M-p> :lua require('scripts.after.telescope').find({})<CR>
+map <silent> <M-P> :lua require('scripts.after.telescope').find({hidden = true, no_ignore = true})<CR>
+map <silent> <C-f> :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
+map <silent> <leader>tb :lua require('scripts.after.telescope').buffers()<CR>
+map <silent> <leader>to :lua require('telescope.builtin').oldfiles()<CR>
+map <silent> <leader>th :lua require('telescope.builtin').help_tags()<CR>
 
 " harpoon
 map <silent> <M-h>m :lua require('harpoon.ui').toggle_quick_menu()<CR>
@@ -94,6 +104,24 @@ map <silent> <M-6> :lua require('harpoon.ui').nav_file(6)<CR>
 map <silent> <M-7> :lua require('harpoon.ui').nav_file(7)<CR>
 map <silent> <M-8> :lua require('harpoon.ui').nav_file(8)<CR>
 
+" hop
+map <silent> <leader>gww :HopWord<CR>
+map <silent> <leader>gwl :HopWordCurrentLine<CR>
+map <silent> <leader>gcc :HopChar1<CR>
+map <silent> <leader>gcl :HopChar1CurrentLine<CR>
+
+" emmet
+let g:user_emmet_leader_key='<M-m>'
+let g:user_emmet_settings = {
+  \ 'php' : {
+  \   'extends' : 'html',
+  \   'filters' : 'c',
+  \ },
+  \ 'xml' : {
+  \   'extends' : 'html',
+  \ },
+\}
+
 " nvim-tree
 map <silent> <M-E> :NvimTreeOpen %:p:h<CR>
 map <silent> <M-e>e :NvimTreeToggle<CR>
@@ -106,30 +134,6 @@ map <silent> <M-e>r :NvimTreeRefresh<CR>
 " - stylua
 " - denofmt
 
-" diagnostics
-map <silent> <leader>lr :lua vim.lsp.buf.rename()<CR>
-map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
-map <silent> <leader>lc :lua vim.lsp.buf.code_action()<CR>
-map <silent> <leader>le :lua vim.diagnostic.open_float()<CR>
-map <silent> <leader>lh :lua require('telescope.builtin').diagnostics({bufnr = 0})<CR>
-map <silent> <leader>la :lua require('telescope.builtin').diagnostics({root_dir = true, no_unlisted=true})<CR>
-map <silent> <leader>lt :lua require('telescope.builtin').lsp_document_symbols()<CR>
-
-" telescope
-map <silent> <M-p> :lua require('scripts.after.telescope').find({})<CR>
-map <silent> <M-P> :lua require('scripts.after.telescope').find({hidden = true, no_ignore = true})<CR>
-" map <silent> <M-P> :lua require('after.telescope').find({hidden = true, no_ignore = true})<CR>
-" map <silent> <M-p> :lua require('telescope.builtin').find_files()<CR>
-" map <silent> <M-P> :lua require('telescope.builtin').find_files({hidden = true, no_ignore = true})<CR>
-map <silent> <C-f> :lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>
-map <silent> <leader>tb :lua require('scripts.after.telescope').buffers()<CR>
-map <silent> <leader>to :lua require('telescope.builtin').oldfiles()<CR>
-map <silent> <leader>th :lua require('telescope.builtin').help_tags()<CR>
-
-" undotree
-map <silent> <leader>u :UndotreeToggle<CR>:UndotreeFocus<CR>
-map <silent> <leader>U :UndotreeFocus<CR>
-
 " surround
 vmap <leader>s<> S<>f>dl;hvhd
 nmap <leader>s<> F<ldl,2dl
@@ -138,6 +142,10 @@ vmap <leader>s{ S{ldlh%dh
 vmap <leader>s[ S[ldlh%dh
 nmap <leader>s" cs'"
 nmap <leader>s' cs"'
+
+" undotree
+map <silent> <leader>u :UndotreeToggle<CR>:UndotreeFocus<CR>
+map <silent> <leader>U :UndotreeFocus<CR>
 
 " # # # # # # # # # # # # # # # # # # # "
 "                                       "
@@ -286,10 +294,3 @@ xmap <leader>/s :g/\%V
 
 " subtitute selection
 map <leader>ss :s/\%V
-
-" snippets
-" markdown
-nmap <leader>smH i[]()
-nmap <leader>smh a[]()
-nmap <leader>smC i[ ] 
-nmap <leader>smc a[ ] 

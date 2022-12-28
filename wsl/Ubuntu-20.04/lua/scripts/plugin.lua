@@ -10,12 +10,16 @@ require("Comment").setup({
 })
 
 require("diffview").setup({
-  win_config = {
-    position = "right"
-  }
+	win_config = {
+		position = "right",
+	},
 })
 
-require("octo").setup({})
+require("hop").setup()
+
+require("no-neck-pain").setup()
+
+require("octo").setup()
 
 require("plenary")
 
@@ -23,7 +27,7 @@ require("nvim-tree").setup({
 	view = {
 		number = true,
 		relativenumber = true,
-    side = "right",
+		side = "right",
 		mappings = {
 			list = {
 				{ key = "<M-]>", action = "cd" },

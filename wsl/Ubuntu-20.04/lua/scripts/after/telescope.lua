@@ -8,7 +8,7 @@ m.buffers = function()
       local delete_select_buf = function()
         local buf_select = telescope_action_state.get_selected_entry()
         vim.api.nvim_buf_delete(buf_select.bufnr, { force = false })
-        vim.cmd.lua("require('scripts.after.telescope').buffers()")
+        require("scripts.after.telescope").buffers()
       end
 
       map("n", "dd", delete_select_buf)
@@ -27,7 +27,7 @@ m.find = function(opts)
     local yank_select_buf_clip = function()
       local buf_select = telescope_action_state.get_selected_entry()
       vim.fn.setreg('+', buf_select[1])
-      print('Done yanking selected entry into clipboard!')
+      print("Done yanking selected entry into clipboard!")
     end
 
     map("n", "Y", yank_select_buf_clip)

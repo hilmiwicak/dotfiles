@@ -2,7 +2,7 @@ local ls = require("luasnip")
 local loader = require("luasnip.loaders.from_vscode")
 
 loader.lazy_load()
-loader.lazy_load({ paths = {"./snippets"} })
+-- loader.lazy_load({ paths = {"./snippets"} })
 
 ls.filetype_extend("all", {"_"})
 
