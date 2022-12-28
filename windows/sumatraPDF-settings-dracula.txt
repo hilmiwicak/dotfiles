@@ -64,6 +64,10 @@ Shortcuts [
     Cmd = CmdToggleBookmarks
     Key = Alt + e
   ]
+  [
+    Cmd = CmdCommandPalette
+    Key = Alt + p
+  ]
 ]
 
 
