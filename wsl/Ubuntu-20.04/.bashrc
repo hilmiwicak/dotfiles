@@ -121,30 +121,19 @@ if ! shopt -oq posix; then
 fi
 
 #######################################################
-#               PROGRAMMING SHENANIGANS               #
-#######################################################
-
-# CARGO / RUST
-. "$HOME/.cargo/env"
-
-# laravel sail alias
-alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
-
-#######################################################
 #                  CUSTOM COMMANDS                    #
 #######################################################
 
 # custom prompt
 PS1="\n\u | \w\n> "
 
-# nvm shenanigans
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 # load additional github ssh when loading bash
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa_github
+
+alias v='nvim'
+
+vs='/home/wicak/.local/state/nvim/swap/'
 
 # open selected file / directory in default windows file explorer
 alias see='/mnt/c/Windows/explorer.exe'
@@ -158,8 +147,14 @@ alias pcd='pushd -0 > /dev/null ;'
 # `cd -` equivalent when there is stack
 alias bcd='{ pushd ${DIRSTACK[1]} ; popd -n +2 ; } > /dev/null ;'
 
+# print out settings directory
+ds() {
+  echo '/mnt/c/Users/Hilmi/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
+  echo '/mnt/c/Users/Hilmi/AppData/Local/SumatraPDF/SumatraPDF-settings.txt'
+}
+
 # directory aliases
-d~ () {
+dh () {
   cd /mnt/c/Users/Hilmi/$@
 }
 
