@@ -24,6 +24,15 @@
           "markdown"
         ],
         "path": "./markdown.json"
+      },
+      {
+        "language": [
+          "shellscript",
+          "shell",
+          "sh",
+          "zsh"
+        ],
+        "path": "./shell.json"
       }
     ]
   }
