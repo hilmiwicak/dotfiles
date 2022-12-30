@@ -68,6 +68,10 @@ Shortcuts [
     Cmd = CmdCommandPalette
     Key = Alt + p
   ]
+  [
+    Cmd = CmdOpenFile
+    Key = Alt + Shift + p
+  ]
 ]
 
 
