@@ -25,6 +25,7 @@ call plug#begin('/home/wicak/.local/share/nvim/data/plugged')
 Plug 'mattn/emmet-vim'
 Plug 'jwalton512/vim-blade'
 Plug 'junegunn/vim-plug'
+Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-surround'
 
 Plug 'neovim/nvim-lspconfig'
@@ -33,7 +34,6 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-path'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'L3MON4D3/LuaSnip'
-Plug 'rafamadriz/friendly-snippets'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'windwp/nvim-autopairs'
@@ -134,6 +134,8 @@ map <silent> <M-e>r :NvimTreeRefresh<CR>
 " - stylua
 " - denofmt
 
+map <silent> <leader>zn :NoNeckPain<CR>
+
 " surround
 vmap <leader>s<> S<>f>dl;hvhd
 nmap <leader>s<> F<ldl,2dl
@@ -170,11 +172,12 @@ hi Visual cterm=none ctermbg=DarkGrey ctermfg=cyan
 " telling terminal to use bash
 let g:is_bash = 1
 set shell=bash\ -l
+let $BASH_ENV = "/home/wicak/.bash_aliases"
 
 " # # # # # # # # # # # # # # # # # # # "
 "                                       "
 "    custom mapping & commands,         "
-"    autocmd, snippets, folds           "
+"    autocmd, folds                     "
 "                                       "
 " # # # # # # # # # # # # # # # # # # # "
 
@@ -205,7 +208,7 @@ function! MaxWindow()
 endfunction
 
 function! MinWindow()
-    if xpand('%:p') == g:currentFile
+    if expand('%:p') == g:currentFile
         let g:isCurrWindowMax = 0
         normal g	:tabc #:set showtabline=1
     endif
@@ -214,12 +217,14 @@ endfunction
 map <silent> <expr> <leader>w g:isCurrWindowMax == 0 ? ':call MaxWindow()<CR>' : ':call MinWindow()<CR>'
 
 " toggle word wrap
-map <silent> <expr> <leader>zz &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
+nmap <silent> <expr> <leader>zz &wrap ? ':set nowrap<CR>' : ':set wrap<CR>'
+xmap <silent> <expr> <leader>zz &wrap ? ':set nowrap<CR>gv' : ':set wrap<CR>gv'
 
 " set foldmethod
 map <expr> <leader>zf &foldmethod == 'manual' ? ':set foldmethod=marker<CR>' : ':set foldmethod=manual<CR>'
 
 " change directory to the current opened file
+" command Ccd -nargs=? exe 'cd '.expand("%:h")
 command Ccd exe 'cd '.expand("%:h")
 command Tcd exe 'tcd '.expand("%:h")
 
@@ -230,15 +235,11 @@ map <M-]> 
 map <M-[> 
 
 " move selection up and down
-nmap <M-j> V:m '>+1<CR>gv=gv
 xmap <M-j> :m '>+1<CR>gv=gv
-nmap <M-k> V:m '<-2<CR>gv=gv
 xmap <M-k> :m '<-2<CR>gv=gv
 
 " copy and paste below or above text
-nmap <M-K> V:t '><CR>gv=gv
 xmap <M-K> :t '><CR>gv=gv
-nmap <M-J> V:t '<-1<CR>gv=gv
 xmap <M-J> :t '<-1<CR>gv=gv
 
 " buffer previous & next
@@ -277,6 +278,10 @@ xmap K <C-u>
 nmap J <C-d>
 vmap J <C-d>
 
+" move window up and down
+nmap <M-j> 
+nmap <M-k> 
+
 " yank & paste from/into windows clipboard
 xmap Y "+y
 nmap <leader>p "+p
@@ -294,3 +299,12 @@ xmap <leader>/s :g/\%V
 
 " subtitute selection
 map <leader>ss :s/\%V
+
+" shortcut to delete parantheses / brackets
+nmap dg( vi(yda(P
+nmap dg[ vi[yda[P
+nmap dg{ vi{yda{P
+nmap dg< vi<yda<P
+
+nmap <leader>gl :tabnew<Bar>read !git lg
+nmap <leader>gs :!git status

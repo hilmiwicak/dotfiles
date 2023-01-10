@@ -7,12 +7,6 @@ require("telescope").setup({
     mappings = {
       n = {
         ["<M-/>"] = telescope_action_layout.toggle_preview,
-        -- ["Y"] = function()
-        -- telescope copy path
-        -- end
-        -- ["d"] = function()
-        -- delete buffer from vim
-        -- end
       },
       i = {
         ["<M-/>"] = telescope_action_layout.toggle_preview,
@@ -24,27 +18,6 @@ require("telescope").setup({
       treesitter = true,
     }
 	},
-  -- pickers = {
-  --   find_files = {
-  --     mappings = {
-  --       n = {
-  --         ["t"] = function(prompt_bufnr)
-  --           print(prompt_bufnr)
-  --         end
-  --       }
-  --     }
-  --   },
-  --   buffers = {
-  --     mappings = {
-  --       n = {
-  --         ["dd"] = function()
-  --           local buf_select = telescope_action_state.get_selected_entry()
-  --           vim.api.nvim_buf_delete(buf_select.bufnr)
-  --         end
-  --       }
-  --     }
-  --   }
-  -- },
 	fzf = {
 		fuzzy = true,
 		override_generic_sorter = true,

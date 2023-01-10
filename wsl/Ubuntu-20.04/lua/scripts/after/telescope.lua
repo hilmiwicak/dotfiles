@@ -1,13 +1,13 @@
 local telescope_action_state = require("telescope.actions.state")
 
-local m = {}
+local M = {}
 
-m.buffers = function()
+M.buffers = function()
   require("telescope.builtin").buffers({
     attach_mappings = function(_, map)
       local delete_select_buf = function()
         local buf_select = telescope_action_state.get_selected_entry()
-        vim.api.nvim_buf_delete(buf_select.bufnr, { force = false })
+        vim.api.nvim_buf_delete(buf_select.bufnr, { force = true })
         require("scripts.after.telescope").buffers()
       end
 
@@ -17,7 +17,7 @@ m.buffers = function()
   })
 end
 
-m.find = function(opts)
+M.find = function(opts)
   if not opts.hidden then
     opts.hidden = false
   elseif not opts.not_ignore then
@@ -40,4 +40,4 @@ m.find = function(opts)
   -- }, opts)
 end
 
-return m
+return M

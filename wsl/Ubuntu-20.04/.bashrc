@@ -131,27 +131,11 @@ PS1="\n\u | \w\n> "
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa_github
 
-alias v='nvim'
-
-vs='/home/wicak/.local/state/nvim/swap/'
-
-# open selected file / directory in default windows file explorer
-alias see='/mnt/c/Windows/explorer.exe'
-
-# cd to next
-alias ncd='pushd +1 > /dev/null ;'
-
-# cd to previous
-alias pcd='pushd -0 > /dev/null ;'
-
-# `cd -` equivalent when there is stack
-alias bcd='{ pushd ${DIRSTACK[1]} ; popd -n +2 ; } > /dev/null ;'
-
 # print out settings directory
-ds() {
-  echo '/mnt/c/Users/Hilmi/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
-  echo '/mnt/c/Users/Hilmi/AppData/Local/SumatraPDF/SumatraPDF-settings.txt'
-}
+# ds() {
+#   echo '/mnt/c/Users/Hilmi/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
+#   echo '/mnt/c/Users/Hilmi/AppData/Local/SumatraPDF/SumatraPDF-settings.txt'
+# }
 
 # directory aliases
 dh () {

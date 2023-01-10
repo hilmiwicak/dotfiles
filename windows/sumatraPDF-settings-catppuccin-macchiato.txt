@@ -76,6 +76,18 @@ Shortcuts [
     Cmd = CmdOpenFile
     Key = Alt + Shift + p
   ]
+  [
+    Cmd = CmdGoToFirstPage
+    Key = g
+  ]
+  [
+    Cmd = CmdGoToLastPage
+    Key = G
+  ]
+  [
+    Cmd = CmdGoToPage
+    Key = Alt + g
+  ]
 ]
 EscToExit = false
 ReuseInstance = false

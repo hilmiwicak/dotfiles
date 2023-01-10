@@ -13,7 +13,8 @@ My personal dotfiles / settings for various tools I use.
 ├── windows-terminal  
 |   └── settings.json  
 ├── init.vim  
-└── _vimrc  
+├── _vimrc  
+└── sumatrapdf
 
 
 3. vscode
