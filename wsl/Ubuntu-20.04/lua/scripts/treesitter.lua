@@ -10,7 +10,11 @@ require("nvim-treesitter.configs").setup({
 		enable = true,
 	},
 	autotag = {
-		enable = true,
+    enable = true,
+    filetypes = {
+      "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "tsx","jsx",
+      "php", "blade"
+    }
 	},
 	incremental_selection = {
 		enable = true,

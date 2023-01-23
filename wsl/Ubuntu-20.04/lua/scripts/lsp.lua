@@ -1,5 +1,5 @@
 local lspconfig = require("lspconfig")
---local util = require("lspconfig/util")
+local util = require("lspconfig/util")
 
 -- NEOVIM LSP AUTOCOMPLETION
 --local snippetCompletionCapabilities = vim.lsp.protocol.make_client_capabilities()
@@ -39,6 +39,15 @@ lspconfig.eslint.setup({
 			return {}
 		end,
 	},
+  root_dir = util.root_pattern(
+    '.eslintrc',
+    '.eslintrc.js',
+    '.eslintrc.cjs',
+    '.eslintrc.yaml',
+    '.eslintrc.yml',
+    '.eslintrc.json',
+    'package.json'
+  ),
 	settings = {
 		codeAction = {
 			disableRuleComment = {
@@ -79,8 +88,14 @@ lspconfig.emmet_ls.setup({
   capabilities = capabilities
 })
 
+lspconfig.html.setup {
+  filetypes = {"php", "html"},
+  capabilities = capabilities,
+}
+
 -- Downloaded from npm
 lspconfig.intelephense.setup({
+  -- filetypes = { "php", "blade" },
   capabilities = capabilities
 })
 

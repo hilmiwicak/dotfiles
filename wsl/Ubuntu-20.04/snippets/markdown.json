@@ -1,4 +1,34 @@
 {
+  "header 1": {
+    "prefix": "h1",
+    "body": ["# ${0}"],
+    "description": "Add header level 1"
+  },
+  "header 2": {
+    "prefix": "h2",
+    "body": ["## ${0}"],
+    "description": "Add header level 2"
+  },
+  "header 3": {
+    "prefix": "h3",
+    "body": ["### ${0}"],
+    "description": "Add header level 3"
+  },
+  "header 4": {
+    "prefix": "h4",
+    "body": ["#### ${0}"],
+    "description": "Add header level 4"
+  },
+  "header 5": {
+    "prefix": "h5",
+    "body": ["##### ${0}"],
+    "description": "Add header level 5"
+  },
+  "header 6": {
+    "prefix": "h6",
+    "body": ["###### ${0}"],
+    "description": "Add header level 6"
+  },
   "Link": {
     "prefix": "link",
     "body": "[$1]($2)$0",
@@ -30,28 +60,43 @@
     "description": "Insert italic text"
   },
   "Insert bold and italic text": {
-    "prefix": "bi",
+    "prefix": ["bi", "bold and italic"],
     "body": "***$1***$0",
     "description": "Insert bold and italic text"
   },
   "Insert quoted text": {
-    "prefix": "q",
+    "prefix": "quote",
     "body": "> $1",
     "description": "Insert quoted text"
   },
   "Insert code block": {
-    "prefix": "cbl",
+    "prefix": ["code block", "cbl"],
     "body": "```${1:language}\n\t$2\n```$0",
     "description": "Insert fenced code block"
+  },
+    "Insert unordered list": {
+    "prefix": ["unordered list", "ul"],
+    "body": ["- ${1:first}", "- ${2:second}", "- ${3:third}", "$0"],
+    "description": "Insert unordered list"
+  },
+  "Insert ordered list": {
+    "prefix": ["ordered list", "ol"],
+    "body": ["1. ${1:first}", "2. ${2:second}", "3. ${3:third}", "$0"],
+    "description": "Insert ordered list"
   },
   "Insert horizontal rule": {
     "prefix": "rule",
     "body": "---\n",
     "description": "Insert horizontal rule"
   },
-  "detail": {
-    "prefix": "detail",
-    "body": "<details>\n\t<summary>$1</summary>\n\t$2\n</details>$0",
-    "description": "Insert spoiler"
+  "Insert table": {
+    "prefix": "table",
+    "body": [
+      "| ${1:Column1}  | ${2:Column2}   | ${3:Column3}   |",
+      "|-------------- | -------------- | -------------- |",
+      "| ${4:Item1}    | ${5:Item1}     | ${6:Item1}     |",
+      "${0}"
+    ],
+    "description": "Insert table with 2 rows and 3 columns. First row is heading."
   }
 }

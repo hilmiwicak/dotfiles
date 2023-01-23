@@ -142,8 +142,6 @@ nmap <leader>s<> F<ldl,2dl
 vmap <leader>s( S(ldlh%dh
 vmap <leader>s{ S{ldlh%dh
 vmap <leader>s[ S[ldlh%dh
-nmap <leader>s" cs'"
-nmap <leader>s' cs"'
 
 " undotree
 map <silent> <leader>u :UndotreeToggle<CR>:UndotreeFocus<CR>
@@ -292,7 +290,8 @@ xmap X "+ygvd
 map <leader><leader> @q
 
 " clear last used search
-map <silent> <leader>// :let@/ = ""<CR>
+" map <silent> <leader>// :let@/ = ""<CR>
+map <silent> <leader>// :nohl<CR>
 
 " search selection
 xmap <leader>/s :g/\%V
@@ -306,5 +305,10 @@ nmap dg[ vi[yda[P
 nmap dg{ vi{yda{P
 nmap dg< vi<yda<P
 
-nmap <leader>gl :tabnew<Bar>read !git lg
+function! MyGitLog()
+    normal :tabnew|read !git lg
+    setlocal nomodifiable
+endfunction
+
+nmap <silent> <leader>gl :call MyGitLog()<CR>
 nmap <leader>gs :!git status

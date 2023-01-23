@@ -13,6 +13,19 @@
     "snippets": [
       {
         "language": [
+          "blade",
+          "html"
+        ],
+        "path": "./html.json"
+      },
+      {
+        "language": [
+          "blade"
+        ],
+        "path": "./laravel.json"
+      },
+      {
+        "language": [
           "javascript",
           "javascriptreact",
           "html"
