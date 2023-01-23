@@ -1,1 +1,3 @@
 set bell-style none
+"\ew": unix-word-rubout
+"\eW": kill-word
