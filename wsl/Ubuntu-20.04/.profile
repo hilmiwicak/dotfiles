@@ -44,6 +44,10 @@ shopt -s histappend
 # After each command, append to the history file and reread it
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
+# lsp bin ~ lsp local
+export PATH=$PATH:~/.local/bin/mybin
+export PATH=$PATH:~/.local/bin/mybin/lsp
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists

@@ -6,6 +6,9 @@ My personal dotfiles / settings for various tools I use.
 ```
 1. WSL Ubuntu 20.04 LTS  
 ├── bash  
+|   ├── bashrc
+|   ├── lesskey
+|   └── inputrc
 ├── tmux  
 ├── git alias lg  
 └── neovim  
@@ -13,6 +16,7 @@ My personal dotfiles / settings for various tools I use.
 2. windows  
 ├── windows-terminal  
 |   └── settings.json  
+├── easy window switcher  
 ├── init.vim  
 ├── smarttaskbar  
 ├── switcheroo  
