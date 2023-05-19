@@ -22,11 +22,14 @@ endif
 let mapleader = " "
 
 call plug#begin('/home/wicak/.local/share/nvim/data/plugged')
+Plug 'github/copilot.vim'
 Plug 'mattn/emmet-vim'
 Plug 'jwalton512/vim-blade'
 Plug 'junegunn/vim-plug'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-surround'
+
+" Plug 'alanfortlink/blackjack.nvim'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
@@ -41,8 +44,9 @@ Plug 'windwp/nvim-ts-autotag'
 Plug 'numToStr/Comment.nvim'
 
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-Plug 'marko-cerovac/material.nvim'
+Plug 'rmehri01/onenord.nvim', { 'branch': 'main' }
 
+Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
@@ -55,10 +59,14 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'sbdchd/neoformat'
 Plug 'shortcuts/no-neck-pain.nvim'
 Plug 'pwntester/octo.nvim'
-Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'mbbill/undotree'
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'tamton-aquib/zone.nvim'
+
+" try these later
+" https://github.com/kevinhwang91/nvim-ufo
+" https://github.com/stevearc/oil.nvim
 call plug#end()
 
 " netrw
@@ -76,7 +84,9 @@ map <leader>de :DiffviewToggleFiles<CR>
 
 " diagnostics and telescope
 " diagnostics
-map <silent> <leader>lr :lua vim.lsp.buf.rename()<CR>
+map <silent> <M-]> :lua require('telescope.builtin').lsp_definitions()<CR>
+map <silent> <leader>lr :lua require('telescope.builtin').lsp_references()<CR>
+map <silent> <leader>ln :lua vim.lsp.buf.rename()<CR>
 map <silent> <leader>ll :lua vim.lsp.buf.hover()<CR>
 map <silent> <leader>lc :lua vim.lsp.buf.code_action()<CR>
 map <silent> <leader>le :lua vim.diagnostic.open_float()<CR>
@@ -105,10 +115,13 @@ map <silent> <M-7> :lua require('harpoon.ui').nav_file(7)<CR>
 map <silent> <M-8> :lua require('harpoon.ui').nav_file(8)<CR>
 
 " hop
-map <silent> <leader>gww :HopWord<CR>
-map <silent> <leader>gwl :HopWordCurrentLine<CR>
-map <silent> <leader>gcc :HopChar1<CR>
-map <silent> <leader>gcl :HopChar1CurrentLine<CR>
+map <silent> <leader>gww <cmd>HopWordMW<CR>
+map <silent> <leader>gwl <cmd>HopWordCurrentLine<CR>
+map <silent> <leader>gcc <cmd>HopChar1MW<CR>
+map <silent> <leader>gcl <cmd>HopChar1CurrentLine<CR>
+
+" indentblankline
+map <silent> <leader>zi <cmd>IndentBlanklineToggle<CR>
 
 " emmet
 let g:user_emmet_leader_key='<M-m>'
@@ -126,7 +139,6 @@ let g:user_emmet_settings = {
 map <silent> <M-E> :NvimTreeOpen %:p:h<CR>
 map <silent> <M-e>e :NvimTreeToggle<CR>
 map <silent> <M-e>f :NvimTreeFindFile<CR>
-map <silent> <M-e>r :NvimTreeRefresh<CR>
 
 " neoformat
 " Formaters I've downloaded for neoformat
@@ -137,11 +149,11 @@ map <silent> <M-e>r :NvimTreeRefresh<CR>
 map <silent> <leader>zn :NoNeckPain<CR>
 
 " surround
-vmap <leader>s<> S<>f>dl;hvhd
-nmap <leader>s<> F<ldl,2dl
-vmap <leader>s( S(ldlh%dh
-vmap <leader>s{ S{ldlh%dh
-vmap <leader>s[ S[ldlh%dh
+vmap <leader>S<> S<>f>dl;hvhd
+nmap <leader>S<> F<ldl,2dl
+vmap <leader>S( S(ldlh%dh
+vmap <leader>S{ S{ldlh%dh
+vmap <leader>S[ S[ldlh%dh
 
 " undotree
 map <silent> <leader>u :UndotreeToggle<CR>:UndotreeFocus<CR>
@@ -226,8 +238,17 @@ map <expr> <leader>zf &foldmethod == 'manual' ? ':set foldmethod=marker<CR>' : '
 command Ccd exe 'cd '.expand("%:h")
 command Tcd exe 'tcd '.expand("%:h")
 
-" go to definition
-map <M-]> 
+imap <M-w> 
+imap <M-W> lce
+
+nmap <M-;> 
+vmap <M-;> 
+imap <M-;> 
+omap <M-;> 
+lmap <M-;> 
+tmap <M-;> 
+
+imap <M-o> 
 
 " alternate file
 map <M-[> 
@@ -237,6 +258,8 @@ xmap <M-j> :m '>+1<CR>gv=gv
 xmap <M-k> :m '<-2<CR>gv=gv
 
 " copy and paste below or above text
+nmap <M-K> V:t '><CR>gv=gv
+nmap <M-J> V:t '<-1<CR>gv=gv
 xmap <M-K> :t '><CR>gv=gv
 xmap <M-J> :t '<-1<CR>gv=gv
 
@@ -271,27 +294,27 @@ xnoremap s "_s
 xnoremap S "_S
 
 " scroll up and down 
-nmap K <C-u>
-xmap K <C-u>
-nmap J <C-d>
-vmap J <C-d>
+nnoremap K <C-u>
+vnoremap K <C-u>
+nnoremap J <C-d>
+vnoremap J <C-d>
 
 " move window up and down
 nmap <M-j> 
 nmap <M-k> 
 
 " yank & paste from/into windows clipboard
-xmap Y "+y
+xnoremap Y "+y
 nmap <leader>p "+p
 nmap <leader>P "+P
-xmap X "+ygvd
+xnoremap X "+ygvd
 
 " remap for easier macro
 map <leader><leader> @q
 
 " clear last used search
 " map <silent> <leader>// :let@/ = ""<CR>
-map <silent> <leader>// :nohl<CR>
+noremap <silent> ? :nohl<CR>
 
 " search selection
 xmap <leader>/s :g/\%V
@@ -299,16 +322,21 @@ xmap <leader>/s :g/\%V
 " subtitute selection
 map <leader>ss :s/\%V
 
-" shortcut to delete parantheses / brackets
-nmap dg( vi(yda(P
-nmap dg[ vi[yda[P
-nmap dg{ vi{yda{P
-nmap dg< vi<yda<P
+" remove (), {}, [] except the text inside
+nmap <leader>s( vi(xdhdlP
+nmap <leader>s{ vi{xdhdlP
+nmap <leader>s[ vi[xdhdlP
+nmap <leader>s" vi"xdhdlP
+nmap <leader>s' vi'xdhdlP
 
-function! MyGitLog()
+function! Gl()
     normal :tabnew|read !git lg
     setlocal nomodifiable
 endfunction
 
-nmap <silent> <leader>gl :call MyGitLog()<CR>
-nmap <leader>gs :!git status
+function! Gs()
+    normal :!git status
+endfunction
+
+command Gs call Gs()
+command Gl call Gl()

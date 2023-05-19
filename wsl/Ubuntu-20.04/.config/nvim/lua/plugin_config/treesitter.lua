@@ -1,6 +1,10 @@
+-- treesitter config
+local treesitter_parser_dir = vim.fn.stdpath("data") .. "/parsers"
+vim.opt.runtimepath:append { treesitter_parser_dir }
+
 require("nvim-treesitter.configs").setup({
-  parser_install_dir = "/home/wicak/.local/share/nvim/data/parsers",
-	ensure_installed = { "bash", "c", "css", "dockerfile", "go", "html", "javascript", "lua", "markdown", "php", "typescript", "yaml", },
+  parser_install_dir = vim.fn.stdpath("data") .. "/parsers",
+	ensure_installed = { "bash", "c", "css", "dockerfile", "go", "html", "javascript", "lua", "latex", "markdown", "php", "regex", "typescript", "yaml", },
 	sync_install = false,
 	auto_install = false,
 	highlight = {
@@ -19,10 +23,10 @@ require("nvim-treesitter.configs").setup({
 	incremental_selection = {
 		enable = true,
 		keymaps = {
-			init_selection = "<M-i>i",
-			scope_incremental = "<M-i>s",
-			node_incremental = "<M-i>n",
-			node_decremental = "<M-i>N",
+			init_selection = "<M-r>i",
+			scope_incremental = "<M-r>s",
+			node_incremental = "<M-r>n",
+			node_decremental = "<M-r>N",
 		},
 	},
 	-- textobjects = {

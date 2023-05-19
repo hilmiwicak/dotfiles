@@ -658,7 +658,7 @@
       "cv",
       "console"
     ],
-    "body": "console.log('${1}:', ${1});"
+    "body": "console.log(\"${1}:\", ${1});"
   },
   "console.error": {
     "prefix": "ce",

@@ -1,0 +1,52 @@
+call plug#begin('/home/wicak/.local/share/nvim/data/plugged')
+Plug 'github/copilot.vim'
+Plug 'mattn/emmet-vim'
+Plug 'jwalton512/vim-blade'
+Plug 'junegunn/vim-plug'
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-surround'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-path'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'L3MON4D3/LuaSnip'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'windwp/nvim-autopairs'
+Plug 'windwp/nvim-ts-autotag'
+Plug 'numToStr/Comment.nvim'
+
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'rmehri01/onenord.nvim', { 'branch': 'main' }
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'
+Plug 'nvim-telescope/telescope-ui-select.nvim'
+Plug 'ThePrimeagen/harpoon'
+
+Plug 'sindrets/diffview.nvim'
+Plug 'phaazon/hop.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'sbdchd/neoformat'
+Plug 'shortcuts/no-neck-pain.nvim'
+Plug 'pwntester/octo.nvim'
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'mbbill/undotree'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'tamton-aquib/zone.nvim'
+call plug#end()
+
+" try these later
+" https://github.com/willothy/flatten.nvim
+" https://github.com/kevinhwang91/nvim-ufo
+" https://github.com/stevearc/oil.nvim
+" https://github.com/bennypowers/nvim-regexplainer
+" https://old.reddit.com/r/neovim/comments/tfkxll/how_to_collaborate_code/
+
+lua require('init')
+command Ccd exe 'cd '.expand("%:h")
+command Tcd exe 'tcd '.expand("%:h")

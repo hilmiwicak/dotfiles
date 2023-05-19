@@ -1,0 +1,5 @@
+require("core.options")
+require("plugin_config")
+require("core.keymap")
+require("core.snippet")
+require("core.theme")
