@@ -1,14 +1,21 @@
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+  *) return;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
-HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+
+# share history across sessions
+export PROMPT_COMMAND="history -a; history -c; history -r"
+# export PROMPT_COMMAND="history -a; history -n"
+
+# custom prompt
+PS1="\n\u | \w\n> "
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=99999
@@ -18,9 +25,12 @@ HISTFILESIZE=100000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# xterm-256 color
+# export TERM=xterm-256color
+
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+  xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -29,8 +39,11 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # Alias definitions.
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  . ~/.bash_aliases
 fi
+
+# source fzf bash
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -48,50 +61,56 @@ bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
 
 # advanced change directory
-function d () 
-{ 
-    local hnum=16;
-    local new_dir index dir cnt;
-    # $# is showing how many arguments are there
-    if ! [ $# -eq 0 ]; then
-        if [[ $# -eq 2 && $1 = "--" ]]; then
-            shift;
-        else
-            if ! { 
-                [ $# -eq 1 ] && [[ $1 =~ ^(-[0-9]{,2}|-|--|[^-].*)$ ]]
-            }; then
-                builtin cd "$@";
-                return;
-            fi;
-        fi;
-    fi;
-    [ "$1" = "--" ] && { 
-        dirs -v;
-        return
-    };
-    new_dir=${1:-$HOME};
-    if [[ "$new_dir" =~ ^-[0-9]{,2}$ ]]; then
-        index=${new_dir:1};
-        if [ -z "$index" ]; then
-            new_dir=$OLDPWD;
-        else
-            new_dir=$(dirs -l +$index) || return;
-        fi;
-    fi;
-    pushd -- "$new_dir" > /dev/null || return;
-    popd -n +$hnum &> /dev/null || true;
-    new_dir=$PWD cnt=1;
-    while dir=$(dirs -l +$cnt 2> /dev/null); do
-        if [ "$dir" = "$new_dir" ]; then
-            popd -n +$cnt > /dev/null;
-            continue;
-        fi;
-        let cnt++;
-    done
-}
+function d() {
+  local hnum=16
+  local new_dir index dir cnt
 
-# custom prompt
-PS1="\n\u | \w\n> "
+  # $# is showing how many arguments are there
+  if ! [ $# -eq 0 ]; then
+    if [[ $# -eq 2 && ($1 = "--" || $1 = "-c") ]]; then
+      shift
+    else
+      if ! {
+        [ $# -eq 1 ] && [[ $1 =~ ^(-[0-9]{,2}|-|--|-c|[^-].*)$ ]]
+      }; then
+        builtin cd "$@"
+        return
+      fi
+    fi
+  fi
+
+  case "$1" in
+  --)
+    dirs -v
+    return
+    ;;
+  -c)
+    echo "cleaning dirs stack"
+    dirs -c
+    return
+    ;;
+  esac
+
+  new_dir=${1:-$HOME}
+  if [[ "$new_dir" =~ ^-[0-9]{,2}$ ]]; then
+    index=${new_dir:1}
+    if [ -z "$index" ]; then
+      new_dir=$OLDPWD
+    else
+      new_dir=$(dirs -l +$index) || return
+    fi
+  fi
+  pushd -- "$new_dir" >/dev/null || return
+  popd -n +$hnum &>/dev/null || true
+  new_dir=$PWD cnt=1
+  while dir=$(dirs -l +$cnt 2>/dev/null); do
+    if [ "$dir" = "$new_dir" ]; then
+      popd -n +$cnt >/dev/null
+      continue
+    fi
+    let cnt++
+  done
+}
 
 # load additional ssh
 eval "$(ssh-agent -s)" >> /dev/null
