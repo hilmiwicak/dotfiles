@@ -25,9 +25,6 @@ HISTFILESIZE=100000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# xterm-256 color
-# export TERM=xterm-256color
-
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
   xterm-color|*-256color) color_prompt=yes;;
@@ -42,8 +39,49 @@ if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
-# source fzf bash
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_OPTS='--bind alt-j:down,alt-k:up,alt-w:backward-kill-word'
+
+# source keybind only if there is .fzf dir
+if [ -d "$HOME/.fzf" ]; then
+  if [ -f "$HOME/.fzf/keybind.bash" ]; then
+    # export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=never -g "!{node_modules,vendor,.git}"'
+    export FZF_CTRL_T_COMMAND='fd --type file --type directory --hidden --no-ignore --follow --exclude .git'
+    export FZF_ALT_C_COMMAND='fd --type directory --hidden --no-ignore --follow --exclude .git'
+
+    source "$HOME/.fzf/keybind.bash"
+  fi
+
+  if [ -f "$HOME/.fzf/completion.bash" ]; then
+    export FZF_COMPLETION_TRIGGER='@'
+    export FZF_COMPLETION_DIR_COMMANDS='d'
+
+    _fzf_compgen_path() {
+      fd --hidden --follow --exclude ".git" . "$1"
+    }
+
+    # Use fd to generate the list for directory completion
+    _fzf_compgen_dir() {
+      fd --type d --hidden --follow --exclude ".git" . "$1"
+    }
+
+    # Advanced customization of fzf options via _fzf_comprun function
+    # - The first argument to the function is the name of the command.
+    # - You should make sure to pass the rest of the arguments to fzf.
+    _fzf_comprun() {
+      local command=$1
+      shift
+
+      case "$command" in
+      cd | d) fzf --preview 'tree -C {} | head -200' "$@" ;;
+      export | unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+      ssh) fzf --preview 'dig {}' "$@" ;;
+      *) fzf --preview 'bat -n --color=always {}' "$@" ;;
+      esac
+    }
+
+    source "$HOME/.fzf/completion.bash"
+  fi
+fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

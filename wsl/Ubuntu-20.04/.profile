@@ -13,20 +13,20 @@ export SUDO_EDITOR="nvim"
 alias "sudoedit"='function _sudoedit(){ sudo -e "$1"; };_sudoedit'
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-# set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
 # GO
 export PATH=$PATH:/usr/local/go/bin
+export GOPATH="$HOME/.go"
+export PATH=$PATH:"$GOPATH/bin"
 
 # CARGO / RUST
 . "$HOME/.cargo/env"
+
+# NIM
+export PATH="$HOME/.nimble/bin":$PATH
 
 # nvm shenanigans
 export NVM_DIR="$HOME/.nvm"
@@ -36,22 +36,14 @@ export NVM_DIR="$HOME/.nvm"
 # laravel sail alias
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
-# Avoid history duplicates
-HISTCONTROL=ignoredups:erasedups
-# When the shell exits, append to the history file instead of overwriting it
-shopt -s histappend
-
-# After each command, append to the history file and reread it
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
-
 # lsp bin ~ lsp local
-export PATH=$PATH:~/.local/bin/mybin
-export PATH=$PATH:~/.local/bin/mybin/lsp
+export PATH=$PATH:"$HOME/.local/bin/mybin"
+export PATH=$PATH:"$HOME/.local/bin/mybin/lsp"
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
+  # include .bashrc if it exists
+  if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+  fi
 fi
