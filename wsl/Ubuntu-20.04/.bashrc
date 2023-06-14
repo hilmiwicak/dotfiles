@@ -1,25 +1,34 @@
 # If not running interactively, don't do anything
 case $- in
-  *i*) ;;
-  *) return;;
+*i*) ;;
+*) return ;;
 esac
+
+# append to the history file, don't overwrite it
+# shopt -s histappend
 
 # don't put duplicate lines or lines starting with space in the history.
 export HISTCONTROL=ignoreboth:erasedups
 
-# append to the history file, don't overwrite it
-shopt -s histappend
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1) also HISTFILE
+export HISTSIZE=99999
+export HISTFILESIZE=100000
+export HISTFILE=~/.bash_history
+
+# removes duplicate entries from history
+function removeHistoryDuplicate() {
+  tac $HISTFILE | awk '!x[$0]++' | tac >/tmp/bash_history && mv /tmp/bash_history $HISTFILE
+}
+
+# export the function so it can be used in PROMPT_COMMAND
+export -f removeHistoryDuplicate
 
 # share history across sessions
-export PROMPT_COMMAND="history -a; history -c; history -r"
+export PROMPT_COMMAND="( history -a; history -c; history -r ) && removeHistoryDuplicate"
 # export PROMPT_COMMAND="history -a; history -n"
 
 # custom prompt
 PS1="\n\u | \w\n> "
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=99999
-HISTFILESIZE=100000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -27,7 +36,7 @@ shopt -s checkwinsize
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-  xterm-color|*-256color) color_prompt=yes;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -37,50 +46,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # Alias definitions.
 if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
-fi
-
-export FZF_DEFAULT_OPTS='--bind alt-j:down,alt-k:up,alt-w:backward-kill-word'
-
-# source keybind only if there is .fzf dir
-if [ -d "$HOME/.fzf" ]; then
-  if [ -f "$HOME/.fzf/keybind.bash" ]; then
-    # export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=never -g "!{node_modules,vendor,.git}"'
-    export FZF_CTRL_T_COMMAND='fd --type file --type directory --hidden --no-ignore --follow --exclude .git'
-    export FZF_ALT_C_COMMAND='fd --type directory --hidden --no-ignore --follow --exclude .git'
-
-    source "$HOME/.fzf/keybind.bash"
-  fi
-
-  if [ -f "$HOME/.fzf/completion.bash" ]; then
-    export FZF_COMPLETION_TRIGGER='@'
-    export FZF_COMPLETION_DIR_COMMANDS='d'
-
-    _fzf_compgen_path() {
-      fd --hidden --follow --exclude ".git" . "$1"
-    }
-
-    # Use fd to generate the list for directory completion
-    _fzf_compgen_dir() {
-      fd --type d --hidden --follow --exclude ".git" . "$1"
-    }
-
-    # Advanced customization of fzf options via _fzf_comprun function
-    # - The first argument to the function is the name of the command.
-    # - You should make sure to pass the rest of the arguments to fzf.
-    _fzf_comprun() {
-      local command=$1
-      shift
-
-      case "$command" in
-      cd | d) fzf --preview 'tree -C {} | head -200' "$@" ;;
-      export | unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
-      ssh) fzf --preview 'dig {}' "$@" ;;
-      *) fzf --preview 'bat -n --color=always {}' "$@" ;;
-      esac
-    }
-
-    source "$HOME/.fzf/completion.bash"
-  fi
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -150,11 +115,6 @@ function d() {
   done
 }
 
-# load additional ssh
-eval "$(ssh-agent -s)" >> /dev/null
-ssh-add ~/.ssh/id_rsa_github &> /dev/null
-ssh-add ~/.ssh/id_rsa_gteam &> /dev/null
-
 # print out settings directory
 # ds() {
 #   echo '/mnt/c/Users/Hilmi/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
@@ -162,15 +122,15 @@ ssh-add ~/.ssh/id_rsa_gteam &> /dev/null
 # }
 
 # directory aliases
-dh () {
+dh() {
   d /mnt/c/Users/Hilmi/$@
 }
 
-d1 () {
+d1() {
   d /mnt/c/Users/Hilmi/dev-projects/$@
 }
 
-d2 () {
+d2() {
   d /mnt/c/Users/Hilmi/Documents/Skripsi/$@
 }
 
@@ -181,3 +141,49 @@ d3() {
 dx() {
   d /mnt/c/xampp/htdocs/$@
 }
+
+export FZF_DEFAULT_OPTS='--bind alt-j:down,alt-k:up,alt-w:backward-kill-word'
+
+# source keybind only if there is .fzf dir
+if [ -d "$HOME/.fzf" ]; then
+  if [ -f "$HOME/.fzf/keybind.bash" ]; then
+    # export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=never -g "!{node_modules,vendor,.git}"'
+    export FZF_CTRL_T_COMMAND='fd --type file --type directory --hidden --no-ignore --follow --exclude .git'
+    export FZF_ALT_C_COMMAND='fd --type directory --hidden --no-ignore --follow --exclude .git'
+
+    source "$HOME/.fzf/keybind.bash"
+  fi
+
+  if [ -f "$HOME/.fzf/completion.bash" ]; then
+    export FZF_COMPLETION_TRIGGER='@'
+
+    _fzf_compgen_path() {
+      fd --hidden --follow --exclude ".git" . "$1"
+    }
+
+    # Use fd to generate the list for directory completion
+    _fzf_compgen_dir() {
+      fd --type d --hidden --follow --exclude ".git" . "$1"
+    }
+
+    # Advanced customization of fzf options via _fzf_comprun function
+    # - The first argument to the function is the name of the command.
+    # - You should make sure to pass the rest of the arguments to fzf.
+    _fzf_comprun() {
+      local command=$1
+      shift
+
+      case "$command" in
+      d) fzf --preview 'tree -C {} | head -200' "$@" ;;
+      export | unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+      ssh) fzf --preview 'dig {}' "$@" ;;
+      *) fzf --preview 'bat -n --color=always {}' "$@" ;;
+      esac
+    }
+
+    source "$HOME/.fzf/completion.bash"
+
+    _fzf_setup_completion dir d
+    _fzf_setup_completion path pdfgrep rg
+  fi
+fi
