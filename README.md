@@ -17,6 +17,7 @@ My personal dotfiles / settings for various tools I use.
 ├── windows-terminal  
 |   └── settings.json  
 ├── easy window switcher  
+├── hide mouse cursor on idle
 ├── init.vim  
 ├── smarttaskbar  
 ├── switcheroo  
