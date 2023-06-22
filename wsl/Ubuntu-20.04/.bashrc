@@ -16,19 +16,21 @@ export HISTFILESIZE=100000
 export HISTFILE=~/.bash_history
 
 # removes duplicate entries from history
-function removeHistoryDuplicate() {
-  tac $HISTFILE | awk '!x[$0]++' | tac >/tmp/bash_history && mv /tmp/bash_history $HISTFILE
+removeHistoryDuplicate() {
+  tac $HISTFILE | awk '!x[$0]++' | tac > /tmp/bash_history
+  mv /tmp/bash_history $HISTFILE
 }
 
 # export the function so it can be used in PROMPT_COMMAND
 export -f removeHistoryDuplicate
 
 # share history across sessions
-export PROMPT_COMMAND="( history -a; history -c; history -r ) && removeHistoryDuplicate"
-# export PROMPT_COMMAND="history -a; history -n"
+# for now it's not working
+# removeHistoryDuplicate runs on the next command
+export PROMPT_COMMAND="history -a; history -c; history -r && removeHistoryDuplicate"
 
 # custom prompt
-PS1="\n\u | \w\n> "
+PS1='\n\u | \s | \w | $(__git_ps1 "(%s)") \n\$ '
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -45,7 +47,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # Alias definitions.
 if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
+  source ~/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -53,9 +55,9 @@ fi
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
+    source /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+    source /etc/bash_completion
   fi
 fi
 
@@ -142,19 +144,24 @@ dx() {
   d /mnt/c/xampp/htdocs/$@
 }
 
+# custom for git completion
+if [ -f "$HOME/.config/git/git-completion.bash" ]; then
+  source "$HOME/.config/git/git-completion.bash"
+fi
+
 export FZF_DEFAULT_OPTS='--bind alt-j:down,alt-k:up,alt-w:backward-kill-word'
 
 # source keybind only if there is .fzf dir
-if [ -d "$HOME/.fzf" ]; then
-  if [ -f "$HOME/.fzf/keybind.bash" ]; then
+if [ -d "$HOME/.config/fzf" ]; then
+  if [ -f "$HOME/.config/fzf/keybind.bash" ]; then
     # export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=never -g "!{node_modules,vendor,.git}"'
     export FZF_CTRL_T_COMMAND='fd --type file --type directory --hidden --no-ignore --follow --exclude .git'
     export FZF_ALT_C_COMMAND='fd --type directory --hidden --no-ignore --follow --exclude .git'
 
-    source "$HOME/.fzf/keybind.bash"
+    source "$HOME/.config/fzf/keybind.bash" 
   fi
 
-  if [ -f "$HOME/.fzf/completion.bash" ]; then
+  if [ -f "$HOME/.config/fzf/completion.bash" ]; then
     export FZF_COMPLETION_TRIGGER='@'
 
     _fzf_compgen_path() {
@@ -181,9 +188,13 @@ if [ -d "$HOME/.fzf" ]; then
       esac
     }
 
-    source "$HOME/.fzf/completion.bash"
+    source "$HOME/.config/fzf/completion.bash" 
 
     _fzf_setup_completion dir d
-    _fzf_setup_completion path pdfgrep rg
+    _fzf_setup_completion path pdfgrep rg trash-put tp trash-restore te trash-list tl trash-rm tr trash-empty td
   fi
+fi
+
+if ! [ -n "$TMUX" ]; then
+  tmux new-session -A -s main
 fi

@@ -23,11 +23,24 @@ alias ll='ls -alF --color=auto'
 alias la='ls -A --color=auto'
 alias ld='ls -d */ .*/ --color=auto'
 
-alias tn='tmux new -s prog'
-alias ta='tmux a'
+alias rm='echo "the command rm is disabled, use trash-put instead"'
+alias tp='trash-put'
+alias tl='trash-list'
+alias te='trash-restore'
+alias tr='trash-rm'
+alias td='trash-empty'
+
+# there are also alias in .gitconfig
+alias g='git'
+alias gs='git status'
+alias gl='git lg'
+
+alias tm='tmux'
+alias tmn='tmux new -s prog'
+alias tma='tmux a'
 alias cl='clear'
-alias tcl='cl && tmux clear-history'
-alias tccl='d -c && cl && tmux clear-history'
+alias tmcl='cl && tmux clear-history'
+alias tmccl='d -c && cl && tmux clear-history'
 
 # open selected file / directory in default windows file explorer
 alias see='/mnt/c/Windows/explorer.exe'
