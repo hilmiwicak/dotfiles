@@ -1,10 +1,13 @@
 local lspconfig = require("lspconfig")
--- local util = require("lspconfig/util")
+local util = require("lspconfig/util")
 
 -- NEOVIM LSP AUTOCOMPLETION
 --local snippetCompletionCapabilities = vim.lsp.protocol.make_client_capabilities()
 --snippetCompletionCapabilities.textDocument.completion.completionItem.snippetSupport = true
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+lspconfig.util.default_config = vim.tbl_deep_extend("force", lspconfig.util.default_config, {
+	capabilities = capabilities,
+})
 
 -- Downloaded the vscode-language-server from npm
 -- lspconfig.eslint.setup({
@@ -80,43 +83,39 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Downloaded from bashls
 lspconfig.bashls.setup({
-  capabilities = capabilities
+	capabilities = capabilities,
+})
+
+-- Downloaded from dotnet.exe
+lspconfig.csharp_ls.setup({
+	capabilities = capabilities,
 })
 
 -- Downloaded from npm
 lspconfig.emmet_ls.setup({
-  capabilities = capabilities
+	capabilities = capabilities,
 })
 
 -- Installed with go install
 lspconfig.gopls.setup({
-  capabilities = capabilities
+	capabilities = capabilities,
 })
 
 -- Downloaded from vscode-langservers-extracted (npm)
-lspconfig.html.setup {
-  filetypes = { "php", "html", "css", "javascript" },
-  capabilities = capabilities,
-}
+lspconfig.html.setup({
+	filetypes = { "html" },
+	capabilities = capabilities,
+})
 
 -- Downloaded from npm
 lspconfig.intelephense.setup({
-  -- filetypes = { "php", "blade" },
-  capabilities = capabilities
+	filetypes = { "php", "blade" },
+	capabilities = capabilities,
 })
 
 -- Downloaded the vscode-language-server from npm
 lspconfig.jsonls.setup({
-  capabilities = capabilities
-})
-
--- Downloaded from marksman's github releases
-lspconfig.marksman.setup({
-  capabilities = capabilities
-})
-
-lspconfig.nimls.setup({
-  capabilities = capabilities
+	capabilities = capabilities,
 })
 
 -- Downloaded from lua-language-server releases
@@ -139,15 +138,108 @@ lspconfig.lua_ls.setup({
 			},
 		},
 	},
-  capabilities = capabilities
+	capabilities = capabilities,
+})
+
+-- Downloaded from marksman's github releases
+lspconfig.marksman.setup({
+	capabilities = capabilities,
+})
+
+lspconfig.nimls.setup({
+	capabilities = capabilities,
+})
+
+-- Downloaded from pip
+-- lspconfig.jedi_language_server.setup({
+--   cmd = { "jedi-language-server" },
+--   filetypes = { "python" },
+--   root_dir = util.root_pattern(".git", "venv", ".venv", "main.py"),
+--   single_file_support = true,
+--   settings = {
+--     jedi = {
+--       workspace = {
+--         extraPaths = { "./.venv" },
+--         environmentPath = "./.venv",
+--       },
+--     },
+--   },
+--   capabilities = capabilities,
+-- })
+
+-- Downloaded from pip
+-- lspconfig.pylsp.setup({
+--   cmd = { "pylsp" },
+--   filetypes = { "python" },
+--   root_dir = util.root_pattern(".git", "venv", ".venv", "main.py"),
+--   single_file_support = true,
+--   -- settings = {
+--   -- 	pylsp = {
+--   -- 		plugins = {
+--   -- 			pycodestyle = {
+--   -- 				ignore = { "W391" },
+--   -- 				maxLineLength = 100,
+--   -- 			},
+--   -- 		},
+--   -- 	},
+--   -- },
+--   capabilities = capabilities,
+-- })
+
+-- npm install
+lspconfig.pyright.setup({
+	cmd = { "pyright-langserver", "--stdio" },
+	filetypes = { "python" },
+	root_dir = util.root_pattern(".git", "venv", ".venv", "main.py"),
+	single_file_support = true,
+	settings = {
+		python = {
+			analysis = {
+				autoSearchPaths = true,
+				diagnosticMode = "workspace",
+				useLibraryCodeForTypes = false,
+			},
+      venvPath = ".venv"
+		},
+	},
+	capabilities = capabilities,
+  flags = {
+    exit_timeout = 0,
+  },
+})
+
+-- Downloaded the binary from rust-analyzer releases & then adding it to the rustup toolchain
+lspconfig.rust_analyzer.setup({
+	capabilities = capabilities,
+	settings = {
+		["rust-analyzer"] = {
+			imports = {
+				granularity = {
+					group = "module",
+				},
+				prefix = "self",
+			},
+			cargo = {
+				buildScripts = {
+					enable = true,
+				},
+			},
+			procMacro = {
+				enable = true,
+			},
+			diagnostics = {
+				enable = true,
+			},
+		},
+	},
 })
 
 lspconfig.texlab.setup({
-  capabilities = capabilities
+	capabilities = capabilities,
 })
 
 -- Downloaded from npm
 lspconfig.tsserver.setup({
-  filetypes = { "javascript", "typescript", "typescriptreact", "typescript.tsx" },
-  capabilities = capabilities
+	filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "typescript.tsx" },
+	capabilities = capabilities,
 })

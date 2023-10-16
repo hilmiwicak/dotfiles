@@ -1,12 +1,15 @@
+local cmp = require("cmp")
 local ls = require("luasnip")
 local loader = require("luasnip.loaders.from_vscode")
+local snippet_path = vim.fn.stdpath("config") .. "/snippets"
+
+-- loader.load({ paths = {snippet_path} })
 
 loader.lazy_load()
-loader.lazy_load({ paths = {"./snippets"} })
+loader.lazy_load({ paths = { snippet_path } })
 
-ls.filetype_extend("all", {"_"})
+ls.filetype_extend("all", { "_" })
 
-local cmp = require("cmp")
 cmp.setup({
 	snippet = {
 		expand = function(args)
@@ -16,8 +19,19 @@ cmp.setup({
 	mapping = cmp.mapping.preset.insert({
 		["<M-j>"] = cmp.mapping.scroll_docs(4),
 		["<M-k>"] = cmp.mapping.scroll_docs(-4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
+		["<C-Space>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.close()
+			elseif not cmp.visible() then
+				cmp.complete()
+			else
+				fallback()
+			end
+		end),
+		-- ["<CR>"] = cmp.mapping.confirm(),
+		["<CR>"] = cmp.mapping.confirm{
+      select = false
+    },
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()

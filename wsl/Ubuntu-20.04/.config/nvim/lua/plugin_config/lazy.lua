@@ -3,12 +3,15 @@
 -- try these later
 -- correct lsp definition or reference for telescope
 --  https://old.reddit.com/r/neovim/comments/137lm2n/plugin_definitionorreferencesnvim/
+-- https://github.com/ray-x/lsp_signature.nvim
+-- https://github.com/mfussenegger/nvim-dap
+--  https://www.reddit.com/r/neovim/comments/y7dvva/typescript_debugging_in_neovim_with_nvimdap/
 -- https://github.com/adalessa/laravel.nvim
+-- https://github.com/jose-elias-alvarez/typescript.nvim
 -- https://github.com/bennypowers/nvim-regexplainer
 -- https://old.reddit.com/r/neovim/comments/tfkxll/how_to_collaborate_code/
--- https://github.com/willothy/flatten.nvim
+--  or https://github.com/nvim-telescope/telescope-file-browser.nvim
 -- https://github.com/kevinhwang91/nvim-ufo
--- https://github.com/stevearc/oil.nvim
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -35,18 +38,18 @@ require("lazy").setup({
 		},
 	},
 
-  -- vimscript plugins
+	-- vimscript plugins
 	{
 		"github/copilot.vim",
 		init = function()
-      require("plugin_config.copilot")
+			require("plugin_config.copilot")
 		end,
 	},
 	{
 		"mattn/emmet-vim",
 		ft = { "html", "php", "xml" },
 		init = function()
-      require("plugin_config.emmet")
+			require("plugin_config.emmet")
 		end,
 	},
 	{
@@ -59,8 +62,12 @@ require("lazy").setup({
 	{ "neovim/nvim-lspconfig" },
 	{
 		"KostkaBrukowa/definition-or-references.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
 		config = function()
-      require("plugin_config.definition-or-references")
+			require("plugin_config.definition-or-references")
 		end,
 	},
 	{
@@ -85,39 +92,43 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
 			"windwp/nvim-ts-autotag",
+			"windwp/nvim-autopairs",
+			"numToStr/Comment.nvim",
 		},
 		build = ":TSUpdate",
 	},
 	{
 		"windwp/nvim-autopairs",
 		config = function()
-      require("plugin_config.autopairs")
+			require("plugin_config.autopairs")
 		end,
 	},
 	{ "windwp/nvim-ts-autotag" },
 	{
 		"numToStr/Comment.nvim",
 		config = function()
-      require("plugin_config.comment")
+			require("plugin_config.comment")
 		end,
 	},
 
-  -- themes
+	-- themes
 	{ "catppuccin/nvim", as = "catppuccin", lazy = false },
 
-  -- telescope and extensions
+	-- telescope and extensions
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"nvim-telescope/telescope.nvim",
+		lazy = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
+			-- "kyazdani42/nvim-web-devicons",
 			"nvim-telescope/telescope-fzf-native.nvim",
 			"nvim-telescope/telescope-live-grep-args.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
-      "ThePrimeagen/harpoon",
+			"ThePrimeagen/harpoon",
 		},
 		config = function()
-      require("plugin_config.telescope")
+			require("plugin_config.telescope")
 		end,
 	},
 	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -125,64 +136,100 @@ require("lazy").setup({
 	{ "nvim-telescope/telescope-ui-select.nvim" },
 	{ "ThePrimeagen/harpoon" },
 
-  -- misc
+	-- almost as important as lsp and treesitter
+	-- list of formatters i've downloaded:
+	--  - prettier
+	--  - stylua
+	--  - shfmt
+	--  - autopep8
+	{
+		"sbdchd/neoformat",
+		init = function()
+			require("plugin_config.neoformat")
+		end,
+	},
 	{
 		"sindrets/diffview.nvim",
 		config = function()
-      require("plugin_config.diffview")
+			require("plugin_config.diffview")
+		end,
+	},
+	{
+		"niuiic/git-log.nvim",
+		dependencies = {
+			"niuiic/core.nvim",
+		},
+		config = function()
+      require("plugin_config.log")
 		end,
 	},
 	{
 		"phaazon/hop.nvim",
 		config = function()
-      require("plugin_config.hop")
+			require("plugin_config.hop")
 		end,
 	},
 	{ "lukas-reineke/indent-blankline.nvim" },
-	{ "sbdchd/neoformat" },
+	{
+		"kylechui/nvim-surround",
+		version = "*",
+		event = "VeryLazy",
+		config = function()
+      require("nvim-surround").setup()
+		end,
+	},
+	-- {
+	--   "nvim-tree/nvim-tree.lua",
+	--   -- dependencies = {
+	--   --   "kyazdani42/nvim-web-devicons",
+	--   -- },
+	--   config = function()
+	--     require("plugin_config.nvim-tree")
+	--   end,
+	-- },
+	-- {
+	-- 	"stevearc/oil.nvim",
+	--    lazy = false,
+	-- 	config = function()
+	-- 		require("plugin_config.oil")
+	-- 	end,
+	-- },
+	{
+		"echasnovski/mini.files",
+		config = function()
+			require("plugin_config.mini-files")
+		end,
+		version = false,
+	},
+	{
+		"mbbill/undotree",
+		config = function()
+			require("plugin_config.undotree")
+		end,
+	},
+	{
+		"pwntester/octo.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+		config = function()
+			require("plugin_config.octo")
+		end,
+	},
+	{ "tpope/vim-fugitive" },
+
+	-- misc
 	{
 		"shortcuts/no-neck-pain.nvim",
 		config = function()
 			require("no-neck-pain").setup()
 		end,
 	},
-	{
-		"kylechui/nvim-surround",
-		version = "*",
-		event = "VeryLazy",
-		config = function()
-			require("nvim-surround").setup()
-		end,
-	},
-	{
-		"nvim-tree/nvim-tree.lua",
-		-- dependencies = {
-		--   "kyazdani42/nvim-web-devicons",
-		-- },
-		config = function()
-			require("plugin_config.nvim-tree")
-		end,
-	},
-	{
-		"mbbill/undotree",
-		config = function()
-      require("plugin_config.undotree")
-		end,
-	},
 	-- {
 	--   "kyazdani42/nvim-web-devicons",
 	--   config = function()
-	--     require("nvim-web-devicons").setup({
-	--       override_by_extension = {
-	--         ["txt"] = {
-	--           icon = "",
-	--           color = "#89e051",
-	--           cterm_color = "113",
-	--           name = "Txt",
-	--         },
-	--       },
-	--     })
+	--     require("nvim-web-devicons").setup()
 	--   end,
 	-- },
-	{ "tamton-aquib/zone.nvim" },
 })

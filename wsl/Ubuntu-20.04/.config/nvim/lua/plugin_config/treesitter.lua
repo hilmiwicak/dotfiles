@@ -1,10 +1,27 @@
 -- treesitter config
 local treesitter_parser_dir = vim.fn.stdpath("data") .. "/parsers"
-vim.opt.runtimepath:append { treesitter_parser_dir }
+vim.opt.runtimepath:append({ treesitter_parser_dir })
 
 require("nvim-treesitter.configs").setup({
-  parser_install_dir = vim.fn.stdpath("data") .. "/parsers",
-	ensure_installed = { "bash", "c", "css", "dockerfile", "go", "html", "javascript", "lua", "latex", "markdown", "php", "regex", "typescript", "yaml", },
+	parser_install_dir = vim.fn.stdpath("data") .. "/parsers",
+	ensure_installed = {
+		"bash",
+		"c",
+		"css",
+		"dockerfile",
+		"go",
+		"html",
+		"javascript",
+		"lua",
+		"latex",
+		"markdown",
+		"php",
+    "python",
+		"regex",
+		"rust",
+		"typescript",
+		"yaml",
+	},
 	sync_install = false,
 	auto_install = false,
 	highlight = {
@@ -14,11 +31,18 @@ require("nvim-treesitter.configs").setup({
 		enable = true,
 	},
 	autotag = {
-    enable = true,
-    filetypes = {
-      "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "tsx","jsx",
-      "php", "blade"
-    }
+		enable = true,
+		filetypes = {
+			"html",
+			"javascript",
+			"typescript",
+			"javascriptreact",
+			"typescriptreact",
+			"tsx",
+			"jsx",
+			"php",
+			"blade",
+		},
 	},
 	incremental_selection = {
 		enable = true,

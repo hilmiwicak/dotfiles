@@ -1,15 +1,42 @@
-local telescope_action_layout = require("telescope.actions.layout")
+local actions = require("telescope.actions")
+local layout = require("telescope.actions.layout")
 
 require("telescope").setup({
   defaults = {
     initial_mode = "insert",
     mappings = {
       n = {
-        ["<M-/>"] = telescope_action_layout.toggle_preview,
+        ["<C-s>"] = actions.select_vertical,
+        ["<C-h>"] = actions.select_horizontal,
+        ["<C-v>"] = false,
+        ["<C-x>"] = false,
+        ["<M-?>"] = layout.toggle_preview,
+        ["<M-K>"] = actions.preview_scrolling_up,
+        ["<M-J>"] = actions.preview_scrolling_down,
       },
       i = {
-        ["<M-/>"] = telescope_action_layout.toggle_preview,
+        ["<C-s>"] = actions.select_vertical,
+        ["<C-h>"] = actions.select_horizontal,
+        ["<C-v>"] = false,
+        ["<C-x>"] = false,
+        ["<M-?>"] = layout.toggle_preview,
+        ["<M-j>"] = actions.move_selection_next,
+        ["<M-k>"] = actions.move_selection_previous,
+        ["<M-K>"] = actions.preview_scrolling_up,
+        ["<M-J>"] = actions.preview_scrolling_down,
       },
+    },
+    file_ignore_patterns = {
+      ".git/",
+    },
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
     },
     preview = {
       hide_on_startup = true,
