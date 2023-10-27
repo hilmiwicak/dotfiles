@@ -1,10 +1,8 @@
 local tel = require('telescope')
 local tel_builtin = require('telescope.builtin')
-local tel_custom = require('plugin_config.custom.telescope')
+local tel_custom = require('plugin_custom_mod.telescope')
 local harpoon_ui = require('harpoon.ui')
 local harpoon_mark = require('harpoon.mark')
-local hop = require('hop')
-local directions = require('hop.hint').HintDirection
 
 vim.keymap.set('n', '<leader>do', ':DiffviewOpen ')
 vim.keymap.set('n', '<leader>dc', '<cmd>DiffviewClose<CR>')
@@ -45,21 +43,9 @@ vim.keymap.set('n', '<M-6>', function() return harpoon_ui.nav_file(6) end)
 vim.keymap.set('n', '<M-7>', function() return harpoon_ui.nav_file(7) end)
 vim.keymap.set('n', '<M-8>', function() return harpoon_ui.nav_file(8) end)
 
-vim.keymap.set('', '<M-f>', '<cmd>HopWordMW<CR>')
-vim.keymap.set('', '<M-F>', '<cmd>HopChar1MW<CR>')
-
-vim.keymap.set('', 'f', function()
-  hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
-end, {remap=true})
-vim.keymap.set('', 'F', function()
-  hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
-end, {remap=true})
-vim.keymap.set('', 't', function()
-  hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
-end, {remap=true})
-vim.keymap.set('', 'T', function()
-  hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
-end, {remap=true})
+vim.keymap.set({"n", "x", "o"}, "<M-f>", "<Plug>(leap-forward-to)", { silent = true })
+vim.keymap.set({"n", "x", "o"}, "<M-F>", "<Plug>(leap-backward-to)", { silent = true })
+vim.keymap.set({"n", "x", "o"}, "gs", "<nop>")
 
 vim.keymap.set('n', '<leader>zi', '<cmd>IndentBlanklineToggle<CR>')
 
@@ -74,11 +60,6 @@ vim.keymap.set('n', '<leader>zi', '<cmd>IndentBlanklineToggle<CR>')
 --   },
 -- }
 -- vim.g.user_emmet_settings = user_emmet_settings
-
--- set keymap for oil.nvim
--- some other keymaps are in plugin_config.oil
--- vim.keymap.set('n', '<M-e>', function() return require('oil').toggle_float() end)
--- vim.keymap.set('n', '<M-E>', ':lua require("oil").open_float()')
 
 -- set keymap for MiniFiles.nvim
 vim.keymap.set('n', '<M-e>', '<cmd>lua MiniFiles.open()<CR>')
@@ -153,10 +134,10 @@ vim.keymap.set('i', '<M-p>', '"')
 
 vim.keymap.set('', '<M-/>', '<cmd>nohl<CR>', {remap = true})
 vim.keymap.set('i', '<M-/>', ':nohl<CR>', {remap = true, silent = true})
-vim.cmd([[
-  nnoremap <expr> n (v:searchforward ? 'n' : 'N')
-  nnoremap <expr> N (v:searchforward ? 'N' : 'n')
-]])
+-- vim.cmd([[
+--   nnoremap <expr> n (v:searchforward ? 'n' : 'N')
+--   nnoremap <expr> N (v:searchforward ? 'N' : 'n')
+-- ]])
 
 vim.keymap.set({'i', 'c'}, '<M-Left>', '<C-Left>')
 vim.keymap.set({'i', 'c'}, '<M-Right>', '<C-Right>')

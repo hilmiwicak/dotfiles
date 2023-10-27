@@ -39,24 +39,17 @@ require("lazy").setup({
 	},
 
 	-- vimscript plugins
-	{
-		"github/copilot.vim",
-		init = function()
-			require("plugin_config.copilot")
-		end,
-	},
+	{ "github/copilot.vim" },
 	{
 		"mattn/emmet-vim",
 		ft = { "html", "php", "xml" },
-		init = function()
-			require("plugin_config.emmet")
-		end,
 	},
 	{
 		"jwalton512/vim-blade",
 		ft = { "blade", "php" },
 	},
 	{ "mhinz/vim-signify" },
+	{ "sbdchd/neoformat", },
 
 	-- lsp, completion, and snippets
 	{ "neovim/nvim-lspconfig" },
@@ -66,9 +59,6 @@ require("lazy").setup({
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
 		},
-		config = function()
-			require("plugin_config.definition-or-references")
-		end,
 	},
 	{
 		"hrsh7th/nvim-cmp",
@@ -97,19 +87,9 @@ require("lazy").setup({
 		},
 		build = ":TSUpdate",
 	},
-	{
-		"windwp/nvim-autopairs",
-		config = function()
-			require("plugin_config.autopairs")
-		end,
-	},
+	{ "windwp/nvim-autopairs", },
 	{ "windwp/nvim-ts-autotag" },
-	{
-		"numToStr/Comment.nvim",
-		config = function()
-			require("plugin_config.comment")
-		end,
-	},
+	{ "numToStr/Comment.nvim", },
 
 	-- themes
 	{ "catppuccin/nvim", as = "catppuccin", lazy = false },
@@ -121,15 +101,11 @@ require("lazy").setup({
 		lazy = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			-- "kyazdani42/nvim-web-devicons",
 			"nvim-telescope/telescope-fzf-native.nvim",
 			"nvim-telescope/telescope-live-grep-args.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
 			"ThePrimeagen/harpoon",
 		},
-		config = function()
-			require("plugin_config.telescope")
-		end,
 	},
 	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	{ "nvim-telescope/telescope-live-grep-args.nvim" },
@@ -142,33 +118,15 @@ require("lazy").setup({
 	--  - stylua
 	--  - shfmt
 	--  - autopep8
-	{
-		"sbdchd/neoformat",
-		init = function()
-			require("plugin_config.neoformat")
-		end,
-	},
-	{
-		"sindrets/diffview.nvim",
-		config = function()
-			require("plugin_config.diffview")
-		end,
-	},
-	{
-		"niuiic/git-log.nvim",
-		dependencies = {
-			"niuiic/core.nvim",
-		},
-		config = function()
-      require("plugin_config.log")
-		end,
-	},
-	{
-		"phaazon/hop.nvim",
-		config = function()
-			require("plugin_config.hop")
-		end,
-	},
+	{ "sindrets/diffview.nvim", },
+	{ "niuiic/git-log.nvim", dependencies = { "niuiic/core.nvim", }, },
+	-- {
+	-- 	"phaazon/hop.nvim",
+	-- 	config = function()
+	-- 		require("plugin_config.hop")
+	-- 	end,
+	-- },
+  { "ggandor/leap.nvim" },
 	{ "lukas-reineke/indent-blankline.nvim" },
 	{
 		"kylechui/nvim-surround",
@@ -178,44 +136,17 @@ require("lazy").setup({
       require("nvim-surround").setup()
 		end,
 	},
-	-- {
-	--   "nvim-tree/nvim-tree.lua",
-	--   -- dependencies = {
-	--   --   "kyazdani42/nvim-web-devicons",
-	--   -- },
-	--   config = function()
-	--     require("plugin_config.nvim-tree")
-	--   end,
-	-- },
-	-- {
-	-- 	"stevearc/oil.nvim",
-	--    lazy = false,
-	-- 	config = function()
-	-- 		require("plugin_config.oil")
-	-- 	end,
-	-- },
 	{
 		"echasnovski/mini.files",
-		config = function()
-			require("plugin_config.mini-files")
-		end,
-		version = false,
+    version = false,
 	},
-	{
-		"mbbill/undotree",
-		config = function()
-			require("plugin_config.undotree")
-		end,
-	},
+	{ "mbbill/undotree", },
 	{
 		"pwntester/octo.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
 		},
-		config = function()
-			require("plugin_config.octo")
-		end,
 	},
 	{ "tpope/vim-fugitive" },
 
