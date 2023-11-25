@@ -3,15 +3,17 @@ local treesitter_parser_dir = vim.fn.stdpath("data") .. "/parsers"
 vim.opt.runtimepath:append({ treesitter_parser_dir })
 
 require("nvim-treesitter.configs").setup({
-	parser_install_dir = vim.fn.stdpath("data") .. "/parsers",
+	parser_install_dir = treesitter_parser_dir,
 	ensure_installed = {
 		"bash",
 		"c",
 		"css",
+    "dart",
 		"dockerfile",
 		"go",
 		"html",
 		"javascript",
+    "kotlin",
 		"lua",
 		"latex",
 		"markdown",

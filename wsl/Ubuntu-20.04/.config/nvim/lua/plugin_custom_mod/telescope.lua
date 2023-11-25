@@ -20,7 +20,7 @@ M.buffers = function(opts)
       -- vim.api.nvim_buf_delete(buf_select.bufnr, { force = true })
 
       vim.api.nvim_buf_delete(buf_select.bufnr, { force = true })
-      require("plugin_config.custom.telescope").buffers({})
+      require("plugin_custom_mod.telescope").buffers({})
     end
 
     map("i", "<M-d>", delete_select_buf)

@@ -9,6 +9,15 @@ lspconfig.util.default_config = vim.tbl_deep_extend("force", lspconfig.util.defa
 	capabilities = capabilities,
 })
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = false,
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+  }
+)
+
 -- Downloaded the vscode-language-server from npm
 -- lspconfig.eslint.setup({
 -- 	filetypes = { "javascript", "javascriptreact", "javascript.jsx", "vue", "svelte", "astro" },
@@ -88,6 +97,18 @@ lspconfig.bashls.setup({
 
 -- Downloaded from dotnet.exe
 lspconfig.csharp_ls.setup({
+	capabilities = capabilities,
+})
+
+-- Downloaded from default dart
+lspconfig.dartls.setup({
+	init_options = {
+		closingLabels = true,
+		flutterOutline = true,
+		onlyAnalyzeProjectsWithOpenFiles = true,
+		outline = true,
+		suggestFromUnimportedLibraries = true,
+	},
 	capabilities = capabilities,
 })
 
@@ -199,13 +220,13 @@ lspconfig.pyright.setup({
 				diagnosticMode = "workspace",
 				useLibraryCodeForTypes = false,
 			},
-      venvPath = ".venv"
+			venvPath = ".venv",
 		},
 	},
 	capabilities = capabilities,
-  flags = {
-    exit_timeout = 0,
-  },
+	flags = {
+		exit_timeout = 0,
+	},
 })
 
 -- Downloaded the binary from rust-analyzer releases & then adding it to the rustup toolchain
