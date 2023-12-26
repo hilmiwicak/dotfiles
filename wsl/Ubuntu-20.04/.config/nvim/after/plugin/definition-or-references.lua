@@ -73,3 +73,6 @@ end
 require("definition-or-references").setup({
   on_references_result = handle_references_response,
 })
+
+-- keymap
+vim.keymap.set('', '<M-]>', require("definition-or-references").definition_or_references, { silent = true })

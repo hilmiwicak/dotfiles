@@ -122,6 +122,13 @@ lspconfig.gopls.setup({
 	capabilities = capabilities,
 })
 
+-- Installed manually from github
+lspconfig.groovyls.setup({
+  filetypes = { "groovy", "jenkinsfile" },
+  cmd = { "java", "-jar", "/home/wicak/.local/bin/mybin/lsp/groovy-language-server-all.jar" },
+  capabilities = capabilities,
+})
+
 -- Downloaded from vscode-langservers-extracted (npm)
 lspconfig.html.setup({
 	filetypes = { "html" },
@@ -264,3 +271,14 @@ lspconfig.tsserver.setup({
 	filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "typescript.tsx" },
 	capabilities = capabilities,
 })
+
+-- keymap
+vim.keymap.set('n', '<leader>ln', function() return vim.lsp.buf.rename() end)
+vim.keymap.set('n', '<M-h>s', function() return vim.lsp.buf.signature_help() end)
+vim.keymap.set('n', '<M-h>h', function() return vim.lsp.buf.hover() end)
+vim.keymap.set('n', '<M-h>e', function() return vim.diagnostic.open_float() end)
+vim.keymap.set('i', '<M-h>s', ':lua vim.lsp.buf.signature_help()<CR>')
+vim.keymap.set('i', '<M-h>h', ':lua vim.lsp.buf.hover()<CR>')
+vim.keymap.set('i', '<M-h>e', ':lua vim.diagnostic.open_float()<CR>')
+vim.keymap.set('n', '<leader>lc', function() return vim.lsp.buf.code_action() end)
+vim.keymap.set('n', '<leader>le', function() return vim.diagnostic.open_float() end)

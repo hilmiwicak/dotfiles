@@ -14,7 +14,7 @@
 -- https://github.com/kevinhwang91/nvim-ufo
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
@@ -31,6 +31,9 @@ require("lazy").setup({
 		cmd = "diffview.nvim",
 	},
 	performance = {
+		cache = {
+			enabled = false,
+		},
 		rtp = {
 			disabled_plugins = {
 				"netrwPlugin",
@@ -39,7 +42,13 @@ require("lazy").setup({
 	},
 
 	-- vimscript plugins
-	{ "github/copilot.vim" },
+	{
+		"github/copilot.vim",
+		init = function()
+			vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+		end,
+	},
 	{
 		"mattn/emmet-vim",
 		ft = { "html", "php", "xml" },
@@ -48,8 +57,7 @@ require("lazy").setup({
 		"jwalton512/vim-blade",
 		ft = { "blade", "php" },
 	},
-	{ "mhinz/vim-signify" },
-	{ "sbdchd/neoformat", },
+	{ "sbdchd/neoformat" },
 
 	-- lsp, completion, and snippets
 	{ "neovim/nvim-lspconfig" },
@@ -75,21 +83,19 @@ require("lazy").setup({
 		dependencies = {
 			"saadparwaiz1/cmp_luasnip",
 		},
+		version = "v2.*",
+		build = "make install_jsregexp",
 	},
 
 	-- treesitter and related plugins (like autopairs and comments)
 	{
 		"nvim-treesitter/nvim-treesitter",
-		dependencies = {
-			"windwp/nvim-ts-autotag",
-			"windwp/nvim-autopairs",
-			"numToStr/Comment.nvim",
-		},
 		build = ":TSUpdate",
 	},
-	{ "windwp/nvim-autopairs", },
-	{ "windwp/nvim-ts-autotag" },
-	{ "numToStr/Comment.nvim", },
+	{ "nvim-treesitter/nvim-treesitter-textobjects", dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	{ "windwp/nvim-autopairs", dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	{ "windwp/nvim-ts-autotag", dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	{ "numToStr/Comment.nvim", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 
 	-- themes
 	{ "catppuccin/nvim", as = "catppuccin", lazy = false },
@@ -118,29 +124,30 @@ require("lazy").setup({
 	--  - stylua
 	--  - shfmt
 	--  - autopep8
-	{ "sindrets/diffview.nvim", },
-	{ "niuiic/git-log.nvim", dependencies = { "niuiic/core.nvim", }, },
+	--  - gofmt
+	{ "sindrets/diffview.nvim" },
+	{ "niuiic/git-log.nvim", dependencies = { "niuiic/core.nvim" } },
 	-- {
 	-- 	"phaazon/hop.nvim",
 	-- 	config = function()
 	-- 		require("plugin_config.hop")
 	-- 	end,
 	-- },
-  { "ggandor/leap.nvim" },
+	{ "ggandor/leap.nvim" },
 	{ "lukas-reineke/indent-blankline.nvim" },
 	{
 		"kylechui/nvim-surround",
 		version = "*",
 		event = "VeryLazy",
 		config = function()
-      require("nvim-surround").setup()
+			require("nvim-surround").setup()
 		end,
 	},
 	{
 		"echasnovski/mini.files",
-    version = false,
+		version = false,
 	},
-	{ "mbbill/undotree", },
+	{ "mbbill/undotree" },
 	{
 		"pwntester/octo.nvim",
 		dependencies = {
@@ -149,18 +156,4 @@ require("lazy").setup({
 		},
 	},
 	{ "tpope/vim-fugitive" },
-
-	-- misc
-	{
-		"shortcuts/no-neck-pain.nvim",
-		config = function()
-			require("no-neck-pain").setup()
-		end,
-	},
-	-- {
-	--   "kyazdani42/nvim-web-devicons",
-	--   config = function()
-	--     require("nvim-web-devicons").setup()
-	--   end,
-	-- },
 })

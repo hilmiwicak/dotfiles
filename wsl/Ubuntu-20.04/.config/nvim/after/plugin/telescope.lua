@@ -1,7 +1,10 @@
+local telescope = require("telescope")
+local telescope_builtin = require("telescope.builtin")
+local custom_telescope = require("plugin_custom_mod.telescope")
 local actions = require("telescope.actions")
 local layout = require("telescope.actions.layout")
 
-require("telescope").setup({
+telescope.setup({
   defaults = {
     initial_mode = "insert",
     mappings = {
@@ -51,3 +54,18 @@ require("telescope").setup({
     case_mode = "smart_case",
   },
 })
+
+-- keymap
+vim.keymap.set('n', '<C-f>', function() return telescope.extensions.live_grep_args.live_grep_args() end)
+vim.keymap.set('n', '<leader>lr', function() return telescope_builtin.lsp_definitions() end)
+vim.keymap.set('n', '<leader>lR', function() return telescope_builtin.lsp_references() end)
+vim.keymap.set('n', '<leader>lt', function() return telescope_builtin.lsp_document_symbols() end)
+vim.keymap.set('n', '<leader>lh', function() return telescope_builtin.diagnostics({bufnr = 0}) end)
+vim.keymap.set('n', '<leader>la', function() return telescope_builtin.diagnostics({root_dir = true, no_unlisted=true}) end)
+
+vim.keymap.set('n', '<leader>to', function() return telescope_builtin.oldfiles() end)
+vim.keymap.set('n', '<leader>th', function() return telescope_builtin.help_tags() end)
+
+vim.keymap.set('n', '<M-p>', function() return custom_telescope.find({}) end)
+vim.keymap.set('n', '<M-P>', function() return custom_telescope.find({hidden = true, no_ignore = true}) end)
+vim.keymap.set('n', '<M-b>', function() return custom_telescope.buffers({}) end)

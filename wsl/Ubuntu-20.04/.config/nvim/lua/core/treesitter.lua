@@ -8,20 +8,22 @@ require("nvim-treesitter.configs").setup({
 		"bash",
 		"c",
 		"css",
-    "dart",
+		"dart",
 		"dockerfile",
 		"go",
+    "groovy",
 		"html",
 		"javascript",
-    "kotlin",
+		"kotlin",
 		"lua",
 		"latex",
 		"markdown",
 		"php",
-    "python",
+		"python",
 		"regex",
 		"rust",
 		"typescript",
+    "vimdoc",
 		"yaml",
 	},
 	sync_install = false,
@@ -35,15 +37,16 @@ require("nvim-treesitter.configs").setup({
 	autotag = {
 		enable = true,
 		filetypes = {
-			"html",
-			"javascript",
+      "blade",
+      "html",
+      "jsx",
+      "javascript",
+      "javascriptreact",
+			"markdown",
+      "php",
+      "tsx",
 			"typescript",
-			"javascriptreact",
-			"typescriptreact",
-			"tsx",
-			"jsx",
-			"php",
-			"blade",
+      "typescriptreact",
 		},
 	},
 	incremental_selection = {
@@ -55,48 +58,47 @@ require("nvim-treesitter.configs").setup({
 			node_decremental = "<M-r>N",
 		},
 	},
-	-- textobjects = {
-	-- 	select = {
-	-- 		enable = true,
-	-- 		lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-	-- 		keymaps = {
-	-- 			-- You can use the capture groups defined in textobjects.scm
-	-- 			["<leader>po"] = "@parameter.outer",
-	-- 			["<leader>pi"] = "@parameter.inner",
-	-- 			["<leader>fo"] = "@function.outer",
-	-- 			["<leader>fi"] = "@function.inner",
-	-- 			["<leader>co"] = "@class.outer",
-	-- 			["<leader>ci"] = "@class.inner",
-	-- 		},
-	-- 	},
-	-- 	move = {
-	-- 		enable = true,
-	-- 		set_jumps = true, -- whether to set jumps in the jumplist
-	-- 		goto_next_start = {
-	-- 			["<leader>nfs"] = "@function.outer",
-	-- 			["<leader>ncs"] = "@class.outer",
-	-- 		},
-	-- 		goto_next_end = {
-	-- 			["<leader>nfe"] = "@function.outer",
-	-- 			["<leader>nce"] = "@class.outer",
-	-- 		},
-	-- 		goto_previous_start = {
-	-- 			["<leader>pfs"] = "@function.outer",
-	-- 			["<leader>pcs"] = "@class.outer",
-	-- 		},
-	-- 		goto_previous_end = {
-	-- 			["<leader>pfe"] = "@function.outer",
-	-- 			["<leader>pce"] = "@class.outer",
-	-- 		},
-	-- 	},
-	-- 	swap = {
-	-- 		enable = true,
-	-- 		swap_next = {
-	-- 			["<leader>sa"] = "@parameter.inner",
-	-- 		},
-	-- 		swap_previous = {
-	-- 			["<leader>sp"] = "@parameter.inner",
-	-- 		},
-	-- 	},
-	-- },
+	textobjects = {
+		select = {
+			enable = true,
+			lookahead = true,
+			keymaps = {
+				["<leader>aa"] = "@parameter.outer",
+				["<leader>ia"] = "@parameter.inner",
+				["<leader>af"] = "@function.outer",
+				["<leader>if"] = "@function.inner",
+				["<leader>ac"] = "@class.outer",
+				["<leader>ic"] = "@class.inner",
+			},
+		},
+		move = {
+			enable = true,
+			set_jumps = true,
+			goto_next_start = {
+				["]m"] = "@function.outer",
+				["]]"] = "@class.outer",
+			},
+			goto_next_end = {
+				["]M"] = "@function.outer",
+				["]["] = "@class.outer",
+			},
+			goto_previous_start = {
+				["[m"] = "@function.outer",
+				["[["] = "@class.outer",
+			},
+			goto_previous_end = {
+				["[M"] = "@function.outer",
+				["[]"] = "@class.outer",
+			},
+		},
+		-- swap = {
+		-- 	enable = true,
+		-- 	swap_next = {
+		-- 		["<leader>a"] = "@parameter.inner",
+		-- 	},
+		-- 	swap_previous = {
+		-- 		["<leader>A"] = "@parameter.inner",
+		-- 	},
+		-- },
+	},
 })
