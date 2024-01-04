@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+# advanced change directory
+function d() {
+  local hnum=16
+  local new_dir index dir cnt
+
+  if ! [ $# -eq 0 ]; then
+    if [[ $# -eq 2 && ($1 = "--" || $1 = "-c") ]]; then
+      shift
+    else
+      if ! {
+        [ $# -eq 1 ] && [[ $1 =~ ^(-[0-9]{,2}|-|--|-c|[^-].*)$ ]]
+      }; then
+        builtin cd "$@"
+        return
+      fi
+    fi
+  fi
+
+  case "$1" in
+  --)
+    local dir_stack
+    dir_stack=$(dirs -v | fzf)
+    if [ -n "$dir_stack" ]; then
+      dir_stack=$(echo "$dir_stack" | awk '{print $1}')
+      d -"$dir_stack"
+    fi
+    return
+    ;;
+  -c)
+    echo "cleaning dirs stack"
+    dirs -c
+    return
+    ;;
+  esac
+
+  new_dir=${1:-$HOME}
+  if [[ "$new_dir" =~ ^-[0-9]{,2}$ ]]; then
+    index=${new_dir:1}
+    if [ -z "$index" ]; then
+      new_dir=$OLDPWD
+    else
+      new_dir=$(dirs -l +$index) || return
+    fi
+  fi
+  pushd -- "$new_dir" >/dev/null || return
+  popd -n +$hnum &>/dev/null || true
+  new_dir=$PWD cnt=1
+  while dir=$(dirs -l +$cnt 2>/dev/null); do
+    if [ "$dir" = "$new_dir" ]; then
+      popd -n +$cnt >/dev/null
+      continue
+    fi
+    let cnt++
+  done
+}
+
+# print out settings directory
+# ds() {
+#   echo '/mnt/c/Users/Hilmi/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
+#   echo '/mnt/c/Users/Hilmi/AppData/Local/SumatraPDF/SumatraPDF-settings.txt'
+# }
+
+export dh="/mnt/c/Users/Hilmi"
+export d1="/mnt/c/Users/Hilmi/dev-projects"
+export ds="/mnt/c/Users/Hilmi/dev-projects/skripsi-selenium"
+export d2="/mnt/c/Users/Hilmi/Documents/Skripsi"
+export d3="/mnt/c/Users/Hilmi/code"
+export dx="/mnt/c/xampp/htdocs"
+
+# custom keyboard binding tmux new window from ~/projects directory
+fzf_tmux_home_dir() {
+  local dir
+  if [ ! -z "$NVIM" ]; then
+    dir=$(fd --exact-depth 1 -t d . ~/projects | fzf-tmux)
+  else
+    dir=$(fd --exact-depth 1 -t d . ~/projects | fzf)
+  fi
+
+  if [ ! -z "$dir" ]; then
+    tmux new-window -c "$dir"
+  fi
+}
+
+export -f fzf_tmux_home_dir
+
+bind '"\eC":  "\C-e\C-u\C-y\ey\C-u`fzf_tmux_home_dir`\e\C-e\es\e^"'

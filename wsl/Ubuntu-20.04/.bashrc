@@ -14,23 +14,37 @@ export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=99999
 export HISTFILESIZE=100000
 export HISTFILE=~/.bash_history
+export HISTIGNORE="l[als] *:* -h:* --help:d-[-c0123456789]:g[ls]:tmc:tmcc"
 
 # removes duplicate entries from history
-removeHistoryDuplicate() {
-  tac $HISTFILE | awk '!x[$0]++' | tac > /tmp/bash_history
+__remove_history_duplicate__() {
+  tac $HISTFILE | awk '!x[$0]++' | tac >/tmp/bash_history
   mv /tmp/bash_history $HISTFILE
 }
 
-# export the function so it can be used in PROMPT_COMMAND
-export -f removeHistoryDuplicate
-
 # share history across sessions
-# for now it's not working
+# for now it's not working the way I wanted
 # removeHistoryDuplicate runs on the next command
-export PROMPT_COMMAND="history -a; history -c; history -r && removeHistoryDuplicate"
+export PROMPT_COMMAND="history -a; history -c; history -r && __remove_history_duplicate__"
+
+function __virtualenv_ps1() {
+  # Get Virtual Env
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    # Strip out the path and just leave the env name
+    venv="${VIRTUAL_ENV##*/}"
+  else
+    # In case you don't have one activated
+    venv=''
+  fi
+  [[ -n "$venv" ]] && echo "(venv:$venv) "
+}
+
+# disable the default virtualenv prompt change
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # custom prompt
-PS1='\n\u | \s | \w | $(__git_ps1 "(%s)") \n\$ '
+# PS1='\n\u | \s | \w | $(__git_ps1 "(%s)") \n\$ '
+PS1="\n\w | \$(__git_ps1 '(%s)') \$(__virtualenv_ps1) \n\$ "
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -61,104 +75,19 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# tab auto complete
-bind 'set show-all-if-ambiguous on'
-bind 'TAB:menu-complete'
-
-# advanced change directory
-function d() {
-  local hnum=16
-  local new_dir index dir cnt
-
-  # $# is showing how many arguments are there
-  if ! [ $# -eq 0 ]; then
-    if [[ $# -eq 2 && ($1 = "--" || $1 = "-c") ]]; then
-      shift
-    else
-      if ! {
-        [ $# -eq 1 ] && [[ $1 =~ ^(-[0-9]{,2}|-|--|-c|[^-].*)$ ]]
-      }; then
-        builtin cd "$@"
-        return
-      fi
-    fi
-  fi
-
-  case "$1" in
-  --)
-    dirs -v
-    return
-    ;;
-  -c)
-    echo "cleaning dirs stack"
-    dirs -c
-    return
-    ;;
-  esac
-
-  new_dir=${1:-$HOME}
-  if [[ "$new_dir" =~ ^-[0-9]{,2}$ ]]; then
-    index=${new_dir:1}
-    if [ -z "$index" ]; then
-      new_dir=$OLDPWD
-    else
-      new_dir=$(dirs -l +$index) || return
-    fi
-  fi
-  pushd -- "$new_dir" >/dev/null || return
-  popd -n +$hnum &>/dev/null || true
-  new_dir=$PWD cnt=1
-  while dir=$(dirs -l +$cnt 2>/dev/null); do
-    if [ "$dir" = "$new_dir" ]; then
-      popd -n +$cnt >/dev/null
-      continue
-    fi
-    let cnt++
-  done
-}
-
-# print out settings directory
-# ds() {
-#   echo '/mnt/c/Users/Hilmi/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
-#   echo '/mnt/c/Users/Hilmi/AppData/Local/SumatraPDF/SumatraPDF-settings.txt'
-# }
-
-# directory aliases
-dh() {
-  d /mnt/c/Users/Hilmi/$@
-}
-
-d1() {
-  d /mnt/c/Users/Hilmi/dev-projects/$@
-}
-
-d2() {
-  d /mnt/c/Users/Hilmi/Documents/Skripsi/$@
-}
-
-d3() {
-  d /mnt/c/Users/Hilmi/code/$@
-}
-
-dx() {
-  d /mnt/c/xampp/htdocs/$@
-}
-
-# custom for git completion
 if [ -f "$HOME/.config/git/git-completion.bash" ]; then
   source "$HOME/.config/git/git-completion.bash"
 fi
 
 export FZF_DEFAULT_OPTS='--bind alt-j:down,alt-k:up,alt-w:backward-kill-word'
 
-# source keybind only if there is .fzf dir
 if [ -d "$HOME/.config/fzf" ]; then
   if [ -f "$HOME/.config/fzf/keybind.bash" ]; then
     # export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=never -g "!{node_modules,vendor,.git}"'
     export FZF_CTRL_T_COMMAND='fd --type file --type directory --hidden --no-ignore --follow --exclude .git'
     export FZF_ALT_C_COMMAND='fd --type directory --hidden --no-ignore --follow --exclude .git'
 
-    source "$HOME/.config/fzf/keybind.bash" 
+    source "$HOME/.config/fzf/keybind.bash"
   fi
 
   if [ -f "$HOME/.config/fzf/completion.bash" ]; then
@@ -188,13 +117,12 @@ if [ -d "$HOME/.config/fzf" ]; then
       esac
     }
 
-    source "$HOME/.config/fzf/completion.bash" 
+    source "$HOME/.config/fzf/completion.bash"
 
-    _fzf_setup_completion dir d
-    _fzf_setup_completion path pdfgrep rg trash-put tp trash-restore te trash-list tl trash-rm tr trash-empty td
+    _fzf_setup_completion dir d ll ld la
+    _fzf_setup_completion path bat pdfgrep rg wslpath
   fi
 fi
 
-if ! [ -n "$TMUX" ]; then
-  tmux new-session -A -s main
-fi
+# custom commands outside of bash alias, completion, etc
+source "$HOME/.bash_custom"
