@@ -69,6 +69,8 @@ vim.keymap.set('', '<M-}>', ':bn<CR>', {silent = true})
 vim.keymap.set('', '<leader><leader>', '@q')
 vim.keymap.set('', '<leader>ss', ':s/\\%V')
 
+vim.keymap.set('n', '<M-C>', '<cmd>!NVIM=1;fzf_tmux_home_dir<CR>')
+
 -- pseudo code for focus mode with splits
 -- toggle_tabline
 -- toggle_last_status

@@ -24,7 +24,7 @@ vim.o.guicursor =
 	"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 
 vim.g.is_bash = true
--- vim.o.shell = "bash -l"
+-- vim.o.shell = "/usr/bin/bash -i"
 vim.env.BASH_ENV = "~/.bash_aliases"
 
 vim.g.mapleader = " "
