@@ -8,19 +8,35 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# launch tmux immediately before running other things
+if [ -z "$TMUX" ]; then
+  tmux new-session -A -s main
+fi
+
 # sudo edit to neovim
 export SUDO_EDITOR="nvim"
-alias "sudoedit"='function _sudoedit(){ sudo -e "$1"; };_sudoedit'
+# alias "sudoedit"='function _sudoedit(){ sudo -e "$1"; };_sudoedit'
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
 # GO
-export PATH=$PATH:/usr/local/go/bin
+export PATH=/usr/local/go/bin:$PATH
 export GOPATH="$HOME/.go"
-export PATH=$PATH:"$GOPATH/bin"
+export PATH="$GOPATH/bin":$PATH
+
+export PHPENV_ROOT="$HOME/.phpenv"
+if [ -d "${PHPENV_ROOT}" ]; then
+  export PATH="${PHPENV_ROOT}/bin:${PATH}"
+  eval "$(phpenv init -)"
+fi
 
 # CARGO / RUST
 source "$HOME/.cargo/env"
@@ -28,7 +44,25 @@ source "$HOME/.cargo/env"
 # NIM
 export PATH="$HOME/.nimble/bin":$PATH
 
-# nvm shenanigans
+# Flutter
+export PATH="$HOME/.local/bin/flutter":$PATH
+export PUB_CACHE="$HOME/.pub-cache"
+# export PUB_CACHE="/mnt/c/Users/Hilmi/AppData/Local/Pub/Cache"
+
+# jdk
+export PATH="$HOME/.local/bin/jdk":$PATH
+
+# android
+export PATH="$HOME/.local/bin/android/platform-tools":$PATH
+export PATH="$HOME/.local/bin/android/emulator/bin64":$PATH
+export PATH="$HOME/.local/bin/android/emulator":$PATH
+export PATH="$HOME/.local/bin/android/build-tools/30.0.3":$PATH
+export PATH="$HOME/.local/bin/android/cmdline-tools":$PATH
+export ANDROID_HOME="$HOME/.local/lib/android"
+export WSL_HOST_IP="$(tail -1 /etc/resolv.conf | cut -d' ' -f2)"
+export ADB_SERVER_SOCKET="tcp:$WSL_HOST_IP:5037"
+
+# NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -37,13 +71,15 @@ export NVM_DIR="$HOME/.nvm"
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
 # lsp bin ~ lsp local
-export PATH=$PATH:"$HOME/.local/bin/mybin"
-export PATH=$PATH:"$HOME/.local/bin/mybin/lsp"
+export PATH="$HOME/.local/bin/mybin":$PATH
+export PATH="$HOME/.local/bin/mybin/lsp":$PATH
+export PATH="$HOME/.local/bin/mybin/formatter":$PATH
 
-# load additional ssh
-eval "$(ssh-agent -s)" >> /dev/null
-ssh-add ~/.ssh/id_rsa_github &> /dev/null
-ssh-add ~/.ssh/id_rsa_gteam &> /dev/null
+# export UNCRUSTIFY_CONFIG="$HOME/.local/bin/mybin/formatter/uncrustify/build/config"
+export UNCRUSTIFY_CONFIG="$HOME/.local/lib/formatter/uncrustify/build/config/uncrustify.cfg"
+
+# detaspace
+export PATH="$PATH:/home/wicak/.detaspace/bin"
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then

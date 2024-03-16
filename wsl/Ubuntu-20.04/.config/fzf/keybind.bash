@@ -44,13 +44,6 @@ fzf-file-widget() {
   fi
 }
 
-__fzf_cd__() {
-  local cmd dir
-  cmd="${FZF_ALT_C_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
-    -o -type d -print 2> /dev/null | cut -b3-"}"
-  dir=$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m) && printf ' d %q' "$dir"
-}
-
 __fzf_history__() (
   local line
   shopt -u nocaseglob nocasematch
@@ -66,7 +59,7 @@ __fzf_history__() (
 )
 
 # Required to refresh the prompt after fzf
-bind '"\es": redraw-current-line'
+bind '"\ee": redraw-current-line'
 bind '"\e^": history-expand-line'
 
 # ALT-T - Paste the selected file path into the command line
@@ -75,14 +68,10 @@ if [ $BASH_VERSINFO -gt 3 ]; then
 elif __fzf_use_tmux__; then
   bind '"\et": " \C-u \C-a\C-k`__fzf_select_tmux__`\e\C-e\C-y\C-a\C-d\C-y\ey\C-h"'
 else
-  bind '"\et": " \C-u \C-a\C-k`__fzf_select__`\e\C-e\C-y\C-a\C-y\ey\C-h\C-e\es \C-h"'
+  bind '"\et": " \C-u \C-a\C-k`__fzf_select__`\e\C-e\C-y\C-a\C-y\ey\C-h\C-e\ee \C-h"'
 fi
 
 # ALT-R - Paste the selected command from history into the command line
-bind '"\er": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\es\e^"'
-
-# ALT-C - Paste the selected directory path into the command line
-# bind '"\ec": " \C-e\C-u`__fzf_cd__`\e\C-e\es\C-m"'
-bind '"\ec": " \C-e\C-u\C-y\ey\C-u`__fzf_cd__`\e\C-e\es\e^"'
+bind '"\er": " \C-e\C-u\C-y\ey\C-u`__fzf_history__`\e\C-e\ee\e^"'
 
 fi
