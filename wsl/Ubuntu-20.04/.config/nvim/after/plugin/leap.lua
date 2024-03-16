@@ -1,30 +1,6 @@
 local leap = require("leap")
 
-leap.opts.safe_labels = {
-	"1",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"m",
-	"M",
-	"H",
-	"L",
-	"f",
-	"F",
-	"t",
-	"T",
-	"{",
-	"}",
-	"\\",
-	"|",
-	"[",
-	"]",
-}
+leap.opts.safe_labels = {}
 
 leap.opts.labels = {
 	"1",
@@ -47,10 +23,7 @@ leap.opts.labels = {
 	"}",
 	"\\",
 	"|",
-	"[",
-	"]",
 	"!",
-	"@",
 	"#",
 	"%",
 	"*",
@@ -61,11 +34,17 @@ leap.opts.labels = {
 	"-",
 	"_",
 	"`",
-	":",
 	";",
 	"'",
 	'"',
 	",",
+}
+
+leap.opts.special_keys = {
+  next_target = "<enter>",
+  prev_target = false,
+  next_group = "<tab>",
+  prev_group = "<s-tab>",
 }
 
 -- keymap

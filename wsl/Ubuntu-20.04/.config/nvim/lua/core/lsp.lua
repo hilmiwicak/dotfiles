@@ -90,7 +90,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 --   capabilities = capabilities
 -- })
 
--- Downloaded from bashls
+-- Downloaded from npm
+-- shellcheck installed manually
 lspconfig.bashls.setup({
 	capabilities = capabilities,
 })
@@ -136,9 +137,15 @@ lspconfig.html.setup({
 })
 
 -- Downloaded from npm
-lspconfig.intelephense.setup({
+-- lspconfig.intelephense.setup({
+-- 	filetypes = { "php", "blade" },
+-- 	capabilities = capabilities,
+-- })
+
+-- Downloaded from composer and git clone
+lspconfig.phpactor.setup({
 	filetypes = { "php", "blade" },
-	capabilities = capabilities,
+  capabilities = capabilities,
 })
 
 -- Downloaded the vscode-language-server from npm
@@ -277,8 +284,10 @@ vim.keymap.set('n', '<leader>ln', function() return vim.lsp.buf.rename() end)
 vim.keymap.set('n', '<M-h>s', function() return vim.lsp.buf.signature_help() end)
 vim.keymap.set('n', '<M-h>h', function() return vim.lsp.buf.hover() end)
 vim.keymap.set('n', '<M-h>e', function() return vim.diagnostic.open_float() end)
+vim.keymap.set('n', '<M-h>E', function() return vim.diagnostic.get() end)
 vim.keymap.set('i', '<M-h>s', ':lua vim.lsp.buf.signature_help()<CR>')
 vim.keymap.set('i', '<M-h>h', ':lua vim.lsp.buf.hover()<CR>')
 vim.keymap.set('i', '<M-h>e', ':lua vim.diagnostic.open_float()<CR>')
+vim.keymap.set('i', '<M-h>E', ':lua vim.diagnostic.get()<CR>')
 vim.keymap.set('n', '<leader>lc', function() return vim.lsp.buf.code_action() end)
 vim.keymap.set('n', '<leader>le', function() return vim.diagnostic.open_float() end)

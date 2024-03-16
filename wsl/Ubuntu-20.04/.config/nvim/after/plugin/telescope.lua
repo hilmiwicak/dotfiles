@@ -57,8 +57,8 @@ telescope.setup({
 
 -- keymap
 vim.keymap.set('n', '<C-f>', function() return telescope.extensions.live_grep_args.live_grep_args() end)
-vim.keymap.set('n', '<leader>lr', function() return telescope_builtin.lsp_definitions() end)
-vim.keymap.set('n', '<leader>lR', function() return telescope_builtin.lsp_references() end)
+vim.keymap.set('n', 'gd', function() return telescope_builtin.lsp_definitions() end)
+vim.keymap.set('n', 'gD', function() return telescope_builtin.lsp_references() end)
 vim.keymap.set('n', '<leader>lt', function() return telescope_builtin.lsp_document_symbols() end)
 vim.keymap.set('n', '<leader>lh', function() return telescope_builtin.diagnostics({bufnr = 0}) end)
 vim.keymap.set('n', '<leader>la', function() return telescope_builtin.diagnostics({root_dir = true, no_unlisted=true}) end)
@@ -68,4 +68,4 @@ vim.keymap.set('n', '<leader>th', function() return telescope_builtin.help_tags(
 
 vim.keymap.set('n', '<M-p>', function() return custom_telescope.find({}) end)
 vim.keymap.set('n', '<M-P>', function() return custom_telescope.find({hidden = true, no_ignore = true}) end)
-vim.keymap.set('n', '<M-b>', function() return custom_telescope.buffers({}) end)
+vim.keymap.set('n', '<M-t>', function() return custom_telescope.buffers({}) end)

@@ -1,8 +1,6 @@
 -- lazy config
 
 -- try these later
--- correct lsp definition or reference for telescope
---  https://old.reddit.com/r/neovim/comments/137lm2n/plugin_definitionorreferencesnvim/
 -- https://github.com/ray-x/lsp_signature.nvim
 -- https://github.com/mfussenegger/nvim-dap
 --  https://www.reddit.com/r/neovim/comments/y7dvva/typescript_debugging_in_neovim_with_nvimdap/
@@ -61,13 +59,6 @@ require("lazy").setup({
 
 	-- lsp, completion, and snippets
 	{ "neovim/nvim-lspconfig" },
-	{
-		"KostkaBrukowa/definition-or-references.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-		},
-	},
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {

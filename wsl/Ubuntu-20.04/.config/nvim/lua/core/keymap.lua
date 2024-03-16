@@ -4,19 +4,24 @@ vim.keymap.set({'i', 'c'}, '<M-d>', "de", {remap = true})
 vim.keymap.set({'n', 'v', 'c', 's', 'i', 'o', 'l', 't'}, '<M-;>', "", {remap = true})
 
 vim.keymap.set({'n', 'i'}, '<M-o>', "", {remap = true})
-vim.keymap.set('n', '<M-i>', "	", {remap = true})
+vim.keymap.set('n', '<M-i>', "	")
 
-vim.keymap.set('n', '<M-j>', "", {remap = true})
-vim.keymap.set('i', '<M-j>', "", {remap = true})
-vim.keymap.set('n', '<M-k>', "", {remap = true})
-vim.keymap.set('i', '<M-k>', "", {remap = true})
+vim.keymap.set('n', '<M-j>', "")
+vim.keymap.set('i', '<M-j>', "")
+vim.keymap.set('n', '<M-k>', "")
+vim.keymap.set('i', '<M-k>', "")
 vim.keymap.set('x', '<M-j>', ":m '>+1<CR>gv=gv", {silent = true})
 vim.keymap.set('x', '<M-k>', ":m '<-2<CR>gv=gv", {silent = true})
 vim.keymap.set('n', '<M-K>', "V:t '><CR>gv=gv", {silent = true})
 vim.keymap.set('n', '<M-J>', "V:t '<-1<CR>gv=gv", {silent = true})
-
 vim.keymap.set('x', '<M-K>', ":t '><CR>gv=gv", {silent = true})
 vim.keymap.set('x', '<M-J>', ":t '<-1<CR>gv=gv", {silent = true})
+
+vim.keymap.set('n', 'K', '<C-u>zz')
+vim.keymap.set('v', 'K', '<C-u>zz')
+vim.keymap.set('n', 'J', '<C-d>zz')
+vim.keymap.set('v', 'J', '<C-d>zz')
+
 vim.keymap.set('n', '<M-,>', 'gT')
 vim.keymap.set('n', '<M-.>', 'gt')
 vim.keymap.set('n', '<M-<>', '<cmd>tabm -<CR>', {silent = true})
@@ -45,12 +50,9 @@ vim.keymap.set('x', 'd', '"_d')
 vim.keymap.set('x', 'D', '"_D')
 vim.keymap.set('x', 's', '"_s')
 vim.keymap.set('x', 'S', '"_S')
-vim.keymap.set('n', 'K', '<C-u>', {remap = true})
-vim.keymap.set('v', 'K', '<C-u>', {remap = true})
-vim.keymap.set('n', 'J', '<C-d>', {remap = true})
-vim.keymap.set('v', 'J', '<C-d>', {remap = true})
-vim.keymap.set('x', 'Y', '"+y', {remap = true})
-vim.keymap.set('x', 'X', '"+ygvd', {remap = true})
+
+vim.keymap.set('x', 'Y', '"+y')
+vim.keymap.set('x', 'X', '"+ygvd')
 vim.keymap.set('i', '<M-p>', '"')
 
 vim.keymap.set('', '<M-/>', '<cmd>nohl<CR>', {remap = true})
@@ -66,10 +68,14 @@ vim.keymap.set({'i', 'c'}, '<M-Right>', '<C-Right>')
 vim.keymap.set('', '<M-[>', '')
 vim.keymap.set('', '<M-{>', ':bp<CR>', {silent = true})
 vim.keymap.set('', '<M-}>', ':bn<CR>', {silent = true})
-vim.keymap.set('', '<leader><leader>', '@q')
 vim.keymap.set('', '<leader>ss', ':s/\\%V')
 
-vim.keymap.set('n', '<M-C>', '<cmd>!NVIM=1;fzf_tmux_home_dir<CR>')
+vim.keymap.set('n', '<M-z>', ':w<CR>', {silent = true})
+vim.keymap.set('i', '<M-z>', ':w<CR>', {silent = true})
+vim.keymap.set('i', '<M-b>', 'b')
+vim.keymap.set('i', '<M-f>', 'w')
+
+vim.keymap.set('n', '<M-C>', '<cmd>!NVIM=1;__fzf_tmux_home_dir__<CR>')
 
 -- pseudo code for focus mode with splits
 -- toggle_tabline
