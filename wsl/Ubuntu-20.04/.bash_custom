@@ -2,20 +2,12 @@
 
 # advanced change directory
 function d() {
+  if [ $# -eq 0 ]; then
+    return
+  fi
+
   local hnum=16
   local new_dir index dir cnt
-
-  if ! [ $# -eq 0 ]; then
-    if [[ $# -eq 2 && ($1 = "--" || $1 = "-c") ]]; then
-      shift
-    else
-      if ! {
-        [ $# -eq 1 ] && [[ $1 =~ ^(-[0-9]{,2}|-|--|-c|[^-].*)$ ]]
-      }; then
-        cd "$@" || return
-      fi
-    fi
-  fi
 
   case "$1" in
   --)
@@ -28,8 +20,8 @@ function d() {
     return
     ;;
   -c)
-    echo "cleaning dirs stack"
     dirs -c
+    echo "done cleaning dirs stack"
     return
     ;;
   esac
@@ -70,8 +62,6 @@ export d2="/mnt/c/Users/Hilmi/Documents/Skripsi"
 export d3="/mnt/c/Users/Hilmi/code"
 # export dx="/mnt/c/xampp/htdocs"
 
-if [[ $- =~ i ]]; then
-
 # custom keyboard binding tmux new window from ~/projects directory
 function __fzf_tmux_home_dir__() {
   local dir
@@ -83,16 +73,13 @@ function __fzf_tmux_home_dir__() {
     "$d3"
     "$ds"
   )
-  if [ -n "$NVIM" ]; then
-    dir=$( (echo ~ && printf "%s\n" "${expected_dirs[@]}" && fd --min-depth 0 --max-depth 1 -t d . "${expected_dirs[@]}") | fzf-tmux $FZF_DEFAULT_OPTS --height "${FZF_TMUX_HEIGHT:-10%}")
-  else
-    dir=$( (echo ~ && printf "%s\n" "${expected_dirs[@]}" && fd --min-depth 0 --max-depth 1 -t d . "${expected_dirs[@]}") | fzf $FZF_DEFAULT_OPTS --height "${FZF_TMUX_HEIGHT:-40%}")
-  fi
 
   if [ -n "$dir" ]; then
     if [ -n "$NVIM" ]; then
+      dir=$( (echo ~ && echo ~/test && printf "%s\n" "${expected_dirs[@]}" && fd --min-depth 0 --max-depth 1 -t d . "${expected_dirs[@]}") | fzf-tmux $FZF_DEFAULT_OPTS --height "${FZF_TMUX_HEIGHT:-10%}")
       tmux new-window -c "$dir"
     else
+      dir=$( (echo ~ && echo ~/test && printf "%s\n" "${expected_dirs[@]}" && fd --min-depth 0 --max-depth 1 -t d . "${expected_dirs[@]}") | fzf $FZF_DEFAULT_OPTS --height "${FZF_TMUX_HEIGHT:-40%}")
       read -n 1 -r -p "Opening $dir on new tmux window? (y/n) " response
       case "$response" in
       y | Y)
@@ -114,5 +101,3 @@ function __fzf_tmux_home_dir__() {
 export -f __fzf_tmux_home_dir__
 
 bind '"\eC":  "\C-e\C-u\C-y\ey\C-u__fzf_tmux_home_dir__\C-m"'
-
-fi
