@@ -11,38 +11,24 @@
 # launch tmux immediately before running other things
 if [ -z "$TMUX" ]; then
   tmux new-session -A -s main
+  exit 0
 fi
 
 # sudo edit to neovim
 export SUDO_EDITOR="nvim"
 # alias "sudoedit"='function _sudoedit(){ sudo -e "$1"; };_sudoedit'
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
+# detaspace
+export PATH="/home/wicak/.detaspace/bin:$PATH"
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# aws
+export PATH="$HOME/.local/bin/aws:$PATH"
 
-# GO
-export PATH=/usr/local/go/bin:$PATH
-export GOPATH="$HOME/.go"
-export PATH="$GOPATH/bin":$PATH
+# export UNCRUSTIFY_CONFIG="$HOME/.local/bin/mybin/formatter/uncrustify/build/config"
+export UNCRUSTIFY_CONFIG="$HOME/.local/lib/formatter/uncrustify/build/config/uncrustify.cfg"
 
-export PHPENV_ROOT="$HOME/.phpenv"
-if [ -d "${PHPENV_ROOT}" ]; then
-  export PATH="${PHPENV_ROOT}/bin:${PATH}"
-  eval "$(phpenv init -)"
-fi
-
-# CARGO / RUST
-source "$HOME/.cargo/env"
-
-# NIM
-export PATH="$HOME/.nimble/bin":$PATH
+# laravel sail alias
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
 # Flutter
 export PATH="$HOME/.local/bin/flutter":$PATH
@@ -62,24 +48,47 @@ export ANDROID_HOME="$HOME/.local/lib/android"
 export WSL_HOST_IP="$(tail -1 /etc/resolv.conf | cut -d' ' -f2)"
 export ADB_SERVER_SOCKET="tcp:$WSL_HOST_IP:5037"
 
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# phpenv
+export PHPENV_ROOT="$HOME/.phpenv"
+if [ -d "${PHPENV_ROOT}" ]; then
+  export PATH="${PHPENV_ROOT}/bin:${PATH}"
+  eval "$(phpenv init -)"
+fi
+
+# CARGO / RUST
+source "$HOME/.cargo/env"
+
+# NIM
+export PATH="$HOME/.nimble/bin":$PATH
+
+# GO
+export PATH=/usr/local/go/bin:$PATH
+export GOPATH="$HOME/.go"
+export PATH="$GOPATH/bin":$PATH
+
+# kubernetes stuffs (helm, istio)
+export PATH="$HOME/.local/bin/kubernetes:$PATH"
+export PATH="$HOME/.local/bin/kubernetes/istio/bin:$PATH"
+
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# laravel sail alias
-alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
 # lsp bin ~ lsp local
 export PATH="$HOME/.local/bin/mybin":$PATH
 export PATH="$HOME/.local/bin/mybin/lsp":$PATH
 export PATH="$HOME/.local/bin/mybin/formatter":$PATH
 
-# export UNCRUSTIFY_CONFIG="$HOME/.local/bin/mybin/formatter/uncrustify/build/config"
-export UNCRUSTIFY_CONFIG="$HOME/.local/lib/formatter/uncrustify/build/config/uncrustify.cfg"
-
-# detaspace
-export PATH="$PATH:/home/wicak/.detaspace/bin"
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then

@@ -13,6 +13,8 @@ alias egrep='egrep --color=auto'
 alias rg='rg -p'
 alias rgu='rg --color never --no-heading -N'
 
+alias less='less -i'
+
 alias batu='bat -p'
 alias batp='bat --paging=never'
 alias batpu='bat -pp'
@@ -31,8 +33,8 @@ alias tmc='d -c && clear && tmux clear-history'
 
 # open selected file / directory in default windows file explorer
 alias see='/mnt/c/Windows/explorer.exe'
-alias wyi='win32yank.exe -i --crlf'
-alias wyo='win32yank.exe -o --lf'
+# alias wyi='win32yank.exe -i --crlf'
+# alias wyo='win32yank.exe -o --lf'
 
 function __nvimvenv {
   if [[ -e "$VIRTUAL_ENV" && -f "$VIRTUAL_ENV/bin/activate" ]]; then
@@ -44,7 +46,7 @@ function __nvimvenv {
 }
 alias nvim='__nvimvenv'
 alias nv='nvim'
-alias vi='nvim -u NONE -i NONE -n'
+alias vi='nvim -u NONE -i NONE -n --cmd "source ~/.config/nvim/lua/core/options.lua" --cmd "source ~/.config/nvim/lua/core/keymap.lua"'
 
 alias k='kubectl'
 

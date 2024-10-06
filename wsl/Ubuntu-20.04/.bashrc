@@ -4,6 +4,35 @@ case $- in
 *) return ;;
 esac
 
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+xterm-color | *-256color) export color_prompt=yes ;;
+esac
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+if [ -f $HOME/.bash_aliases ]; then
+  source $HOME/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    source /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+  fi
+fi
+
 # append to the history file, don't overwrite it
 # shopt -s histappend
 
@@ -22,7 +51,7 @@ export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=99999
 export HISTFILESIZE=100000
 export HISTFILE="$HOME/.bash_history"
-export HISTIGNORE="jobs:fg*:l[als]:l[als] *:see *:* -h:* --help:man *:d -*:d-*:g[ls]:tmc:__*:exit"
+export HISTIGNORE="jobs:fg*:l[als]:l[als] *:see *:* -h:* --help:* --help | less:* -h | less:* -help | less:man *:d *:d..:d-*:g[ls]:tmc:__*:nv:exit"
 
 # removes duplicate entries from history
 __remove_history_duplicate__() {
@@ -32,8 +61,8 @@ __remove_history_duplicate__() {
 
 # share history across sessions
 # for now it's not working the way I wanted
-# removeHistoryDuplicate runs on the next command
-export PROMPT_COMMAND="history -a; history -c; history -r && __remove_history_duplicate__"
+# __remove_history_duplicate__ runs on the next command
+export PROMPT_COMMAND="history -a; history -c; history -r; __remove_history_duplicate__"
 
 function __virtualenv_ps1() {
   # Get Virtual Env
@@ -56,38 +85,9 @@ PS1="\n\w \$(__git_ps1 '(%s)') \$(__virtualenv_ps1) \n\$ "
 
 # custom bindings
 export INPUTRC="$HOME/.inputrc"
-if [[ -n "$TMUX" && $- =~ i ]]; then
+if [[ -n "$TMUX" ]]; then
   bind "'\C-l': '\C-e\C-u\C-y\ey\C-u clear && tmux clear-history\C-m'"
   # bind "'\C-L': '\C-e\C-u\C-y\ey\C-u d -c && clear && tmux clear-history\C-m'"
-fi
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-xterm-color | *-256color) export color_prompt=yes ;;
-esac
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-if [ -f $HOME/.bash_aliases ]; then
-  source "$HOME/.bash_aliases"
-fi
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    source /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-  fi
 fi
 
 if [ -f "$HOME/.config/git/git-completion.bash" ]; then
@@ -96,9 +96,21 @@ fi
 
 if command -v kubectl > /dev/null 2>&1; then
   source "$HOME/.config/kubectl/kubectl-completion.sh"
+
+  if [ -f "$HOME/.config/istioctl/istioctl-completion.sh" ]; then
+    source "$HOME/.config/istioctl/istioctl-completion.sh"
+  fi
+
+  if command -v helm > /dev/null 2>&1; then
+    source <(helm completion bash)
+  fi
+
+  if command -v eksctl > /dev/null 2>&1; then
+    source <(eksctl completion bash)
+  fi
 fi
 
-export FZF_DEFAULT_OPTS='--bind alt-j:down,alt-k:up,alt-w:backward-kill-word'
+export FZF_DEFAULT_OPTS='--bind alt-j:down,alt-k:up,alt-h:backward-char,alt-l:forward-char,alt-w:backward-kill-word,alt-6:beginning-of-line,alt-4:end-of-line'
 
 if [ -d "$HOME/.config/fzf" ]; then
   if [ -f "$HOME/.config/fzf/keybind.bash" ]; then

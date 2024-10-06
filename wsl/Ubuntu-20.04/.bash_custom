@@ -2,10 +2,6 @@
 
 # advanced change directory
 function d() {
-  if [ $# -eq 0 ]; then
-    return
-  fi
-
   local hnum=16
   local new_dir index dir cnt
 
@@ -50,16 +46,16 @@ function d() {
 export -f d
 
 # print out settings directory
-# ds() {
-#   echo '/mnt/c/Users/Hilmi/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
-#   echo '/mnt/c/Users/Hilmi/AppData/Local/SumatraPDF/SumatraPDF-settings.txt'
-# }
+ds() {
+  echo '/mnt/c/Users/Hilmi/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json'
+  echo '/mnt/c/Users/Hilmi/AppData/Local/SumatraPDF/SumatraPDF-settings.txt'
+  echo '/mnt/c/Users/Hilmi/AppData/Roaming/alacritty/alacritty.toml'
+}
 
 export dh="/mnt/c/Users/Hilmi"
-export d1="/mnt/c/Users/Hilmi/dev-projects"
-export ds="/mnt/c/Users/Hilmi/dev-projects/skripsi-selenium"
-export d2="/mnt/c/Users/Hilmi/Documents/Skripsi"
-export d3="/mnt/c/Users/Hilmi/code"
+# export d1="/mnt/c/Users/Hilmi/dev-projects"
+# export d2="/mnt/c/Users/Hilmi/code"
+# export dj="/mnt/c/Users/Hilmi/Documents/job"
 # export dx="/mnt/c/xampp/htdocs"
 
 # custom keyboard binding tmux new window from ~/projects directory
@@ -68,26 +64,33 @@ function __fzf_tmux_home_dir__() {
   local expected_dirs=(
     "$HOME/projects"
     "$HOME/learn"
-    "$d1"
-    "$d2"
-    "$d3"
-    "$ds"
+    "$HOME/test"
+    "/mnt/c/Users/Hilmi/dev-projects"
+    "/mnt/c/Users/Hilmi/code"
+    "/mnt/c/Users/Hilmi/Documents/job"
   )
+  if [ -n "$NVIM" ]; then
+    dir=$( (echo ~ && printf "%s\n" "${expected_dirs[@]}" && fd --min-depth 0 --max-depth 1 -t d . "${expected_dirs[@]}") | fzf-tmux $FZF_DEFAULT_OPTS --height "${FZF_TMUX_HEIGHT:-10%}")
+  else
+    dir=$( (echo ~ && printf "%s\n" "${expected_dirs[@]}" && fd --min-depth 0 --max-depth 1 -t d . "${expected_dirs[@]}") | fzf $FZF_DEFAULT_OPTS --height "${FZF_TMUX_HEIGHT:-40%}")
+  fi
 
   if [ -n "$dir" ]; then
     if [ -n "$NVIM" ]; then
-      dir=$( (echo ~ && echo ~/test && printf "%s\n" "${expected_dirs[@]}" && fd --min-depth 0 --max-depth 1 -t d . "${expected_dirs[@]}") | fzf-tmux $FZF_DEFAULT_OPTS --height "${FZF_TMUX_HEIGHT:-10%}")
       tmux new-window -c "$dir"
     else
-      dir=$( (echo ~ && echo ~/test && printf "%s\n" "${expected_dirs[@]}" && fd --min-depth 0 --max-depth 1 -t d . "${expected_dirs[@]}") | fzf $FZF_DEFAULT_OPTS --height "${FZF_TMUX_HEIGHT:-40%}")
-      read -n 1 -r -p "Opening $dir on new tmux window? (y/n) " response
+      read -n 1 -r -p "Opening $dir on new tmux window? (y/n/c) " response
       case "$response" in
-      y | Y)
+      y)
         tmux new-window -c "$dir"
         echo -e -n "\n"
         ;;
-      n | N)
+      n)
         d "$dir"
+        echo -e -n "\n"
+        ;;
+      c)
+        echo -n "$dir" | clip.exe
         echo -e -n "\n"
         ;;
       *)
