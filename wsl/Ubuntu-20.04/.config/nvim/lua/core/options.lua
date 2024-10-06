@@ -8,7 +8,7 @@ vim.o.linebreak = true
 vim.o.belloff = "all"
 vim.o.ruler = false
 vim.o.undofile = true
-vim.o.mouse = ""
+vim.o.mouse = "n"
 vim.o.wrapscan = false
 vim.o.smartcase = true
 vim.o.ignorecase = true
@@ -29,20 +29,20 @@ vim.env.BASH_ENV = "~/.bash_aliases"
 
 vim.g.mapleader = " "
 
-if vim.fn.has("wsl") then
-	local clipboard = {
-		name = "wslclipboard",
-		copy = {
-			["+"] = "/usr/bin/win32yank.exe -i --crlf",
-		},
-		paste = {
-			["+"] = "/usr/bin/win32yank.exe -o --lf",
-		},
-		cache_enabled = true,
-	}
-
-	vim.g.clipboard = clipboard
-end
+-- if vim.fn.has("wsl") then
+--   local clipboard = {
+--     name = "wslclipboard",
+--     copy = {
+--       ["+"] = "/usr/bin/win32yank.exe -i --crlf",
+--     },
+--     paste = {
+--       ["+"] = "/usr/bin/win32yank.exe -o --lf",
+--     },
+--     cache_enabled = true,
+--   }
+--
+-- 	vim.g.clipboard = clipboard
+-- end
 
 local function del_registers()
 	local str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"'
@@ -71,4 +71,5 @@ vim.api.nvim_create_user_command("Nne", "exe 'tabedit '.stdpath('config').' | tc
 vim.api.nvim_create_user_command("Ccd", "exe 'cd ' .. expand('%:h')", {})
 vim.api.nvim_create_user_command("Tcd", "exe 'tcd ' .. expand('%:h')", {})
 
-vim.api.nvim_create_user_command("Gl", "exe 'Git log --all --graph --abbrev-commit'", {})
+vim.api.nvim_create_user_command("Gl", "exe 'Git log --all --graph --abbrev-commit --decorate'", {})
+vim.api.nvim_create_user_command("Glf", "exe 'Git log --all --graph --abbrev-commit --decorate --name-status'", {})

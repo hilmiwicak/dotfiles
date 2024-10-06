@@ -1,6 +1,7 @@
 local cmp = require("cmp")
 local ls = require("luasnip")
 local loader = require("luasnip.loaders.from_vscode")
+
 local snippet_path = vim.fn.stdpath("config") .. "/snippets"
 
 -- loader.load({ paths = {snippet_path} })

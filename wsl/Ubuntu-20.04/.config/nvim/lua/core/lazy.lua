@@ -1,15 +1,20 @@
 -- lazy config
 
+-- TODO
+--
+-- make a script that asks do you want to load copilot before all plugins
+--
 -- try these later
--- https://github.com/ray-x/lsp_signature.nvim
 -- https://github.com/mfussenegger/nvim-dap
+-- https://github.com/folke/trouble.nvim
 --  https://www.reddit.com/r/neovim/comments/y7dvva/typescript_debugging_in_neovim_with_nvimdap/
+-- https://github.com/leath-dub/snipe.nvim
 -- https://github.com/adalessa/laravel.nvim
 -- https://github.com/jose-elias-alvarez/typescript.nvim
 -- https://github.com/bennypowers/nvim-regexplainer
 -- https://old.reddit.com/r/neovim/comments/tfkxll/how_to_collaborate_code/
---  or https://github.com/nvim-telescope/telescope-file-browser.nvim
 -- https://github.com/kevinhwang91/nvim-ufo
+-- https://github.com/NeogitOrg/neogit
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
@@ -40,13 +45,15 @@ require("lazy").setup({
 	},
 
 	-- vimscript plugins
-	{
-		"github/copilot.vim",
-		init = function()
-			vim.g.copilot_no_tab_map = true
-      vim.g.copilot_assume_mapped = true
-		end,
-	},
+
+  {
+  	"github/copilot.vim",
+  	init = function()
+       vim.g.copilot_no_tab_map = true
+       vim.g.copilot_assume_mapped = true
+  	end,
+  },
+
 	{
 		"mattn/emmet-vim",
 		ft = { "html", "php", "xml" },
@@ -59,6 +66,17 @@ require("lazy").setup({
 
 	-- lsp, completion, and snippets
 	{ "neovim/nvim-lspconfig" },
+  -- {
+  --   "ray-x/lsp_signature.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("lsp_signature").setup({
+  --       bind = true,
+  --       hint_enable = false,
+  --       log_path = vim.fn.stdpath('cache') .. 'lsp_signature.log',
+  --     })
+  --   end,
+  -- },
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -92,38 +110,46 @@ require("lazy").setup({
 	{ "catppuccin/nvim", as = "catppuccin", lazy = false },
 
 	-- telescope and extensions
+  -- { "nvim-tree/nvim-web-devicons" },
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"nvim-telescope/telescope.nvim",
 		lazy = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope-fzf-native.nvim",
-			"nvim-telescope/telescope-live-grep-args.nvim",
-			"nvim-telescope/telescope-ui-select.nvim",
-			"ThePrimeagen/harpoon",
+      -- "nvim-tree/nvim-web-devicons",
 		},
 	},
-	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-	{ "nvim-telescope/telescope-live-grep-args.nvim" },
-	{ "nvim-telescope/telescope-ui-select.nvim" },
-	{ "ThePrimeagen/harpoon" },
+	{
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make",
+    dependencies = { "nvim-telescope/telescope.nvim" }
+  },
+	{
+    "nvim-telescope/telescope-live-grep-args.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" }
+  },
+	{
+    "nvim-telescope/telescope-ui-select.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" }
+  },
+	{
+    "ThePrimeagen/harpoon",
+    dependencies = { "nvim-telescope/telescope.nvim" }
+  },
 
 	-- almost as important as lsp and treesitter
 	-- list of formatters i've downloaded:
+  --  - gofmt
+  --  - stylua
 	--  - prettier
-	--  - stylua
+  --  - autopep8
 	--  - shfmt
-	--  - autopep8
-	--  - gofmt
+  { "alexghergh/nvim-tmux-navigation" },
 	{ "sindrets/diffview.nvim" },
+	{ "tpope/vim-fugitive" },
+	{ "mbbill/undotree" },
 	{ "niuiic/git-log.nvim", dependencies = { "niuiic/core.nvim" } },
-	-- {
-	-- 	"phaazon/hop.nvim",
-	-- 	config = function()
-	-- 		require("plugin_config.hop")
-	-- 	end,
-	-- },
 	{ "ggandor/leap.nvim" },
 	{ "lukas-reineke/indent-blankline.nvim" },
 	{
@@ -138,7 +164,7 @@ require("lazy").setup({
 		"echasnovski/mini.files",
 		version = false,
 	},
-	{ "mbbill/undotree" },
+  { "LunarVim/bigfile.nvim" },
 	{
 		"pwntester/octo.nvim",
 		dependencies = {
@@ -146,5 +172,4 @@ require("lazy").setup({
 			"nvim-telescope/telescope.nvim",
 		},
 	},
-	{ "tpope/vim-fugitive" },
 })

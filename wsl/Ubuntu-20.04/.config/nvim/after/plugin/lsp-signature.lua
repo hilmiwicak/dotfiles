@@ -1,0 +1,3 @@
+-- local lsp_signature = require("lsp_signature")
+--
+-- vim.keymap.set({ 'n', 'i' }, '<M-g>s', function() lsp_signature.toggle_float_win() end, { silent = true, noremap = true })

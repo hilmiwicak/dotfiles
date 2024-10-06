@@ -145,6 +145,7 @@ lspconfig.html.setup({
 -- Downloaded from composer and git clone
 lspconfig.phpactor.setup({
 	filetypes = { "php", "blade" },
+  root_dir = util.root_pattern("composer.json", ".git"),
   capabilities = capabilities,
 })
 
@@ -280,14 +281,10 @@ lspconfig.tsserver.setup({
 })
 
 -- keymap
-vim.keymap.set('n', '<leader>ln', function() return vim.lsp.buf.rename() end)
-vim.keymap.set('n', '<M-h>s', function() return vim.lsp.buf.signature_help() end)
-vim.keymap.set('n', '<M-h>h', function() return vim.lsp.buf.hover() end)
-vim.keymap.set('n', '<M-h>e', function() return vim.diagnostic.open_float() end)
-vim.keymap.set('n', '<M-h>E', function() return vim.diagnostic.get() end)
-vim.keymap.set('i', '<M-h>s', ':lua vim.lsp.buf.signature_help()<CR>')
-vim.keymap.set('i', '<M-h>h', ':lua vim.lsp.buf.hover()<CR>')
-vim.keymap.set('i', '<M-h>e', ':lua vim.diagnostic.open_float()<CR>')
-vim.keymap.set('i', '<M-h>E', ':lua vim.diagnostic.get()<CR>')
-vim.keymap.set('n', '<leader>lc', function() return vim.lsp.buf.code_action() end)
-vim.keymap.set('n', '<leader>le', function() return vim.diagnostic.open_float() end)
+vim.keymap.set({ 'n', 'i' }, '<M-g>s', function() vim.lsp.buf.signature_help() end)
+vim.keymap.set({ 'n', 'i' }, '<M-g>h', function() vim.lsp.buf.hover() end)
+vim.keymap.set({ 'n', 'i' }, '<M-g>e', function() vim.diagnostic.open_float() end)
+vim.keymap.set({ 'n', 'i' }, '<M-g>E', function() vim.diagnostic.get() end)
+vim.keymap.set('n', '<leader>ln', function() vim.lsp.buf.rename() end)
+vim.keymap.set('n', '<leader>lc', function() vim.lsp.buf.code_action() end)
+vim.keymap.set('n', '<leader>le', function() vim.diagnostic.open_float() end)

@@ -7,15 +7,21 @@ vim.keymap.set({'n', 'i'}, '<M-o>', "", {remap = true})
 vim.keymap.set('n', '<M-i>', "	")
 
 vim.keymap.set('n', '<M-j>', "")
-vim.keymap.set('i', '<M-j>', "")
 vim.keymap.set('n', '<M-k>', "")
-vim.keymap.set('i', '<M-k>', "")
+vim.keymap.set({'i', 'c'}, '<M-j>', "<Down>")
+vim.keymap.set({'i', 'c'}, '<M-k>', "<Up>")
 vim.keymap.set('x', '<M-j>', ":m '>+1<CR>gv=gv", {silent = true})
 vim.keymap.set('x', '<M-k>', ":m '<-2<CR>gv=gv", {silent = true})
-vim.keymap.set('n', '<M-K>', "V:t '><CR>gv=gv", {silent = true})
-vim.keymap.set('n', '<M-J>', "V:t '<-1<CR>gv=gv", {silent = true})
+-- vim.keymap.set('n', '<M-K>', "V:t '><CR>gv=gv", {silent = true})
+-- vim.keymap.set('n', '<M-J>', "V:t '<-1<CR>gv=gv", {silent = true})
 vim.keymap.set('x', '<M-K>', ":t '><CR>gv=gv", {silent = true})
 vim.keymap.set('x', '<M-J>', ":t '<-1<CR>gv=gv", {silent = true})
+vim.keymap.set({'i', 'c'}, '<M-b>', '<C-Left>')
+vim.keymap.set({'i', 'c'}, '<M-f>', '<C-Right>')
+vim.keymap.set({'i', 'c'}, '<M-h>', '<Left>')
+vim.keymap.set({'i', 'c'}, '<M-l>', '<Right>')
+vim.keymap.set({'i', 'c'}, '<M-6>', '<Home>')
+vim.keymap.set({'i', 'c'}, '<M-4>', '<End>')
 
 vim.keymap.set('n', 'K', '<C-u>zz')
 vim.keymap.set('v', 'K', '<C-u>zz')
@@ -28,15 +34,16 @@ vim.keymap.set('n', '<M-<>', '<cmd>tabm -<CR>', {silent = true})
 vim.keymap.set('n', '<M->>', '<cmd>tabm +<CR>', {silent = true})
 vim.keymap.set('n', '<M-x>', '<cmd>+tabc<CR>', {silent = true})
 
+vim.keymap.set('x', 'Y', '"+y')
+vim.keymap.set('x', 'X', '"+ygvd')
+vim.keymap.set('i', '<M-p>', '"')
 vim.keymap.set('n', '<leader>p',  '"+p')
 vim.keymap.set('n', '<leader>P',  '"+P')
-
--- search within selection
-vim.keymap.set('x', '<leader>/', '/\\%V')
 
 vim.keymap.set('n', 'U', '<C-r>')
 vim.keymap.set('i', '<M-u>', 'u')
 vim.keymap.set('i', '<M-U>', '<C-r>')
+
 vim.keymap.set('n', 'c', '"_c')
 vim.keymap.set('n', 'C', '"_C')
 vim.keymap.set('n', 'cc', '"_cc')
@@ -51,29 +58,21 @@ vim.keymap.set('x', 'D', '"_D')
 vim.keymap.set('x', 's', '"_s')
 vim.keymap.set('x', 'S', '"_S')
 
-vim.keymap.set('x', 'Y', '"+y')
-vim.keymap.set('x', 'X', '"+ygvd')
-vim.keymap.set('i', '<M-p>', '"')
-
 vim.keymap.set('', '<M-/>', '<cmd>nohl<CR>', {remap = true})
 vim.keymap.set('i', '<M-/>', ':nohl<CR>', {remap = true, silent = true})
+vim.keymap.set('', '<leader>ss', ':s/\\%V')
+-- search within selection
+vim.keymap.set('x', '<leader>/', '/\\%V')
+
 -- vim.cmd([[
 --   nnoremap <expr> n (v:searchforward ? 'n' : 'N')
 --   nnoremap <expr> N (v:searchforward ? 'N' : 'n')
 -- ]])
 
-vim.keymap.set({'i', 'c'}, '<M-Left>', '<C-Left>')
-vim.keymap.set({'i', 'c'}, '<M-Right>', '<C-Right>')
-
 vim.keymap.set('', '<M-[>', '')
-vim.keymap.set('', '<M-{>', ':bp<CR>', {silent = true})
-vim.keymap.set('', '<M-}>', ':bn<CR>', {silent = true})
-vim.keymap.set('', '<leader>ss', ':s/\\%V')
 
-vim.keymap.set('n', '<M-z>', ':w<CR>', {silent = true})
-vim.keymap.set('i', '<M-z>', ':w<CR>', {silent = true})
-vim.keymap.set('i', '<M-b>', 'b')
-vim.keymap.set('i', '<M-f>', 'w')
+vim.keymap.set('', '<M-{>', ':cNext<CR>', {silent = true})
+vim.keymap.set('', '<M-}>', ':cnext<CR>', {silent = true})
 
 vim.keymap.set('n', '<M-C>', '<cmd>!NVIM=1;__fzf_tmux_home_dir__<CR>')
 
@@ -116,6 +115,8 @@ local function toggle_window_max()
 	end
 end
 
+vim.keymap.set("n", "<leader>zw", function() toggle_window_max() end, { silent = true })
+
 local function toggle_last_status()
 	if vim.o.laststatus == 0 then
 		vim.o.laststatus = 2
@@ -124,7 +125,6 @@ local function toggle_last_status()
 	end
 end
 
-vim.keymap.set("n", "<leader>zw", function() toggle_window_max() end, { silent = true })
 vim.keymap.set("n", "<leader>zs", function() toggle_last_status() end)
 
 vim.keymap.set("n", "<leader>zz", function()

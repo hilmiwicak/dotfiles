@@ -15,7 +15,6 @@ leap.opts.labels = {
 	"m",
 	"H",
 	"L",
-	"f",
 	"F",
 	"t",
 	"T",

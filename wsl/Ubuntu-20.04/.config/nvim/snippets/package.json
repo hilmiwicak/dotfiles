@@ -32,6 +32,19 @@
       },
       {
         "language": [
+          "go"
+        ],
+        "path": "./go.json"
+      },
+      {
+        "language": [
+          "css",
+          "html"
+        ],
+        "path": "./css.json"
+      },
+      {
+        "language": [
           "javascript",
           "javascriptreact",
           "html"
@@ -46,6 +59,7 @@
       },
       {
         "language": [
+          "bash",
           "shellscript",
           "shell",
           "sh",

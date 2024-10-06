@@ -1,4 +1,6 @@
-require("git-log").setup({
+local git_log = require("git-log")
+
+git_log.setup({
 	extra_args = {
 		-- "log",
 		-- "--all",
@@ -10,5 +12,7 @@ require("git-log").setup({
 })
 
 -- keymap
-vim.keymap.set('n', '<leader>gl', '<cmd>lua require("git-log").check_log()<CR>')
-vim.keymap.set('x', '<leader>gl', ':lua require("git-log").check_log()<CR>')
+vim.keymap.set('n', '<leader>gl', function() git_log.check_log() end)
+-- vim.keymap.set('x', '<leader>gl', ':lua require("git-log").check_log()<CR>')
+-- vim.keymap.set('n', '<leader>gl', '<cmd>lua require("git-log").check_log()<CR>')
+-- vim.keymap.set('x', '<leader>gl', ':lua require("git-log").check_log()<CR>')
