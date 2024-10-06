@@ -1,4 +1,7 @@
 #command
 J forw-scroll
 K back-scroll
+h left-scroll
+l right-scroll
 \e/ undo-hilite
+\e? help

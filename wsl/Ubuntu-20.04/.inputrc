@@ -1,3 +1,18 @@
+# set editing-mode vi
 set bell-style none
 "\ew": backward-kill-word
+"\eh": backward-char
+"\el": forward-char
+"\ek": previous-history
+"\ej": next-history
+"\e4": end-of-line
+"\e6": beginning-of-line
+
+# tab auto complete
+set show-all-if-ambiguous on
+TAB:menu-complete
+"\e[Z":menu-complete-backward
+
 "\C-r": nop
+# "\C-e": nop
+# "\C-a": nop
