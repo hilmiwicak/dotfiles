@@ -1,3 +1,6 @@
 [wsl2]
-memory=2GB
-processors=2
+memory=4000MB
+processors=4
+
+[experimental]
+autoMemoryReclaim=dropcache
